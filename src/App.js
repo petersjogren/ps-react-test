@@ -36,58 +36,59 @@ class App extends React.Component {
   render(props) {
     return (
       <div className="App">
-        
-          <svg className="svgArea">
-            <circle cx={this.state.cx} cy={100} r={this.state.radius} fill="red" />
-          </svg>
+        <svg className="svgArea">
+          <circle
+            cx={this.state.cx}
+            cy={100}
+            r={this.state.radius}
+            fill="red"
+          />
+        </svg>
 
-          <Knob
-            size={100}
-            numTicks={25}
-            degrees={260}
-            min={10}
-            max={100}
-            value={30}
-            color={true}
-            onChange={newValue => this.setState({ radius: newValue })}
-          />
+        <Knob
+          size={100}
+          numTicks={25}
+          degrees={260}
+          min={10}
+          max={100}
+          value={30}
+          color={true}
+          onChange={newValue => this.setState({ radius: newValue })}
+        />
 
-          <Knob
-            size={50}
-            numTicks={25}
-            degrees={260}
-            min={100}
-            max={150}
-            value={100}
-            color={true}
-            onChange={newValue => this.setState({ ...this.state, cx: newValue })}
-          />
+        <Knob
+          size={50}
+          numTicks={25}
+          degrees={260}
+          min={100}
+          max={150}
+          value={100}
+          color={true}
+          onChange={newValue => this.setState({ ...this.state, cx: newValue })}
+        />
 
-          <InputNumber
-            setToValue="20"
-            radius={this.state.radius}
-            handleClick={props => this.setState({ radius: 20 })}
-            handleChange={event =>
-              this.setState({ radius: event.target.value })
-            }
-          />
-          <InputNumber
-            setToValue="40"
-            radius={this.state.radius}
-            handleClick={props => this.setState({ radius: 40 })}
-            handleChange={event =>
-              this.setState({ radius: event.target.value })
-            }
-          />
-          <InputNumber
-            setToValue="50"
-            radius={this.state.radius}
-            handleClick={props => this.setState({ radius: 50 })}
-            handleChange={event =>
-              this.setState({ radius: event.target.value })
-            }
-          />
-        
+        <InputNumber
+          setToValue="20"
+          radius={this.state.radius}
+          handleClick={props => this.setState({ radius: 20 })}
+          handleChange={event => this.setState({ radius: event.target.value })}
+        />
+        <InputNumber
+          setToValue="40"
+          radius={this.state.radius}
+          handleClick={props => this.setState({ radius: 40 })}
+          handleChange={event => this.setState({ radius: event.target.value })}
+        />
+        <InputNumber
+          setToValue="50"
+          radius={this.state.radius}
+          handleClick={props =>
+            this.setState({
+              radius: 50
+            })
+          }
+          handleChange={event => this.setState({ radius: event.target.value })}
+        />
       </div>
     );
   }
