@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as d3 from "d3";
-import Knob from "./components/Knob";
+//import Knob from "./components/Knob";
 import logo from "./logo.svg";
 import "./App.css";
 import Draggable from "react-draggable";
+import Knob from "react-canvas-knob";
 
 function makeDraggable(comp) {
   let translateX = 0;
@@ -87,7 +88,13 @@ class App extends React.Component {
     controlledPosition2: {
       x: 0,
       y: 0
-    }
+    },
+    knobValue: 50
+  };
+
+  handleKnobChange = newValue => {
+    const { x, y } = this.state.controlledPosition1;
+    this.setState({ controlledPosition1: { x: 10 * newValue, y: y } });
   };
 
   handleDrag = (e, ui) => {
@@ -181,6 +188,12 @@ class App extends React.Component {
         </svg>
 
         <Knob
+          value={this.state.controlledPosition1.x / 10}
+          onChange={this.handleKnobChange}
+        />
+        {/* 
+
+        <Knob
           size={100}
           numTicks={25}
           degrees={260}
@@ -201,6 +214,7 @@ class App extends React.Component {
           color={true}
           onChange={newValue => this.setState({ ...this.state, cx: newValue })}
         />
+ */}
 
         <InputNumber
           setToValue="20"
