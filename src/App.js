@@ -4,6 +4,7 @@ import * as d3 from "d3";
 import Knob from "./components/Knob";
 import logo from "./logo.svg";
 import "./App.css";
+import Draggable from "react-draggable";
 
 function makeDraggable(comp) {
   let translateX = 0;
@@ -26,6 +27,10 @@ function makeDraggable(comp) {
 }
 
 class Circle extends React.Component {
+  handleDragEvent = () => {
+    console.log("This is a Circle");
+  };
+
   componentDidMount() {
     makeDraggable(this);
   }
@@ -34,6 +39,10 @@ class Circle extends React.Component {
   }
 }
 class Rect extends React.Component {
+  handleDragEvent = () => {
+    console.log("This is a Rect");
+  };
+
   componentDidMount() {
     makeDraggable(this);
   }
@@ -64,7 +73,61 @@ class InputNumber extends React.Component {
 class App extends React.Component {
   state = {
     radius: 20,
-    cx: 100
+    cx: 100,
+
+    activeDrags: 0,
+    deltaPosition: {
+      x: 0,
+      y: 0
+    },
+    controlledPosition1: {
+      x: 0,
+      y: 0
+    },
+    controlledPosition2: {
+      x: 0,
+      y: 0
+    }
+  };
+
+  handleDrag = (e, ui) => {
+    const { x, y } = this.state.deltaPosition;
+    this.setState({
+      deltaPosition: {
+        x: x + ui.deltaX,
+        y: y + ui.deltaY
+      }
+    });
+  };
+
+  onStart = () => {
+    this.setState({ activeDrags: ++this.state.activeDrags });
+  };
+
+  onStop = () => {
+    this.setState({ activeDrags: --this.state.activeDrags });
+  };
+
+  // For controlled component
+
+  onControlledDrag1 = (e, position) => {
+    const { x, y } = position;
+    this.setState({ controlledPosition1: { x, y } });
+  };
+
+  onControlledDrag2 = (e, position) => {
+    const { x, y } = position;
+    this.setState({ controlledPosition2: { x, y } });
+  };
+
+  onControlledDragStop1 = (e, position) => {
+    this.onControlledDrag1(e, position);
+    this.onStop();
+  };
+
+  onControlledDragStop2 = (e, position) => {
+    this.onControlledDrag2(e, position);
+    this.onStop();
   };
 
   constructor(props) {
@@ -73,8 +136,33 @@ class App extends React.Component {
   }
 
   render(props) {
+    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
+    const { deltaPosition } = this.state;
     return (
       <div className="App">
+        <Draggable
+          defaultPosition={{ x: 0, y: 0 }}
+          position={this.state.controlledPosition1}
+          {...dragHandlers}
+          onStop={this.onControlledDragStop1}
+        >
+          <div className="box">
+            My position can be changed programmatically. <br />I have a dragStop
+            handler to sync state.
+          </div>
+        </Draggable>
+        <Draggable
+          defaultPosition={{ x: 0, y: 0 }}
+          position={this.state.controlledPosition2}
+          {...dragHandlers}
+          onStop={this.onControlledDragStop2}
+        >
+          <div className="box">
+            My position can be changed programmatically. <br />I have a dragStop
+            handler to sync state.
+          </div>
+        </Draggable>
+
         <svg
           className="svgArea"
           style={{ border: "1px solid" }}

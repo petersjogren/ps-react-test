@@ -47,6 +47,17 @@ body {
   text-align: center;
 }
 
+.box {
+  background: #fff;
+  border: 1px solid #999;
+  border-radius: 3px;
+  width: 180px;
+  height: 180px;
+  margin: 10px;
+  padding: 10px;
+  float: left;
+}
+
 .knob {
   display: flex;
   position: relative;
