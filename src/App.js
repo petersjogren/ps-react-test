@@ -133,7 +133,14 @@ class App extends React.Component {
               <ul>
                 {this.state.nodes[index].inputMethods.map(
                   (key, methodIndex) => (
-                    <li className="list-view">
+                    <li
+                      className={
+                        this.state.over == methodIndex
+                          ? "list-bold-view"
+                          : "list-view"
+                      }
+                      onMouseOver={e => this.setState({ over: methodIndex })}
+                    >
                       {this.state.nodes[index].inputMethods[methodIndex]}
                     </li>
                   )
