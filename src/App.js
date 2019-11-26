@@ -227,14 +227,12 @@ class App extends React.Component {
           onChange={newValue => this.setState({ ...this.state, cx: newValue })}
         />
 
-        <ShowPosition
-          label="position 1"
-          position={this.state.nodes[0].position}
-        />
-        <ShowPosition
-          label="position 2"
-          position={this.state.nodes[1].position}
-        />
+        {this.state.nodes.map((key, index) => (
+          <ShowPosition
+            label={"position " + index}
+            position={this.state.nodes[index].position}
+          />
+        ))}
 
         <InputNumber
           setToValue="99"
