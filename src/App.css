@@ -99,3 +99,6 @@ body {
   background: #509eec;
   box-shadow: 0 0 3px 1px black;
 }
+div.position-view {
+  text-align: left;
+}

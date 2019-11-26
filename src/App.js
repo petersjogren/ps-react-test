@@ -226,10 +226,10 @@ class App extends React.Component {
           onChange={newValue => this.setState({ ...this.state, cx: newValue })}
         />
 
-        <div>
+        <div className="position-view">
           {this.state.nodes.map((key, index) => (
             <ShowPosition
-              label={"position " + index}
+              label={"Position " + index}
               position={this.state.nodes[index].position}
             />
           ))}
