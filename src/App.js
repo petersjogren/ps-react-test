@@ -28,9 +28,9 @@ function makeDraggable(comp) {
 }
 
 const ShowPosition = props => (
-  <h1>
+  <h4>
     {props.label} = ({props.position.x}, {props.position.y})
-  </h1>
+  </h4>
 );
 
 class Circle extends React.Component {
@@ -174,6 +174,11 @@ class App extends React.Component {
             onStop={this.onControlledDragStop(index)}
           >
             <div className="box">
+              I have id {this.state.nodes[index].id}
+              <ShowPosition
+                label={"Position " + index}
+                position={this.state.nodes[index].position}
+              />
               My position can be changed programmatically. <br />I have a
               dragStop handler to sync state.
             </div>
