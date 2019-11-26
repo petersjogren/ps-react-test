@@ -56,6 +56,9 @@ body {
   margin: 10px;
   padding: 10px;
   float: left;
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
 
 .knob {

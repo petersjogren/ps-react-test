@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as d3 from "d3";
-//import Knob from "./components/Knob";
+import Knob from "./components/Knob";
 import logo from "./logo.svg";
 import "./App.css";
 import Draggable from "react-draggable";
-import Knob from "react-canvas-knob";
+import { default as Knob2 } from "react-canvas-knob";
 
 function makeDraggable(comp) {
   let translateX = 0;
@@ -26,6 +26,12 @@ function makeDraggable(comp) {
   const node = ReactDOM.findDOMNode(comp);
   handleDrag(d3.select(node));
 }
+
+const ShowPosition = props => (
+  <h1>
+    {props.label} = ({props.position.x}, {props.position.y})
+  </h1>
+);
 
 class Circle extends React.Component {
   handleDragEvent = () => {
@@ -57,8 +63,8 @@ class InputNumber extends React.Component {
     return (
       <div>
         <input
-          type="text"
-          value={this.props.radius}
+          type="number"
+          value={this.props.value}
           onChange={this.props.handleChange}
         />
         <input
@@ -82,7 +88,7 @@ class App extends React.Component {
       y: 0
     },
     controlledPosition1: {
-      x: 0,
+      x: 250,
       y: 0
     },
     controlledPosition2: {
@@ -94,7 +100,7 @@ class App extends React.Component {
 
   handleKnobChange = newValue => {
     const { x, y } = this.state.controlledPosition1;
-    this.setState({ controlledPosition1: { x: 10 * newValue, y: y } });
+    this.setState({ controlledPosition1: { x: newValue, y: y } });
   };
 
   handleDrag = (e, ui) => {
@@ -148,7 +154,6 @@ class App extends React.Component {
     return (
       <div className="App">
         <Draggable
-          defaultPosition={{ x: 0, y: 0 }}
           position={this.state.controlledPosition1}
           {...dragHandlers}
           onStop={this.onControlledDragStop1}
@@ -159,7 +164,6 @@ class App extends React.Component {
           </div>
         </Draggable>
         <Draggable
-          defaultPosition={{ x: 0, y: 0 }}
           position={this.state.controlledPosition2}
           {...dragHandlers}
           onStop={this.onControlledDragStop2}
@@ -187,11 +191,12 @@ class App extends React.Component {
           <Rect x={100} y={100} width={50} height={50} />
         </svg>
 
-        <Knob
-          value={this.state.controlledPosition1.x / 10}
+        <Knob2
+          min={0}
+          max={350}
+          value={this.state.controlledPosition1.x}
           onChange={this.handleKnobChange}
         />
-        {/* 
 
         <Knob
           size={100}
@@ -214,23 +219,54 @@ class App extends React.Component {
           color={true}
           onChange={newValue => this.setState({ ...this.state, cx: newValue })}
         />
- */}
+
+        <ShowPosition
+          label="position 1"
+          position={this.state.controlledPosition1}
+        />
+        <ShowPosition
+          label="position 2"
+          position={this.state.controlledPosition2}
+        />
+
+        <InputNumber
+          setToValue="99"
+          value={this.state.controlledPosition1.x}
+          handleClick={props => {
+            return this.setState({
+              ...this.state,
+              controlledPosition1: {
+                x: 99,
+                y: this.state.controlledPosition1.y
+              }
+            });
+          }}
+          handleChange={event =>
+            this.setState({
+              ...this.state,
+              controlledPosition1: {
+                x: parseInt(event.target.value, 0),
+                y: this.state.controlledPosition1.y
+              }
+            })
+          }
+        />
 
         <InputNumber
           setToValue="20"
-          radius={this.state.radius}
+          value={this.state.radius}
           handleClick={props => this.setState({ radius: 20 })}
           handleChange={event => this.setState({ radius: event.target.value })}
         />
         <InputNumber
           setToValue="40"
-          radius={this.state.radius}
+          value={this.state.radius}
           handleClick={props => this.setState({ radius: 40 })}
           handleChange={event => this.setState({ radius: event.target.value })}
         />
         <InputNumber
           setToValue="50"
-          radius={this.state.radius}
+          value={this.state.radius}
           handleClick={props =>
             this.setState({
               radius: 50
