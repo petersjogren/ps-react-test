@@ -93,21 +93,32 @@ class App extends React.Component {
         position: {
           x: 250,
           y: 0
-        }
+        },
+        inputMethods: ["x"]
       },
       {
         id: 19,
         position: {
           x: 0,
           y: 0
-        }
+        },
+        inputMethods: ["temperature", "position", "color", "intensity"]
       },
       {
         id: 23,
         position: {
           x: 0,
           y: 250
-        }
+        },
+        inputMethods: [
+          "red",
+          "green",
+          "blue",
+          "yellow",
+          "orange",
+          "light blue",
+          "marble"
+        ]
       }
     ],
     knobValue: 50
@@ -179,8 +190,16 @@ class App extends React.Component {
                 label={"Position " + index}
                 position={this.state.nodes[index].position}
               />
-              My position can be changed programmatically. <br />I have a
-              dragStop handler to sync state.
+              My methods are <br />
+              <ul>
+                {this.state.nodes[index].inputMethods.map(
+                  (key, methodIndex) => (
+                    <li className="list-view">
+                      {this.state.nodes[index].inputMethods[methodIndex]}
+                    </li>
+                  )
+                )}
+              </ul>
             </div>
           </Draggable>
         ))}
