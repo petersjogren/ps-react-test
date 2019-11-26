@@ -87,21 +87,33 @@ class App extends React.Component {
       x: 0,
       y: 0
     },
-    controlledPosition1: {
-      x: 250,
-      y: 0
-    },
-    controlledPosition2: {
-      x: 0,
-      y: 0
-    },
+    nodes: [
+      {
+        id: 213,
+        position: {
+          x: 250,
+          y: 0
+        }
+      },
+      {
+        id: 19,
+        position: {
+          x: 0,
+          y: 0
+        }
+      }
+    ],
     knobValue: 50
   };
 
-  handleKnobChange = newValue => {
-    const { x, y } = this.state.controlledPosition1;
-    this.setState({ controlledPosition1: { x: newValue, y: y } });
-  };
+  handleKnobChange(index) {
+    return newValue => {
+      const { x, y } = this.state.nodes[index].position;
+      var newState = { ...this.state };
+      newState.nodes[index].position.x = newValue;
+      this.setState(newState);
+    };
+  }
 
   handleDrag = (e, ui) => {
     const { x, y } = this.state.deltaPosition;
@@ -123,25 +135,20 @@ class App extends React.Component {
 
   // For controlled component
 
-  onControlledDrag1 = (e, position) => {
+  onControlledDrag = (e, position, index) => {
     const { x, y } = position;
-    this.setState({ controlledPosition1: { x, y } });
+    var newState = { ...this.state };
+    newState.nodes[index].position.x = position.x;
+    newState.nodes[index].position.y = position.y;
+    this.setState(newState);
   };
 
-  onControlledDrag2 = (e, position) => {
-    const { x, y } = position;
-    this.setState({ controlledPosition2: { x, y } });
-  };
-
-  onControlledDragStop1 = (e, position) => {
-    this.onControlledDrag1(e, position);
-    this.onStop();
-  };
-
-  onControlledDragStop2 = (e, position) => {
-    this.onControlledDrag2(e, position);
-    this.onStop();
-  };
+  onControlledDragStop(index) {
+    return (e, position) => {
+      this.onControlledDrag(e, position, index);
+      this.onStop();
+    };
+  }
 
   constructor(props) {
     super(props);
@@ -154,9 +161,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <Draggable
-          position={this.state.controlledPosition1}
+          position={this.state.nodes[0].position}
           {...dragHandlers}
-          onStop={this.onControlledDragStop1}
+          onStop={this.onControlledDragStop(0)}
         >
           <div className="box">
             My position can be changed programmatically. <br />I have a dragStop
@@ -164,9 +171,9 @@ class App extends React.Component {
           </div>
         </Draggable>
         <Draggable
-          position={this.state.controlledPosition2}
+          position={this.state.nodes[1].position}
           {...dragHandlers}
-          onStop={this.onControlledDragStop2}
+          onStop={this.onControlledDragStop(1)}
         >
           <div className="box">
             My position can be changed programmatically. <br />I have a dragStop
@@ -194,8 +201,8 @@ class App extends React.Component {
         <Knob2
           min={0}
           max={350}
-          value={this.state.controlledPosition1.x}
-          onChange={this.handleKnobChange}
+          value={this.state.nodes[0].position.x}
+          onChange={this.handleKnobChange(0)}
         />
 
         <Knob
@@ -222,34 +229,26 @@ class App extends React.Component {
 
         <ShowPosition
           label="position 1"
-          position={this.state.controlledPosition1}
+          position={this.state.nodes[0].position}
         />
         <ShowPosition
           label="position 2"
-          position={this.state.controlledPosition2}
+          position={this.state.nodes[1].position}
         />
 
         <InputNumber
           setToValue="99"
-          value={this.state.controlledPosition1.x}
+          value={this.state.nodes[0].position.x}
           handleClick={props => {
-            return this.setState({
-              ...this.state,
-              controlledPosition1: {
-                x: 99,
-                y: this.state.controlledPosition1.y
-              }
-            });
+            var newState = { ...this.state };
+            newState.nodes[0].position.x = 99;
+            return this.setState(newState);
           }}
-          handleChange={event =>
-            this.setState({
-              ...this.state,
-              controlledPosition1: {
-                x: parseInt(event.target.value, 0),
-                y: this.state.controlledPosition1.y
-              }
-            })
-          }
+          handleChange={event => {
+            var newState = { ...this.state };
+            newState.nodes[0].position.x = parseInt(event.target.value, 0) || 0;
+            this.setState(newState);
+          }}
         />
 
         <InputNumber
