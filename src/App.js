@@ -94,7 +94,8 @@ class App extends React.Component {
           x: 250,
           y: 0
         },
-        inputMethods: ["x"]
+        inputMethods: ["x"],
+        outputMethods: ["out x", "out y"]
       },
       {
         id: 19,
@@ -102,7 +103,8 @@ class App extends React.Component {
           x: 0,
           y: 0
         },
-        inputMethods: ["temperature", "position", "color", "intensity"]
+        inputMethods: ["temperature", "position", "color", "intensity"],
+        outputMethods: ["out"]
       },
       {
         id: 23,
@@ -118,7 +120,8 @@ class App extends React.Component {
           "orange",
           "light blue",
           "marble"
-        ]
+        ],
+        outputMethods: ["out"]
       }
     ],
     knobValue: 50
@@ -190,12 +193,23 @@ class App extends React.Component {
                 label={"Position " + index}
                 position={this.state.nodes[index].position}
               />
-              My methods are <br />
+              My input methods are <br />
               <ul>
                 {this.state.nodes[index].inputMethods.map(
                   (key, methodIndex) => (
                     <li className="list-view">
                       {this.state.nodes[index].inputMethods[methodIndex]}
+                    </li>
+                  )
+                )}
+              </ul>
+              <br />
+              My output methods are <br />
+              <ul>
+                {this.state.nodes[index].outputMethods.map(
+                  (key, methodIndex) => (
+                    <li className="list-view">
+                      {this.state.nodes[index].outputMethods[methodIndex]}
                     </li>
                   )
                 )}
