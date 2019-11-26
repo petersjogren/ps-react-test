@@ -101,6 +101,13 @@ class App extends React.Component {
           x: 0,
           y: 0
         }
+      },
+      {
+        id: 23,
+        position: {
+          x: 0,
+          y: 250
+        }
       }
     ],
     knobValue: 50
@@ -160,26 +167,18 @@ class App extends React.Component {
     const { deltaPosition } = this.state;
     return (
       <div className="App">
-        <Draggable
-          position={this.state.nodes[0].position}
-          {...dragHandlers}
-          onStop={this.onControlledDragStop(0)}
-        >
-          <div className="box">
-            My position can be changed programmatically. <br />I have a dragStop
-            handler to sync state.
-          </div>
-        </Draggable>
-        <Draggable
-          position={this.state.nodes[1].position}
-          {...dragHandlers}
-          onStop={this.onControlledDragStop(1)}
-        >
-          <div className="box">
-            My position can be changed programmatically. <br />I have a dragStop
-            handler to sync state.
-          </div>
-        </Draggable>
+        {this.state.nodes.map((key, index) => (
+          <Draggable
+            position={this.state.nodes[index].position}
+            {...dragHandlers}
+            onStop={this.onControlledDragStop(index)}
+          >
+            <div className="box">
+              My position can be changed programmatically. <br />I have a
+              dragStop handler to sync state.
+            </div>
+          </Draggable>
+        ))}
 
         <svg
           className="svgArea"
@@ -227,12 +226,14 @@ class App extends React.Component {
           onChange={newValue => this.setState({ ...this.state, cx: newValue })}
         />
 
-        {this.state.nodes.map((key, index) => (
-          <ShowPosition
-            label={"position " + index}
-            position={this.state.nodes[index].position}
-          />
-        ))}
+        <div>
+          {this.state.nodes.map((key, index) => (
+            <ShowPosition
+              label={"position " + index}
+              position={this.state.nodes[index].position}
+            />
+          ))}
+        </div>
 
         <InputNumber
           setToValue="99"
