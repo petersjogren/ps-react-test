@@ -94,6 +94,28 @@ class App extends React.Component {
         ]
       }
     ],
+    connections: [
+      {
+        from: {
+          nodeIndex: 0,
+          index: 0
+        },
+        to: {
+          nodeIndex: 1,
+          index: 1
+        }
+      },
+      {
+        from: {
+          nodeIndex: 2,
+          index: 4
+        },
+        to: {
+          nodeIndex: 1,
+          index: 2
+        }
+      }
+    ],
     knobValue: 50
   };
 
@@ -247,6 +269,25 @@ class App extends React.Component {
               this.setState(newState);
             }}
           />
+        </div>
+
+        <div>
+          <ul>
+            {this.state.connections.map((key, index) => (
+              <li className="list-view">
+                {this.state.nodes[key.from.nodeIndex].id +
+                  ":" +
+                  this.state.nodes[key.from.nodeIndex].outputPorts[
+                    key.from.index
+                  ].name +
+                  " -> " +
+                  this.state.nodes[key.to.nodeIndex].id +
+                  ":" +
+                  this.state.nodes[key.to.nodeIndex].inputPorts[key.to.index]
+                    .name}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     );

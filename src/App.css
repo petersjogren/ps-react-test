@@ -109,6 +109,7 @@ div.position-view {
 }
 .list-view {
   text-align: left;
+  font-size: small;
 }
 .list-bold-view {
   text-align: left;
