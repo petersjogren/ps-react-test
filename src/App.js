@@ -49,8 +49,11 @@ class App extends React.Component {
           x: 250,
           y: 0
         },
-        inputMethods: ["x"],
-        outputMethods: ["out x", "out y"]
+        inputPorts: [{ name: "x", type: "int" }],
+        outputPorts: [
+          { name: "out x", type: "float" },
+          { name: "out y", type: "float" }
+        ]
       },
       {
         id: 19,
@@ -58,8 +61,16 @@ class App extends React.Component {
           x: 0,
           y: 0
         },
-        inputMethods: ["temperature", "position", "color", "intensity"],
-        outputMethods: ["out"]
+        inputPorts: [
+          { name: "amount", type: "int" },
+          { name: "temperature", type: "float" },
+          { name: "the grid", type: "se.minerva.Grid" }
+        ],
+        outputPorts: [
+          { name: "result x", type: "float" },
+          { name: "result y", type: "float" },
+          { name: "result z", type: "float" }
+        ]
       },
       {
         id: 23,
@@ -67,16 +78,17 @@ class App extends React.Component {
           x: 500,
           y: 0
         },
-        inputMethods: [
-          "red",
-          "green",
-          "blue",
-          "yellow",
-          "orange",
-          "light blue",
-          "marble"
+        inputPorts: [
+          { name: "amount", type: "int" },
+          { name: "temperature", type: "float" }
         ],
-        outputMethods: ["out"]
+        outputPorts: [
+          { name: "red", type: "int" },
+          { name: "blue", type: "int" },
+          { name: "green", type: "int" },
+          { name: "alpha", type: "float" },
+          { name: "grid", type: "se.minerva.Grid" }
+        ]
       }
     ],
     knobValue: 50
@@ -131,31 +143,31 @@ class App extends React.Component {
               />
               My input methods are <br />
               <ul>
-                {this.state.nodes[index].inputMethods.map(
-                  (key, methodIndex) => (
-                    <li
-                      className={
-                        this.state.over == methodIndex
-                          ? "list-bold-view"
-                          : "list-view"
-                      }
-                      onMouseOver={e => this.setState({ over: methodIndex })}
-                    >
-                      {this.state.nodes[index].inputMethods[methodIndex]}
-                    </li>
-                  )
-                )}
+                {this.state.nodes[index].inputPorts.map((key, methodIndex) => (
+                  <li
+                    className={
+                      this.state.over == methodIndex
+                        ? "list-bold-view"
+                        : "list-view"
+                    }
+                    onMouseOver={e => this.setState({ over: methodIndex })}
+                  >
+                    {this.state.nodes[index].inputPorts[methodIndex].name +
+                      ": " +
+                      this.state.nodes[index].outputPorts[methodIndex].type}
+                  </li>
+                ))}
               </ul>
               <br />
               My output methods are <br />
               <ul>
-                {this.state.nodes[index].outputMethods.map(
-                  (key, methodIndex) => (
-                    <li className="list-view">
-                      {this.state.nodes[index].outputMethods[methodIndex]}
-                    </li>
-                  )
-                )}
+                {this.state.nodes[index].outputPorts.map((key, methodIndex) => (
+                  <li className="list-view">
+                    {this.state.nodes[index].outputPorts[methodIndex].name +
+                      ": " +
+                      this.state.nodes[index].outputPorts[methodIndex].type}
+                  </li>
+                ))}
               </ul>
             </div>
           </Draggable>
