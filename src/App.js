@@ -154,7 +154,7 @@ class App extends React.Component {
                   >
                     {this.state.nodes[index].inputPorts[methodIndex].name +
                       ": " +
-                      this.state.nodes[index].outputPorts[methodIndex].type}
+                      this.state.nodes[index].inputPorts[methodIndex].type}
                   </li>
                 ))}
               </ul>
