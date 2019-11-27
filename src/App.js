@@ -6,6 +6,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Draggable from "react-draggable";
 import { default as Knob2 } from "react-canvas-knob";
+import DownloadLink from "react-download-link";
 
 const ShowPosition = props => (
   <h4>
@@ -131,6 +132,14 @@ class App extends React.Component {
     const { deltaPosition } = this.state;
     return (
       <div className="App">
+        <DownloadLink
+          label="Save state to disk"
+          tagName="h2"
+          filename="state.txt"
+          exportFile={() => JSON.stringify(this.state, null, 2)}
+        >
+          <h1>Save state to disk</h1>
+        </DownloadLink>
         {this.state.nodes.map((key, index) => (
           <Draggable
             position={this.state.nodes[index].position}
