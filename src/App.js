@@ -32,11 +32,13 @@ class InputNumber extends React.Component {
   }
 }
 
+const kNoMetod = { nodeId: -1, direction: "input", type: "N/A" };
+
 class App extends React.Component {
   state = {
     radius: 20,
     cx: 100,
-
+    over: kNoMetod,
     activeDrags: 0,
     deltaPosition: {
       x: 0,
@@ -146,11 +148,28 @@ class App extends React.Component {
                 {this.state.nodes[index].inputPorts.map((key, methodIndex) => (
                   <li
                     className={
-                      this.state.over == methodIndex
+                      this.state.over != null &&
+                      this.state.over.direction != "input" &&
+                      this.state.over.nodeId != this.state.nodes[index].id &&
+                      key.type == this.state.over.type
                         ? "list-bold-view"
                         : "list-view"
                     }
-                    onMouseOver={e => this.setState({ over: methodIndex })}
+                    onMouseEnter={e =>
+                      this.setState({
+                        over: {
+                          nodeId: this.state.nodes[index].id,
+                          direction: "input",
+                          type: this.state.nodes[index].inputPorts[methodIndex]
+                            .type
+                        }
+                      })
+                    }
+                    onMouseOut={e =>
+                      this.setState({
+                        over: kNoMetod
+                      })
+                    }
                   >
                     {this.state.nodes[index].inputPorts[methodIndex].name +
                       ": " +
@@ -162,7 +181,31 @@ class App extends React.Component {
               My output methods are <br />
               <ul>
                 {this.state.nodes[index].outputPorts.map((key, methodIndex) => (
-                  <li className="list-view">
+                  <li
+                    className={
+                      this.state.over != null &&
+                      this.state.over.direction != "output" &&
+                      this.state.over.nodeId != this.state.nodes[index].id &&
+                      key.type == this.state.over.type
+                        ? "list-bold-view"
+                        : "list-view"
+                    }
+                    onMouseEnter={e =>
+                      this.setState({
+                        over: {
+                          nodeId: this.state.nodes[index].id,
+                          direction: "output",
+                          type: this.state.nodes[index].outputPorts[methodIndex]
+                            .type
+                        }
+                      })
+                    }
+                    onMouseOut={e =>
+                      this.setState({
+                        over: kNoMetod
+                      })
+                    }
+                  >
                     {this.state.nodes[index].outputPorts[methodIndex].name +
                       ": " +
                       this.state.nodes[index].outputPorts[methodIndex].type}
