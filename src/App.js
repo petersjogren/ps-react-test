@@ -3,6 +3,33 @@ import "./App.css";
 import Draggable from "react-draggable";
 import DownloadLink from "react-download-link";
 
+import "rc-slider/assets/index.css";
+import "rc-tooltip/assets/bootstrap.css";
+
+import Tooltip from "rc-tooltip";
+import Slider from "rc-slider";
+
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = createSliderWithTooltip(Slider.Range);
+const Handle = Slider.Handle;
+
+const handle = props => {
+  const { value, dragging, index, ...restProps } = props;
+  return (
+    <Tooltip
+      prefixCls="rc-slider-tooltip"
+      overlay={value}
+      visible={dragging}
+      placement="top"
+      key={index}
+    >
+      <Handle value={value} {...restProps} />
+    </Tooltip>
+  );
+};
+
+const wrapperStyle = { width: 400, margin: 50 };
+
 const ShowPosition = props => (
   <h4>
     {props.label} = ({props.position.x}, {props.position.y})
@@ -34,6 +61,7 @@ class App extends React.Component {
   state = {
     radius: 20,
     cx: 100,
+    scale: 0.9,
     over: kNoMetod,
     activeDrags: 0,
     deltaPosition: {
@@ -147,6 +175,16 @@ class App extends React.Component {
     const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
     return (
       <div className="App">
+        <div style={wrapperStyle}>
+          <p>Zoom</p>
+          <Slider
+            min={20}
+            max={150}
+            defaultValue={100}
+            handle={handle}
+            onChange={value => this.setState({ scale: value / 100 })}
+          />
+        </div>
         <DownloadLink
           label="Save state to disk"
           tagName="h2"
@@ -155,94 +193,104 @@ class App extends React.Component {
         >
           <h1>Save state to disk</h1>
         </DownloadLink>
-        {this.state.nodes.map((key, index) => (
-          <Draggable
-            handle="strong"
-            position={this.state.nodes[index].position}
-            {...dragHandlers}
-            onStop={this.onControlledDragStop(index)}
-          >
-            <div className="box no-cursor">
-              <strong className="cursor">
-                <div className="drag">Drag here</div>
-              </strong>
-              I have id {this.state.nodes[index].id}
-              <ShowPosition
-                label={"Position " + index}
-                position={this.state.nodes[index].position}
-              />
-              My input methods are <br />
-              <ul>
-                {this.state.nodes[index].inputPorts.map((key, methodIndex) => (
-                  <li
-                    className={
-                      this.state.over != null &&
-                      this.state.over.direction !== "input" &&
-                      this.state.over.nodeId !== this.state.nodes[index].id &&
-                      key.type === this.state.over.type
-                        ? "list-bold-view"
-                        : "list-view"
-                    }
-                    onMouseEnter={e =>
-                      this.setState({
-                        over: {
-                          nodeId: this.state.nodes[index].id,
-                          direction: "input",
-                          type: this.state.nodes[index].inputPorts[methodIndex]
-                            .type
+        <div style={{ transform: "scale(" + this.state.scale + ")" }}>
+          {this.state.nodes.map((key, index) => (
+            <Draggable
+              handle="strong"
+              position={this.state.nodes[index].position}
+              {...dragHandlers}
+              onStop={this.onControlledDragStop(index)}
+            >
+              <div className="box no-cursor">
+                <strong className="cursor">
+                  <div className="drag">Drag here</div>
+                </strong>
+                I have id {this.state.nodes[index].id}
+                <ShowPosition
+                  label={"Position " + index}
+                  position={this.state.nodes[index].position}
+                />
+                My input methods are <br />
+                <ul>
+                  {this.state.nodes[index].inputPorts.map(
+                    (key, methodIndex) => (
+                      <li
+                        className={
+                          this.state.over != null &&
+                          this.state.over.direction !== "input" &&
+                          this.state.over.nodeId !==
+                            this.state.nodes[index].id &&
+                          key.type === this.state.over.type
+                            ? "list-bold-view"
+                            : "list-view"
                         }
-                      })
-                    }
-                    onMouseOut={e =>
-                      this.setState({
-                        over: kNoMetod
-                      })
-                    }
-                  >
-                    {this.state.nodes[index].inputPorts[methodIndex].name +
-                      ": " +
-                      this.state.nodes[index].inputPorts[methodIndex].type}
-                  </li>
-                ))}
-              </ul>
-              <br />
-              My output methods are <br />
-              <ul>
-                {this.state.nodes[index].outputPorts.map((key, methodIndex) => (
-                  <li
-                    className={
-                      this.state.over != null &&
-                      this.state.over.direction !== "output" &&
-                      this.state.over.nodeId !== this.state.nodes[index].id &&
-                      key.type === this.state.over.type
-                        ? "list-bold-view"
-                        : "list-view"
-                    }
-                    onMouseEnter={e =>
-                      this.setState({
-                        over: {
-                          nodeId: this.state.nodes[index].id,
-                          direction: "output",
-                          type: this.state.nodes[index].outputPorts[methodIndex]
-                            .type
+                        onMouseEnter={e =>
+                          this.setState({
+                            over: {
+                              nodeId: this.state.nodes[index].id,
+                              direction: "input",
+                              type: this.state.nodes[index].inputPorts[
+                                methodIndex
+                              ].type
+                            }
+                          })
                         }
-                      })
-                    }
-                    onMouseOut={e =>
-                      this.setState({
-                        over: kNoMetod
-                      })
-                    }
-                  >
-                    {this.state.nodes[index].outputPorts[methodIndex].name +
-                      ": " +
-                      this.state.nodes[index].outputPorts[methodIndex].type}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Draggable>
-        ))}
+                        onMouseOut={e =>
+                          this.setState({
+                            over: kNoMetod
+                          })
+                        }
+                      >
+                        {this.state.nodes[index].inputPorts[methodIndex].name +
+                          ": " +
+                          this.state.nodes[index].inputPorts[methodIndex].type}
+                      </li>
+                    )
+                  )}
+                </ul>
+                <br />
+                My output methods are <br />
+                <ul>
+                  {this.state.nodes[index].outputPorts.map(
+                    (key, methodIndex) => (
+                      <li
+                        className={
+                          this.state.over != null &&
+                          this.state.over.direction !== "output" &&
+                          this.state.over.nodeId !==
+                            this.state.nodes[index].id &&
+                          key.type === this.state.over.type
+                            ? "list-bold-view"
+                            : "list-view"
+                        }
+                        onMouseEnter={e =>
+                          this.setState({
+                            over: {
+                              nodeId: this.state.nodes[index].id,
+                              direction: "output",
+                              type: this.state.nodes[index].outputPorts[
+                                methodIndex
+                              ].type
+                            }
+                          })
+                        }
+                        onMouseOut={e =>
+                          this.setState({
+                            over: kNoMetod
+                          })
+                        }
+                      >
+                        {this.state.nodes[index].outputPorts[methodIndex].name +
+                          ": " +
+                          this.state.nodes[index].outputPorts[methodIndex].type}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            </Draggable>
+          ))}
+        </div>
 
         <div className="position-view">
           {this.state.nodes.map((key, index) => (
