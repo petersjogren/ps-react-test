@@ -1,11 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import * as d3 from "d3";
-import Knob from "./components/Knob";
-import logo from "./logo.svg";
 import "./App.css";
 import Draggable from "react-draggable";
-import { default as Knob2 } from "react-canvas-knob";
 import DownloadLink from "react-download-link";
 
 const ShowPosition = props => (
@@ -120,17 +115,16 @@ class App extends React.Component {
   };
 
   onStart = () => {
-    this.setState({ activeDrags: ++this.state.activeDrags });
+    this.setState({ activeDrags: this.state.activeDrags + 1 });
   };
 
   onStop = () => {
-    this.setState({ activeDrags: --this.state.activeDrags });
+    this.setState({ activeDrags: this.state.activeDrags - 1 });
   };
 
   // For controlled component
 
   onControlledDrag = (e, position, index) => {
-    const { x, y } = position;
     var newState = { ...this.state };
     newState.nodes[index].position.x = position.x;
     newState.nodes[index].position.y = position.y;
@@ -151,7 +145,6 @@ class App extends React.Component {
 
   render(props) {
     const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
-    const { deltaPosition } = this.state;
     return (
       <div className="App">
         <DownloadLink
@@ -180,9 +173,9 @@ class App extends React.Component {
                   <li
                     className={
                       this.state.over != null &&
-                      this.state.over.direction != "input" &&
-                      this.state.over.nodeId != this.state.nodes[index].id &&
-                      key.type == this.state.over.type
+                      this.state.over.direction !== "input" &&
+                      this.state.over.nodeId !== this.state.nodes[index].id &&
+                      key.type === this.state.over.type
                         ? "list-bold-view"
                         : "list-view"
                     }
@@ -215,9 +208,9 @@ class App extends React.Component {
                   <li
                     className={
                       this.state.over != null &&
-                      this.state.over.direction != "output" &&
-                      this.state.over.nodeId != this.state.nodes[index].id &&
-                      key.type == this.state.over.type
+                      this.state.over.direction !== "output" &&
+                      this.state.over.nodeId !== this.state.nodes[index].id &&
+                      key.type === this.state.over.type
                         ? "list-bold-view"
                         : "list-view"
                     }
