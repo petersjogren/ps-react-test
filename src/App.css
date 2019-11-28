@@ -76,3 +76,13 @@ div.position-view {
   text-align: left;
   font-weight: bold;
 }
+.react-draggable,
+.cursor {
+  cursor: move;
+}
+.no-cursor {
+  cursor: auto;
+}
+.drag {
+  background-color: #bbb;
+}

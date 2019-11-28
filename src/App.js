@@ -157,11 +157,15 @@ class App extends React.Component {
         </DownloadLink>
         {this.state.nodes.map((key, index) => (
           <Draggable
+            handle="strong"
             position={this.state.nodes[index].position}
             {...dragHandlers}
             onStop={this.onControlledDragStop(index)}
           >
-            <div className="box">
+            <div className="box no-cursor">
+              <strong className="cursor">
+                <div className="drag">Drag here</div>
+              </strong>
               I have id {this.state.nodes[index].id}
               <ShowPosition
                 label={"Position " + index}
