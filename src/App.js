@@ -197,6 +197,7 @@ class App extends React.Component {
           {this.state.nodes.map((key, index) => (
             <Draggable
               handle="strong"
+              scale={this.state.scale}
               position={this.state.nodes[index].position}
               {...dragHandlers}
               onStop={this.onControlledDragStop(index)}
