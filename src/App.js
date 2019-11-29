@@ -200,6 +200,17 @@ class App extends React.Component {
           <h1>Save state to disk</h1>
         </DownloadLink>
         <div style={{ transform: "scale(" + this.state.scale + ")" }}>
+          <svg style={{ position: "relative", top: "0px", left: "0px" }}>
+            {this.state.connections.map((key, index) => (
+              <line
+                x1={this.state.nodes[key.from.nodeIndex].position.x}
+                y1={this.state.nodes[key.from.nodeIndex].position.y}
+                x2={this.state.nodes[key.to.nodeIndex].position.x}
+                y2={this.state.nodes[key.to.nodeIndex].position.y}
+                style={{ stroke: "rgb(0,0,0)", "stroke-width": 2 }}
+              />
+            ))}
+          </svg>
           {this.state.nodes.map((key, index) => (
             <Draggable
               scale={this.state.scale}
