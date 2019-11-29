@@ -158,16 +158,22 @@ class App extends React.Component {
 
   // For controlled component
 
-  onControlledDrag = (e, position, index) => {
+  onControlledDragUtil = (e, position, index) => {
     var newState = { ...this.state };
     newState.nodes[index].position.x = position.x;
     newState.nodes[index].position.y = position.y;
     this.setState(newState);
   };
 
+  onControlledDrag(index) {
+    return (e, position) => {
+      this.onControlledDragUtil(e, position, index);
+    };
+  }
+
   onControlledDragStop(index) {
     return (e, position) => {
-      this.onControlledDrag(e, position, index);
+      this.onControlledDragUtil(e, position, index);
       this.onStop();
     };
   }
@@ -224,7 +230,7 @@ class App extends React.Component {
               scale={this.state.scale}
               position={this.state.nodes[index].position}
               {...dragHandlers}
-              onStop={this.onControlledDragStop(index)}
+              onDrag={this.onControlledDrag(index)}
             >
               <div className="box no-cursor">
                 <svg className="graphics inport">
