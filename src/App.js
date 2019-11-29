@@ -70,22 +70,27 @@ class App extends React.Component {
     },
     nodes: [
       {
+        title: "2D shape transformation",
         id: 213,
         position: {
           x: 250,
           y: 0
         },
-        inputPorts: [{ name: "x", type: "int" }],
+        inputPorts: [
+          { name: "in x", type: "int" },
+          { name: "in y", type: "int" }
+        ],
         outputPorts: [
           { name: "out x", type: "float" },
           { name: "out y", type: "float" }
         ]
       },
       {
+        title: "Measurement",
         id: 19,
         position: {
           x: 0,
-          y: 0
+          y: 50
         },
         inputPorts: [
           { name: "amount", type: "int" },
@@ -99,10 +104,11 @@ class App extends React.Component {
         ]
       },
       {
+        title: "Colorizer",
         id: 23,
         position: {
           x: 500,
-          y: 0
+          y: 50
         },
         inputPorts: [
           { name: "amount", type: "int" },
@@ -196,98 +202,45 @@ class App extends React.Component {
         <div style={{ transform: "scale(" + this.state.scale + ")" }}>
           {this.state.nodes.map((key, index) => (
             <Draggable
-              handle="strong"
               scale={this.state.scale}
               position={this.state.nodes[index].position}
               {...dragHandlers}
               onStop={this.onControlledDragStop(index)}
             >
               <div className="box no-cursor">
-                <strong className="cursor">
-                  <div className="drag">Drag here</div>
-                </strong>
-                I have id {this.state.nodes[index].id}
-                <ShowPosition
-                  label={"Position " + index}
-                  position={this.state.nodes[index].position}
-                />
-                My input methods are <br />
-                <ul>
-                  {this.state.nodes[index].inputPorts.map(
-                    (key, methodIndex) => (
-                      <li
-                        className={
-                          this.state.over != null &&
-                          this.state.over.direction !== "input" &&
-                          this.state.over.nodeId !==
-                            this.state.nodes[index].id &&
-                          key.type === this.state.over.type
-                            ? "list-bold-view"
-                            : "list-view"
-                        }
-                        onMouseEnter={e =>
-                          this.setState({
-                            over: {
-                              nodeId: this.state.nodes[index].id,
-                              direction: "input",
-                              type: this.state.nodes[index].inputPorts[
-                                methodIndex
-                              ].type
-                            }
-                          })
-                        }
-                        onMouseOut={e =>
-                          this.setState({
-                            over: kNoMetod
-                          })
-                        }
-                      >
-                        {this.state.nodes[index].inputPorts[methodIndex].name +
-                          ": " +
-                          this.state.nodes[index].inputPorts[methodIndex].type}
-                      </li>
-                    )
-                  )}
-                </ul>
-                <br />
-                My output methods are <br />
-                <ul>
-                  {this.state.nodes[index].outputPorts.map(
-                    (key, methodIndex) => (
-                      <li
-                        className={
-                          this.state.over != null &&
-                          this.state.over.direction !== "output" &&
-                          this.state.over.nodeId !==
-                            this.state.nodes[index].id &&
-                          key.type === this.state.over.type
-                            ? "list-bold-view"
-                            : "list-view"
-                        }
-                        onMouseEnter={e =>
-                          this.setState({
-                            over: {
-                              nodeId: this.state.nodes[index].id,
-                              direction: "output",
-                              type: this.state.nodes[index].outputPorts[
-                                methodIndex
-                              ].type
-                            }
-                          })
-                        }
-                        onMouseOut={e =>
-                          this.setState({
-                            over: kNoMetod
-                          })
-                        }
-                      >
-                        {this.state.nodes[index].outputPorts[methodIndex].name +
-                          ": " +
-                          this.state.nodes[index].outputPorts[methodIndex].type}
-                      </li>
-                    )
-                  )}
-                </ul>
+                <svg className="graphics inport">
+                  <circle
+                    className="circle"
+                    xmlns="http://www.w3.org/2000/svg"
+                    cx="15"
+                    cy="15"
+                    r="15"
+                    style={{
+                      stroke: "#000000",
+                      "stroke-width": 3,
+                      fill: "#66ff66"
+                    }}
+                    opacity=".7"
+                  />
+                </svg>
+
+                <div className="drag">{key.title}</div>
+
+                <svg className="graphics outport" width="30" height="30">
+                  <circle
+                    className="circle"
+                    xmlns="http://www.w3.org/2000/svg"
+                    cx="15"
+                    cy="15"
+                    r="15"
+                    style={{
+                      stroke: "#000000",
+                      "stroke-width": 3,
+                      fill: "#ff0000"
+                    }}
+                    opacity=".7"
+                  />
+                </svg>
               </div>
             </Draggable>
           ))}

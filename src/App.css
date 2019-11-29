@@ -53,17 +53,25 @@ body {
 }
 
 .box {
-  background: #fff;
-  border: 1px solid #999;
+  border: 3px solid #000;
+  background-color: #aaa;
   border-radius: 3px;
-  width: 200px;
+  width: auto;
   height: auto;
-  margin: 10px;
-  padding: 10px;
+  margin: -10px;
+  padding: 6px 4px;
   float: left;
   position: absolute;
   top: 0px;
   left: 0px;
+  overflow: visible;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 div.position-view {
@@ -85,5 +93,22 @@ div.position-view {
   cursor: auto;
 }
 .drag {
-  background-color: #bbb;
+  vertical-align: middle;
+}
+.graphics {
+  overflow: visible;
+  margin: 0px 4px;
+  width: 32px;
+  height: 32px;
+}
+.circle {
+  z-index: -1;
+}
+.inport {
+  stroke: "#000000";
+  fill: #66ff66;
+}
+.outport {
+  stroke: "#000000";
+  fill: #aa0000;
 }
