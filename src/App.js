@@ -212,7 +212,7 @@ class App extends React.Component {
             <Slider
               min={20}
               max={150}
-              defaultValue={100}
+              defaultValue={this.state.scale * 100}
               handle={handle}
               onChange={value => this.setState({ scale: value / 100 })}
             />
