@@ -73,7 +73,7 @@ class App extends React.Component {
         title: "2D shape transformation",
         id: 213,
         position: {
-          x: 250,
+          x: 260,
           y: 0
         },
         inputPorts: [
@@ -89,8 +89,8 @@ class App extends React.Component {
         title: "Measurement",
         id: 19,
         position: {
-          x: 0,
-          y: 50
+          x: 350,
+          y: 100
         },
         inputPorts: [
           { name: "amount", type: "int" },
@@ -107,8 +107,8 @@ class App extends React.Component {
         title: "Colorizer",
         id: 23,
         position: {
-          x: 500,
-          y: 50
+          x: 510,
+          y: 236
         },
         inputPorts: [
           { name: "amount", type: "int" },
@@ -121,6 +121,16 @@ class App extends React.Component {
           { name: "alpha", type: "float" },
           { name: "grid", type: "se.minerva.Grid" }
         ]
+      },
+      {
+        title: "1D transformation",
+        id: 101,
+        position: {
+          x: 95,
+          y: 236
+        },
+        inputPorts: [{ name: "x", type: "float" }],
+        outputPorts: [{ name: "x", type: "float" }]
       }
     ],
     connections: [
@@ -142,6 +152,16 @@ class App extends React.Component {
         to: {
           nodeIndex: 1,
           index: 2
+        }
+      },
+      {
+        from: {
+          nodeIndex: 3,
+          index: 0
+        },
+        to: {
+          nodeIndex: 1,
+          index: 1
         }
       }
     ],
