@@ -181,26 +181,34 @@ class App extends React.Component {
     const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
     return (
       <div className="App">
-        <div style={wrapperStyle}>
-          <p>Zoom</p>
-          <Slider
-            min={20}
-            max={150}
-            defaultValue={100}
-            handle={handle}
-            onChange={value => this.setState({ scale: value / 100 })}
-          />
+        <div className="topbar">
+          <div className="zoom" style={wrapperStyle}>
+            <Slider
+              min={20}
+              max={150}
+              defaultValue={100}
+              handle={handle}
+              onChange={value => this.setState({ scale: value / 100 })}
+            />
+          </div>
+          <DownloadLink
+            label="Save state to disk"
+            className="savestate"
+            tagName="h2"
+            filename="state.txt"
+            exportFile={() => JSON.stringify(this.state, null, 2)}
+          >
+            <h1>Save state to disk</h1>
+          </DownloadLink>
         </div>
-        <DownloadLink
-          label="Save state to disk"
-          tagName="h2"
-          filename="state.txt"
-          exportFile={() => JSON.stringify(this.state, null, 2)}
+        <div
+          className="graphicsarea"
+          style={{ transform: "scale(" + this.state.scale + ")" }}
         >
-          <h1>Save state to disk</h1>
-        </DownloadLink>
-        <div style={{ transform: "scale(" + this.state.scale + ")" }}>
-          <svg style={{ position: "relative", top: "0px", left: "0px" }}>
+          <svg
+            className="arrowsvg"
+            style={{ position: "relative", top: "0px", left: "0px" }}
+          >
             {this.state.connections.map((key, index) => (
               <line
                 x1={this.state.nodes[key.from.nodeIndex].position.x}
@@ -255,49 +263,6 @@ class App extends React.Component {
               </div>
             </Draggable>
           ))}
-        </div>
-
-        <div className="position-view">
-          {this.state.nodes.map((key, index) => (
-            <ShowPosition
-              label={"Position " + index}
-              position={this.state.nodes[index].position}
-            />
-          ))}
-          <InputNumber
-            setToValue="99"
-            value={this.state.nodes[0].position.x}
-            handleClick={props => {
-              var newState = { ...this.state };
-              newState.nodes[0].position.x = 99;
-              return this.setState(newState);
-            }}
-            handleChange={event => {
-              var newState = { ...this.state };
-              newState.nodes[0].position.x =
-                parseInt(event.target.value, 0) || 0;
-              this.setState(newState);
-            }}
-          />
-        </div>
-
-        <div>
-          <ul>
-            {this.state.connections.map((key, index) => (
-              <li className="list-view">
-                {this.state.nodes[key.from.nodeIndex].id +
-                  ":" +
-                  this.state.nodes[key.from.nodeIndex].outputPorts[
-                    key.from.index
-                  ].name +
-                  " -> " +
-                  this.state.nodes[key.to.nodeIndex].id +
-                  ":" +
-                  this.state.nodes[key.to.nodeIndex].inputPorts[key.to.index]
-                    .name}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     );

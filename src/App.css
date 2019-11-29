@@ -36,6 +36,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 .root {
@@ -44,12 +46,19 @@ body {
 }
 
 .App {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   grid-template-columns: 1fr 1fr;
   grid-gap: 5em;
   text-align: center;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
 }
 
 .box {
@@ -111,4 +120,34 @@ div.position-view {
 .outport {
   stroke: "#000000";
   fill: #aa0000;
+}
+.topbar {
+  display: flex;
+  background-color: #42a742b4;
+  flex: 10%;
+  width: 100%;
+  flex-direction: row;
+  align-items: stretch;
+}
+.zoom {
+  flex: 1;
+}
+.savestate {
+  flex: 1;
+  position: relative;
+  top: 0px;
+  bottom: 0px;
+}
+.graphicsarea {
+  flex: 90%;
+}
+.arrowsvg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: visible;
 }
