@@ -9,6 +9,9 @@ import "rc-tooltip/assets/bootstrap.css";
 import Tooltip from "rc-tooltip";
 import Slider from "rc-slider";
 
+import "katex/dist/katex.min.css";
+import { InlineMath, BlockMath } from "react-katex";
+
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 const Handle = Slider.Handle;
@@ -270,6 +273,9 @@ class App extends React.Component {
                 </svg>
 
                 <div className="drag">{key.title}</div>
+                <h3>
+                  <InlineMath>\int_0^\infty x^2 dx</InlineMath>
+                </h3>
 
                 <svg className="graphics outport" width="30" height="30">
                   <circle
