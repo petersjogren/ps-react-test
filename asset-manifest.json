@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/ps-react-test/static/css/main.87377c8b.chunk.css",
-    "main.js": "/ps-react-test/static/js/main.380e52f8.chunk.js",
-    "main.js.map": "/ps-react-test/static/js/main.380e52f8.chunk.js.map",
+    "main.css": "/ps-react-test/static/css/main.8beaa642.chunk.css",
+    "main.js": "/ps-react-test/static/js/main.1ae4e7fb.chunk.js",
+    "main.js.map": "/ps-react-test/static/js/main.1ae4e7fb.chunk.js.map",
     "runtime-main.js": "/ps-react-test/static/js/runtime-main.a266a00b.js",
     "runtime-main.js.map": "/ps-react-test/static/js/runtime-main.a266a00b.js.map",
-    "static/css/2.a40bdc76.chunk.css": "/ps-react-test/static/css/2.a40bdc76.chunk.css",
-    "static/js/2.12eae5c0.chunk.js": "/ps-react-test/static/js/2.12eae5c0.chunk.js",
-    "static/js/2.12eae5c0.chunk.js.map": "/ps-react-test/static/js/2.12eae5c0.chunk.js.map",
+    "static/css/2.8e0fcbab.chunk.css": "/ps-react-test/static/css/2.8e0fcbab.chunk.css",
+    "static/js/2.9939a326.chunk.js": "/ps-react-test/static/js/2.9939a326.chunk.js",
+    "static/js/2.9939a326.chunk.js.map": "/ps-react-test/static/js/2.9939a326.chunk.js.map",
     "index.html": "/ps-react-test/index.html",
-    "precache-manifest.89d7ff099b8ed53fcf2503c0cf38e80f.js": "/ps-react-test/precache-manifest.89d7ff099b8ed53fcf2503c0cf38e80f.js",
+    "precache-manifest.58c7f2ee7a8974621c9b7a2301321bd7.js": "/ps-react-test/precache-manifest.58c7f2ee7a8974621c9b7a2301321bd7.js",
     "service-worker.js": "/ps-react-test/service-worker.js",
-    "static/css/2.a40bdc76.chunk.css.map": "/ps-react-test/static/css/2.a40bdc76.chunk.css.map",
-    "static/css/main.87377c8b.chunk.css.map": "/ps-react-test/static/css/main.87377c8b.chunk.css.map",
-    "static/media/katex.min.css": "/ps-react-test/static/media/KaTeX_Typewriter-Regular.6cc31ea5.woff2"
+    "static/css/2.8e0fcbab.chunk.css.map": "/ps-react-test/static/css/2.8e0fcbab.chunk.css.map",
+    "static/css/main.8beaa642.chunk.css.map": "/ps-react-test/static/css/main.8beaa642.chunk.css.map",
+    "static/media/katex.min.css": "/ps-react-test/static/media/KaTeX_Typewriter-Regular.f43e8696.woff2"
   },
   "entrypoints": [
     "static/js/runtime-main.a266a00b.js",
-    "static/css/2.a40bdc76.chunk.css",
-    "static/js/2.12eae5c0.chunk.js",
-    "static/css/main.87377c8b.chunk.css",
-    "static/js/main.380e52f8.chunk.js"
+    "static/css/2.8e0fcbab.chunk.css",
+    "static/js/2.9939a326.chunk.js",
+    "static/css/main.8beaa642.chunk.css",
+    "static/js/main.1ae4e7fb.chunk.js"
   ]
 }
