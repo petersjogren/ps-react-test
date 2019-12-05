@@ -136,6 +136,25 @@ export default class CanvasDraw2D extends React.Component {
       canvas.add(c);
     }
 
+    // Zoom mose wheel support
+    {
+      canvas.installEditPolicy(new draw2d.policy.canvas.WheelZoomPolicy());
+      var shape = new draw2d.shape.basic.Text({
+        text: "Use the mouse wheel + SHIFT to zoom"
+      });
+
+      canvas.add(shape, 400, 300);
+    }
+
+    // Register some callbacks
+    canvas.on("select", function(emitter, event) {
+      if (event.figure !== null) {
+        console.log("figure selected");
+      } else {
+        console.log("selection cleared");
+      }
+    });
+
     // Log state to console
     var writer = new draw2d.io.json.Writer();
     writer.marshal(canvas, json => console.log(json));
