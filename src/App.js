@@ -1,71 +1,19 @@
 import React from "react";
 import "./App.css";
-import Draggable from "react-draggable";
-import DownloadLink from "react-download-link";
 
-import "rc-slider/assets/index.css";
-import "rc-tooltip/assets/bootstrap.css";
-
-import Tooltip from "rc-tooltip";
-import Slider from "rc-slider";
+import GraphicsAreaPureHTML from "./components/GraphicsAreaPureHTML";
+import GraphicsAreaDraw2D from "./components/CanvasDraw2D";
 
 import "katex/dist/katex.min.css";
-import { InlineMath, BlockMath } from "react-katex";
 
-const createSliderWithTooltip = Slider.createSliderWithTooltip;
-const Range = createSliderWithTooltip(Slider.Range);
-const Handle = Slider.Handle;
-
-const handle = props => {
-  const { value, dragging, index, ...restProps } = props;
-  return (
-    <Tooltip
-      prefixCls="rc-slider-tooltip"
-      overlay={value}
-      visible={dragging}
-      placement="top"
-      key={index}
-    >
-      <Handle value={value} {...restProps} />
-    </Tooltip>
-  );
-};
-
-const wrapperStyle = { width: 400, margin: 50 };
-
-const ShowPosition = props => (
-  <h4>
-    {props.label} = ({props.position.x}, {props.position.y})
-  </h4>
-);
-
-class InputNumber extends React.Component {
-  render(props) {
-    return (
-      <div>
-        <input
-          type="number"
-          value={this.props.value}
-          onChange={this.props.handleChange}
-        />
-        <input
-          type="button"
-          value={"Click me " + this.props.setToValue}
-          onClick={this.props.handleClick}
-        />
-      </div>
-    );
-  }
-}
+import TopBar from "./components/TopBar";
 
 const kNoMetod = { nodeId: -1, direction: "input", type: "N/A" };
 
 class App extends React.Component {
   state = {
-    radius: 20,
-    cx: 100,
+    pureHTMLgraph: true,
     scale: 0.9,
-    over: kNoMetod,
     activeDrags: 0,
     deltaPosition: {
       x: 0,
@@ -181,6 +129,13 @@ class App extends React.Component {
 
   // For controlled component
 
+  setPositionOnNode = (index, position) => {
+    var newState = { ...this.state };
+    newState.nodes[index].position.x = position.x;
+    newState.nodes[index].position.y = position.y;
+    this.setState(newState);
+  };
+
   onControlledDragUtil = (e, position, index) => {
     var newState = { ...this.state };
     newState.nodes[index].position.x = position.x;
@@ -207,95 +162,37 @@ class App extends React.Component {
   }
 
   render(props) {
-    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
     return (
       <div className="App">
-        <div className="topbar">
-          <div className="zoom" style={wrapperStyle}>
-            <Slider
-              min={20}
-              max={150}
-              defaultValue={this.state.scale * 100}
-              handle={handle}
-              onChange={value => this.setState({ scale: value / 100 })}
-            />
-          </div>
-          <DownloadLink
-            label="Save state to disk"
-            className="savestate"
-            tagName="h2"
-            filename="state.txt"
-            exportFile={() => JSON.stringify(this.state, null, 2)}
-          >
-            <h1>Save state to disk</h1>
-          </DownloadLink>
-        </div>
-        <div
-          className="graphicsarea"
-          style={{ transform: "scale(" + this.state.scale + ")" }}
+        <button
+          onClick={() =>
+            this.setState({
+              ...this.state,
+              pureHTMLgraph: this.state.pureHTMLgraph ? false : true
+            })
+          }
         >
-          <svg
-            className="arrowsvg"
-            style={{ position: "relative", top: "0px", left: "0px" }}
-          >
-            {this.state.connections.map((key, index) => (
-              <line
-                x1={this.state.nodes[key.from.nodeIndex].position.x}
-                y1={this.state.nodes[key.from.nodeIndex].position.y}
-                x2={this.state.nodes[key.to.nodeIndex].position.x}
-                y2={this.state.nodes[key.to.nodeIndex].position.y}
-                style={{ stroke: "rgb(0,0,0)", "stroke-width": 2 }}
-              />
-            ))}
-          </svg>
-          {this.state.nodes.map((key, index) => (
-            <Draggable
-              scale={this.state.scale}
-              position={this.state.nodes[index].position}
-              {...dragHandlers}
-              onDrag={this.onControlledDrag(index)}
-            >
-              <div className="box no-cursor">
-                <svg className="graphics inport">
-                  <circle
-                    className="circle"
-                    xmlns="http://www.w3.org/2000/svg"
-                    cx="15"
-                    cy="15"
-                    r="15"
-                    style={{
-                      stroke: "#000000",
-                      "stroke-width": 3,
-                      fill: "#66ff66"
-                    }}
-                    opacity=".7"
-                  />
-                </svg>
+          <h2>Toggle graphics library (Pure HTML / Draw2D)</h2>
+        </button>
+        <TopBar
+          className="topbar"
+          showControls={this.state.pureHTMLgraph}
+          defaultScale={this.state.scale * 100}
+          onChange={value => this.setState({ scale: value / 100 })}
+        />
 
-                <div className="drag">{key.title}</div>
-                <h3>
-                  <InlineMath>\int_0^\infty x^2 dx</InlineMath>
-                </h3>
-
-                <svg className="graphics outport" width="30" height="30">
-                  <circle
-                    className="circle"
-                    xmlns="http://www.w3.org/2000/svg"
-                    cx="15"
-                    cy="15"
-                    r="15"
-                    style={{
-                      stroke: "#000000",
-                      "stroke-width": 3,
-                      fill: "#ff0000"
-                    }}
-                    opacity=".7"
-                  />
-                </svg>
-              </div>
-            </Draggable>
-          ))}
-        </div>
+        {this.state.pureHTMLgraph ? (
+          <GraphicsAreaPureHTML
+            nodes={this.state.nodes}
+            connections={this.state.connections}
+            scale={this.state.scale}
+            onSetPostition={(index, position) =>
+              this.setPositionOnNode(index, position)
+            }
+          />
+        ) : (
+          <GraphicsAreaDraw2D className="graphicsarea" />
+        )}
       </div>
     );
   }
