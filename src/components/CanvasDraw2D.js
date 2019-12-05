@@ -70,12 +70,22 @@ export default class CanvasDraw2D extends React.Component {
     canvas.add(pie, 200, 160);
 
     var postit = new draw2d.shape.note.PostIt();
+    postit.installEditor(new draw2d.ui.LabelInplaceEditor());
     postit.setColor("#000000");
     postit.setPadding(20);
 
-    postit.setText("This is simple sticky note");
+    postit.setText("This is simple sticky note\nDouble click to edit.");
 
     canvas.add(postit, 700, 10);
+
+    {
+      var label = new draw2d.shape.basic.Label();
+
+      label.installEditor(new draw2d.ui.LabelInplaceEditor());
+      label.setText("Double click me to edit");
+
+      canvas.add(label, 50, 10);
+    }
   }
 
   render() {
