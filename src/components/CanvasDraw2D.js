@@ -1,5 +1,8 @@
 import React from "react";
-import draw2d from "draw2d";
+import $ from "jquery";
+window.jQuery = window.$ = $;
+require("jqueryui");
+var draw2d = require("draw2d");
 
 export default class CanvasDraw2D extends React.Component {
   componentDidMount() {
