@@ -86,6 +86,54 @@ export default class CanvasDraw2D extends React.Component {
 
       canvas.add(label, 50, 10);
     }
+
+    {
+      // Override the default connection type. This is used during drag&drop operations of ports.
+      //
+      draw2d.Connection.createConnection = function(sourcePort, targetPort) {
+        // return my special kind of connection
+        var con = new draw2d.Connection();
+        con.setRouter(new draw2d.layout.connection.FanConnectionRouter());
+        return con;
+      };
+
+      // create and add two nodes which contains Ports (In and OUT)
+      //
+      var start = new draw2d.shape.node.Start();
+      var end = new draw2d.shape.node.End();
+
+      // ...add it to the canvas
+      canvas.add(start, 50, 250);
+      canvas.add(end, 230, 280);
+
+      // first Connection
+      //
+      var c = draw2d.Connection.createConnection();
+      c.setSource(start.getOutputPort(0));
+      c.setTarget(end.getInputPort(0));
+      canvas.add(c);
+
+      // second Connection
+      //
+      c = draw2d.Connection.createConnection();
+      c.setSource(start.getOutputPort(0));
+      c.setTarget(end.getInputPort(0));
+      canvas.add(c);
+
+      // third Connection
+      //
+      c = draw2d.Connection.createConnection();
+      c.setSource(start.getOutputPort(0));
+      c.setTarget(end.getInputPort(0));
+      canvas.add(c);
+
+      // fourth Connection
+      //
+      c = draw2d.Connection.createConnection();
+      c.setSource(start.getOutputPort(0));
+      c.setTarget(end.getInputPort(0));
+      canvas.add(c);
+    }
   }
 
   render() {
