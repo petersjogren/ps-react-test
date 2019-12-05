@@ -49,6 +49,33 @@ export default class CanvasDraw2D extends React.Component {
     p2.setDimension(100, 60);
 
     canvas.setCurrentSelection(p2);
+
+    var shape = new draw2d.shape.basic.Text();
+
+    shape.setText("This is a simple text with some loooooong word in.");
+    shape.setBackgroundColor("#f0f000");
+
+    canvas.add(shape, 550, 10);
+
+    var lshape = new draw2d.shape.basic.Label();
+
+    lshape.setText("This is a label.");
+    lshape.setBackgroundColor("#f0f000");
+
+    canvas.add(lshape, 350, 70);
+
+    var pie = new draw2d.shape.diagram.Pie(80, 80);
+    pie.setWidth(100);
+    pie.setData([30, 60, 122, 4]);
+    canvas.add(pie, 200, 160);
+
+    var postit = new draw2d.shape.note.PostIt();
+    postit.setColor("#000000");
+    postit.setPadding(20);
+
+    postit.setText("This is simple sticky note");
+
+    canvas.add(postit, 700, 10);
   }
 
   render() {
