@@ -17,11 +17,12 @@ export default class CanvasDraw2D extends React.Component {
     // ...add it to the canvas
     canvas.add(start, 50, 50);
     canvas.add(new draw2d.shape.node.Start(), 50, 250);
-    canvas.add(end, 230, 80);
+    canvas.add(end, 230, 150);
 
     // Create a Connection and connect the Start and End node
     //
     var c = new draw2d.Connection();
+    c.setRouter(new draw2d.layout.connection.SplineConnectionRouter());
 
     // Set the endpoint decorations for the connection
     //
@@ -67,7 +68,7 @@ export default class CanvasDraw2D extends React.Component {
     var pie = new draw2d.shape.diagram.Pie(80, 80);
     pie.setWidth(100);
     pie.setData([30, 60, 122, 4]);
-    canvas.add(pie, 200, 160);
+    canvas.add(pie, 600, 160);
 
     var postit = new draw2d.shape.note.PostIt();
     postit.installEditor(new draw2d.ui.LabelInplaceEditor());
@@ -134,6 +135,10 @@ export default class CanvasDraw2D extends React.Component {
       c.setTarget(end.getInputPort(0));
       canvas.add(c);
     }
+
+    // Log state to console
+    var writer = new draw2d.io.json.Writer();
+    writer.marshal(canvas, json => console.log(json));
   }
 
   render() {
