@@ -158,9 +158,55 @@ export default class CanvasDraw2D extends React.Component {
       }
     });
 
+    $("#mycanvasdraw2d").click(function(ev) {
+      console.log("Mouse click:" + ev.clientX + "," + ev.clientY);
+    });
+
     // Log state to console
     var writer = new draw2d.io.json.Writer();
     writer.marshal(canvas, json => console.log(json));
+
+    // Custom shape
+    {
+      class CustomFigure extends draw2d.SVGFigure {
+        constructor(attr) {
+          super(attr);
+
+          this.index = 0;
+          this.svgs = [];
+
+          this.svgs.push(
+            '<svg xmlns="http://www.w3.org/2000/svg">' +
+              '  <path stroke="#000" fill="#FFF" stroke-miterlimit="4" d="m0,49.842l0,-49.742l49.982,0l0,49.742l-49.982,0z" id="polygon3873"/>' +
+              '  <text text-anchor="middle" fill="#000000" font-family="Sans-serif" x="24.81563" y="26.50938" xml:space="preserve" font-size="8px" id="svg_1">Click me</text>' +
+              "</svg>"
+          );
+
+          this.svgs.push(
+            '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">' +
+              '<rect x="14" y="23" width="20" height="20" fill="lime" stroke="black" />' +
+              "</svg>"
+          );
+
+          this.on(
+            "click",
+            function() {
+              this.index = ++this.index % this.svgs.length;
+              this.setSVG(this.svgs[this.index], 500);
+            },
+            this
+          );
+        }
+
+        getSVG() {
+          return this.svgs[0];
+        }
+      }
+
+      var fig = new CustomFigure();
+
+      canvas.add(fig, 100, 100);
+    }
   }
 
   render() {
