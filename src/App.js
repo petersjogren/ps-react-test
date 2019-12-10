@@ -13,7 +13,7 @@ const kNoMetod = { nodeId: -1, direction: "input", type: "N/A" };
 class App extends React.Component {
   state = {
     pureHTMLgraph: true,
-    scale: 0.9,
+    scale: 1.0,
     activeDrags: 0,
     deltaPosition: {
       x: 0,
@@ -25,7 +25,7 @@ class App extends React.Component {
         id: 213,
         position: {
           x: 260,
-          y: 0
+          y: 20
         },
         inputPorts: [
           { name: "in x", type: "int" },
@@ -41,7 +41,7 @@ class App extends React.Component {
         id: 19,
         position: {
           x: 350,
-          y: 100
+          y: 120
         },
         inputPorts: [
           { name: "amount", type: "int" },
