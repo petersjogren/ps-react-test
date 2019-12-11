@@ -1,5 +1,6 @@
 import React from "react";
 import Draggable from "react-draggable";
+import PropTypes from "prop-types";
 
 function DraggableForeignObject(props) {
   return (
@@ -15,5 +16,14 @@ function DraggableForeignObject(props) {
     </Draggable>
   );
 }
+
+DraggableForeignObject.propTypes = {
+  scale: PropTypes.number.isRequired,
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  children: PropTypes.any.isRequired
+};
 
 export default DraggableForeignObject;

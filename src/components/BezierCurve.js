@@ -28,3 +28,24 @@ export default class BezierCurve extends React.Component {
     );
   }
 }
+
+BezierCurve.propTypes = {
+  curveColor: PropTypes.string.isRequired,
+  curveWidth: PropTypes.number.isRequired,
+  start: PropTypes.exact({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  }).isRequired,
+  end: PropTypes.exact({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  }).isRequired,
+  c1: PropTypes.exact({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  }).isRequired,
+  c2: PropTypes.exact({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  }).isRequired
+};

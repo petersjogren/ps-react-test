@@ -32,17 +32,17 @@ class GraphicsAreaPureHTML extends React.Component {
                   y: toNode.position.y
                 }}
                 curveColor="blue"
-                curveWidth="7"
+                curveWidth={7}
               />
             );
           })}
 
           <DraggableForeignObject
             scale={this.props.scale}
-            x="0"
-            y="320"
-            width="500"
-            height="200"
+            x={0}
+            y={320}
+            width={500}
+            height={200}
           >
             <img
               style={{
@@ -63,10 +63,10 @@ class GraphicsAreaPureHTML extends React.Component {
 
           <DraggableForeignObject
             scale={this.props.scale}
-            x="400"
-            y="350"
-            width="200"
-            height="400"
+            x={400}
+            y={350}
+            width={200}
+            height={400}
           >
             <div
               style={{ "background-color": "#eeb", "border-style": "solid" }}
