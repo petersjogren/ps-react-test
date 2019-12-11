@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-export default class Curve extends React.Component {
+export default class BezierCurve extends React.Component {
   shouldComponentUpdate(nextProps) {
     const { curveColor, curveWidth, start, end, c1, c2 } = this.props;
     return (

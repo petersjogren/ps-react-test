@@ -1,7 +1,7 @@
 import React from "react";
 import Draggable from "react-draggable";
 import { InlineMath } from "react-katex";
-import Curve from "./BezierCurve";
+import BezierCurve from "./BezierCurve";
 import DraggableForeignObject from "./DraggableForeignObject";
 
 class GraphicsAreaPureHTML extends React.Component {
@@ -20,7 +20,7 @@ class GraphicsAreaPureHTML extends React.Component {
             var fromNode = this.props.nodes[key.from.nodeIndex];
             var toNode = this.props.nodes[key.to.nodeIndex];
             return (
-              <Curve
+              <BezierCurve
                 start={{ ...fromNode.position }}
                 end={{ ...toNode.position }}
                 c1={{
