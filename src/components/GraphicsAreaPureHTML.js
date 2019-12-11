@@ -2,6 +2,7 @@ import React from "react";
 import Draggable from "react-draggable";
 import { InlineMath } from "react-katex";
 import Curve from "./Curve";
+import DraggableForeignObject from "./DraggableForeignObject";
 
 class GraphicsAreaPureHTML extends React.Component {
   render() {
@@ -34,44 +35,49 @@ class GraphicsAreaPureHTML extends React.Component {
             );
           })}
 
-          <Draggable scale={this.props.scale}>
-            <foreignObject x="0" y="320" width="500" height="200">
-              <div xmlns="http://www.w3.org/1999/xhtml">
-                <img
-                  style={{
-                    width: "50%",
-                    height: "50%",
-                    "border-style": "solid",
-                    "user-drag": "none",
-                    "user-select": "none",
-                    "-moz-user-select": "none",
-                    "-webkit-user-drag": "none",
-                    "-webkit-user-select": "none",
-                    "-ms-user-select": "none"
-                  }}
-                  src="http://minerva-central.net/images/minerva-forward-m1.png"
-                />
-              </div>
-            </foreignObject>
-          </Draggable>
+          <DraggableForeignObject
+            scale={this.props.scale}
+            x="0"
+            y="320"
+            width="500"
+            height="200"
+          >
+            <img
+              style={{
+                width: "50%",
+                height: "50%",
+                "border-style": "solid",
+                "user-drag": "none",
+                "user-select": "none",
+                "-moz-user-select": "none",
+                "-webkit-user-drag": "none",
+                "-webkit-user-select": "none",
+                "-ms-user-select": "none"
+              }}
+              src="http://minerva-central.net/images/minerva-forward-m1.png"
+              alt="Something nice"
+            />
+          </DraggableForeignObject>
 
-          <Draggable scale={this.props.scale}>
-            <foreignObject x="400" y="350" width="200" height="400">
-              <div
-                xmlns="http://www.w3.org/1999/xhtml"
-                style={{ "background-color": "#eeb", "border-style": "solid" }}
-              >
-                Over hill, over dale, Thorough bush, thorough brier, Over park,
-                over pale, Thorough flood, thorough fire! I do wander
-                everywhere, Swifter than the moon's sphere; And I serve the
-                Fairy Queen, To dew her orbs upon the green; The cowslips tall
-                her pensioners be; In their gold coats spots you see; Those be
-                rubies, fairy favours; In those freckles live their savours; I
-                must go seek some dewdrops here, And hang a pearl in every
-                cowslip's ear.
-              </div>
-            </foreignObject>
-          </Draggable>
+          <DraggableForeignObject
+            scale={this.props.scale}
+            x="400"
+            y="350"
+            width="200"
+            height="400"
+          >
+            <div
+              style={{ "background-color": "#eeb", "border-style": "solid" }}
+            >
+              Over hill, over dale, Thorough bush, thorough brier, Over park,
+              over pale, Thorough flood, thorough fire! I do wander everywhere,
+              Swifter than the moon's sphere; And I serve the Fairy Queen, To
+              dew her orbs upon the green; The cowslips tall her pensioners be;
+              In their gold coats spots you see; Those be rubies, fairy favours;
+              In those freckles live their savours; I must go seek some dewdrops
+              here, And hang a pearl in every cowslip's ear.
+            </div>
+          </DraggableForeignObject>
         </svg>
 
         {this.props.nodes.map((key, index) => (
