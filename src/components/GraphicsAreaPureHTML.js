@@ -1,6 +1,7 @@
 import React from "react";
 import Draggable from "react-draggable";
 import { InlineMath } from "react-katex";
+import Curve from "./Curve";
 
 class GraphicsAreaPureHTML extends React.Component {
   render() {
@@ -14,15 +15,24 @@ class GraphicsAreaPureHTML extends React.Component {
           className="arrowsvg"
           style={{ position: "relative", top: "0px", left: "0px" }}
         >
-          {this.props.connections.map((key, index) => (
-            <line
-              x1={this.props.nodes[key.from.nodeIndex].position.x}
-              y1={this.props.nodes[key.from.nodeIndex].position.y}
-              x2={this.props.nodes[key.to.nodeIndex].position.x}
-              y2={this.props.nodes[key.to.nodeIndex].position.y}
-              style={{ stroke: "rgb(0,0,0)", "stroke-width": 2 }}
-            />
-          ))}
+          {this.props.connections.map((key, index) => {
+            var fromNode = this.props.nodes[key.from.nodeIndex];
+            var toNode = this.props.nodes[key.to.nodeIndex];
+            return (
+              <Curve
+                x={[fromNode.position.x, toNode.position.x]}
+                y={[fromNode.position.y, toNode.position.y]}
+                value={[
+                  (fromNode.position.x + toNode.position.x) / 2,
+                  fromNode.position.y,
+                  (fromNode.position.x + toNode.position.x) / 2,
+                  toNode.position.y
+                ]}
+                curveColor="blue"
+                curveWidth="7"
+              />
+            );
+          })}
 
           <Draggable scale={this.props.scale}>
             <foreignObject x="0" y="320" width="500" height="200">
@@ -44,6 +54,7 @@ class GraphicsAreaPureHTML extends React.Component {
               </div>
             </foreignObject>
           </Draggable>
+
           <Draggable scale={this.props.scale}>
             <foreignObject x="400" y="350" width="200" height="400">
               <div
@@ -58,23 +69,6 @@ class GraphicsAreaPureHTML extends React.Component {
                 rubies, fairy favours; In those freckles live their savours; I
                 must go seek some dewdrops here, And hang a pearl in every
                 cowslip's ear.
-              </div>
-            </foreignObject>
-          </Draggable>
-          <Draggable scale={this.props.scale}>
-            <foreignObject x="750" y="100" width="400" height="500">
-              <div
-                xmlns="http://www.w3.org/1999/xhtml"
-                style={{
-                  "background-color": "#eee",
-                  "border-style": "solid",
-                  height: "90%"
-                }}
-              >
-                <iframe
-                  src="http://minerva-central.net/consultancy.html"
-                  style={{ height: "90%", width: "90%" }}
-                ></iframe>
               </div>
             </foreignObject>
           </Draggable>
