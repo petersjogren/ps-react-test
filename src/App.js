@@ -73,6 +73,7 @@ class App extends React.Component {
           className="topbar"
           showControls={this.state.pureHTMLgraph}
           defaultScale={this.state.scale * 100}
+          state={this.state}
           onChange={value => this.setState({ scale: value / 100 })}
         />
 

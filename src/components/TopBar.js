@@ -43,7 +43,7 @@ const TopBar = props => {
           className="savestate"
           tagName="h2"
           filename="state.txt"
-          exportFile={() => JSON.stringify(this.state, null, 2)}
+          exportFile={() => JSON.stringify(props.state, null, 2)}
         >
           <h1>Save sta2te to disk</h1>
         </DownloadLink>
