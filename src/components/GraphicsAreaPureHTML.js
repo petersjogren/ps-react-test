@@ -1,7 +1,7 @@
 import React from "react";
 import Draggable from "react-draggable";
 import { InlineMath } from "react-katex";
-import Curve from "./Curve";
+import Curve from "./BezierCurve";
 import DraggableForeignObject from "./DraggableForeignObject";
 
 class GraphicsAreaPureHTML extends React.Component {
@@ -21,14 +21,16 @@ class GraphicsAreaPureHTML extends React.Component {
             var toNode = this.props.nodes[key.to.nodeIndex];
             return (
               <Curve
-                x={[fromNode.position.x, toNode.position.x]}
-                y={[fromNode.position.y, toNode.position.y]}
-                value={[
-                  (fromNode.position.x + toNode.position.x) / 2,
-                  fromNode.position.y,
-                  (fromNode.position.x + toNode.position.x) / 2,
-                  toNode.position.y
-                ]}
+                start={{ ...fromNode.position }}
+                end={{ ...toNode.position }}
+                c1={{
+                  x: (fromNode.position.x + toNode.position.x) / 2,
+                  y: fromNode.position.y
+                }}
+                c2={{
+                  x: (fromNode.position.x + toNode.position.x) / 2,
+                  y: toNode.position.y
+                }}
                 curveColor="blue"
                 curveWidth="7"
               />
