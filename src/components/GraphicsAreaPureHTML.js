@@ -39,10 +39,11 @@ class GraphicsAreaPureHTML extends React.Component {
 
           <DraggableForeignObject
             scale={this.props.scale}
-            x={0}
-            y={320}
-            width={500}
-            height={200}
+            x={this.props.imgNode.x}
+            y={this.props.imgNode.y}
+            width={this.props.imgNode.width}
+            height={this.props.imgNode.height}
+            onDrag={(e, position) => this.props.onSetImgNodePosition(position)}
           >
             <img
               style={{
@@ -56,28 +57,23 @@ class GraphicsAreaPureHTML extends React.Component {
                 "-webkit-user-select": "none",
                 "-ms-user-select": "none"
               }}
-              src="http://minerva-central.net/images/minerva-forward-m1.png"
+              src={this.props.imgNode.url}
               alt="Something nice"
             />
           </DraggableForeignObject>
 
           <DraggableForeignObject
             scale={this.props.scale}
-            x={400}
-            y={350}
-            width={200}
-            height={400}
+            x={this.props.textNode.x}
+            y={this.props.textNode.y}
+            width={this.props.textNode.width}
+            height={this.props.textNode.height}
+            onDrag={(e, position) => this.props.onSetTextNodePosition(position)}
           >
             <div
               style={{ "background-color": "#eeb", "border-style": "solid" }}
             >
-              Over hill, over dale, Thorough bush, thorough brier, Over park,
-              over pale, Thorough flood, thorough fire! I do wander everywhere,
-              Swifter than the moon's sphere; And I serve the Fairy Queen, To
-              dew her orbs upon the green; The cowslips tall her pensioners be;
-              In their gold coats spots you see; Those be rubies, fairy favours;
-              In those freckles live their savours; I must go seek some dewdrops
-              here, And hang a pearl in every cowslip's ear.
+              {this.props.textNode.text}
             </div>
           </DraggableForeignObject>
         </svg>
@@ -87,7 +83,7 @@ class GraphicsAreaPureHTML extends React.Component {
             scale={this.props.scale}
             position={this.props.nodes[index].position}
             {...dragHandlers}
-            onDrag={(e, position) => this.props.onSetPostition(index, position)}
+            onDrag={(e, position) => this.props.onSetPosition(index, position)}
           >
             <div className="box no-cursor">
               <svg className="graphics inport">

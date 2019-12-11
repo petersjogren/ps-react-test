@@ -116,7 +116,26 @@ class App extends React.Component {
         }
       }
     ],
-    knobValue: 50
+    textNode: {
+      x: 400,
+      y: 350,
+      width: 200,
+      height: 400,
+      text: `Over hill, over dale, Thorough bush, thorough brier, Over park,
+        over pale, Thorough flood, thorough fire! I do wander everywhere,
+        Swifter than the moon's sphere; And I serve the Fairy Queen, To
+        dew her orbs upon the green; The cowslips tall her pensioners be;
+        In their gold coats spots you see; Those be rubies, fairy favours;
+        In those freckles live their savours; I must go seek some dewdrops
+        here, And hang a pearl in every cowslip's ear.`
+    },
+    imgNode: {
+      x: 50,
+      y: 350,
+      width: 400,
+      height: 300,
+      url: "http://minerva-central.net/images/minerva-forward-m1.png"
+    }
   };
 
   onStart = () => {
@@ -186,8 +205,30 @@ class App extends React.Component {
             nodes={this.state.nodes}
             connections={this.state.connections}
             scale={this.state.scale}
-            onSetPostition={(index, position) =>
+            textNode={this.state.textNode}
+            imgNode={this.state.imgNode}
+            onSetPosition={(index, position) =>
               this.setPositionOnNode(index, position)
+            }
+            onSetTextNodePosition={position =>
+              this.setState({
+                ...this.state,
+                textNode: {
+                  ...this.state.textNode,
+                  x: position.x,
+                  y: position.y
+                }
+              })
+            }
+            onSetImgNodePosition={position =>
+              this.setState({
+                ...this.state,
+                imgNode: {
+                  ...this.state.imgNode,
+                  x: position.x,
+                  y: position.y
+                }
+              })
             }
           />
         ) : (
