@@ -19,7 +19,14 @@ export default function graphEditorReducer(state = InitialState(), action) {
     case POSITION_NODE:
       var { index, position } = action;
       newState = update(state, {
-        nodes: { [index]: { position: { $set: position } } }
+        nodes: {
+          [index]: {
+            position: {
+              x: { $set: action.position.x },
+              y: { $set: action.position.y }
+            }
+          }
+        }
       });
       break;
     case POSITION_TEXT_NODE:
