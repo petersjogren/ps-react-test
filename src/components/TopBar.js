@@ -5,6 +5,7 @@ import "rc-tooltip/assets/bootstrap.css";
 
 import Tooltip from "rc-tooltip";
 import Slider from "rc-slider";
+import { connect } from "react-redux";
 
 const wrapperStyle = { width: 400, margin: 50 };
 
@@ -57,7 +58,7 @@ const TopBar = props => {
           className="savestate"
           tagName="h2"
           filename="state.txt"
-          exportFile={() => JSON.stringify(this.state, null, 2)}
+          exportFile={() => JSON.stringify(props.state, null, 2)}
         >
           <h1>Save state to disk</h1>
         </DownloadLink>
@@ -66,4 +67,4 @@ const TopBar = props => {
   }
 };
 
-export default TopBar;
+export default connect()(TopBar);

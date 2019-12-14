@@ -1,8 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
 import Draggable from "react-draggable";
 import { InlineMath } from "react-katex";
 import BezierCurve from "./BezierCurve";
 import DraggableForeignObject from "./DraggableForeignObject";
+import {
+  positionNodeAction,
+  positionTextNodeAction,
+  positionImgNodeAction
+} from "../redux/actions";
 
 class GraphicsAreaPureHTML extends React.Component {
   render() {
@@ -130,4 +136,22 @@ class GraphicsAreaPureHTML extends React.Component {
   }
 }
 
-export default GraphicsAreaPureHTML;
+const mapStateToProps = state => ({
+  nodes: state.nodes,
+  connections: state.connections,
+  scale: state.scale,
+  textNode: state.textNode,
+  imgNode: state.imgNode
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSetPosition: (index, position) =>
+    dispatch(positionNodeAction(index, position)),
+  onSetTextNodePosition: position => dispatch(positionTextNodeAction(position)),
+  onSetImgNodePosition: position => dispatch(positionImgNodeAction(position))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GraphicsAreaPureHTML);
