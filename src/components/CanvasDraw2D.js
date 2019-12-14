@@ -82,72 +82,66 @@ export default class CanvasDraw2D extends React.Component {
 
     canvas.add(postit, 700, 10);
 
-    {
-      var label = new draw2d.shape.basic.Label();
+    var label = new draw2d.shape.basic.Label();
 
-      label.installEditor(new draw2d.ui.LabelInplaceEditor());
-      label.setText("Double click me to edit");
+    label.installEditor(new draw2d.ui.LabelInplaceEditor());
+    label.setText("Double click me to edit");
 
-      canvas.add(label, 50, 10);
-    }
+    canvas.add(label, 50, 10);
 
-    {
-      // Override the default connection type. This is used during drag&drop operations of ports.
-      //
-      draw2d.Connection.createConnection = function(sourcePort, targetPort) {
-        // return my special kind of connection
-        var con = new draw2d.Connection();
-        con.setRouter(new draw2d.layout.connection.FanConnectionRouter());
-        return con;
-      };
+    // Override the default connection type. This is used during drag&drop operations of ports.
+    //
+    draw2d.Connection.createConnection = function(sourcePort, targetPort) {
+      // return my special kind of connection
+      var con = new draw2d.Connection();
+      con.setRouter(new draw2d.layout.connection.FanConnectionRouter());
+      return con;
+    };
 
-      // create and add two nodes which contains Ports (In and OUT)
-      //
-      var start = new draw2d.shape.node.Start();
-      var end = new draw2d.shape.node.End();
+    // create and add two nodes which contains Ports (In and OUT)
+    //
+    start = new draw2d.shape.node.Start();
+    end = new draw2d.shape.node.End();
 
-      // ...add it to the canvas
-      canvas.add(start, 50, 250);
-      canvas.add(end, 230, 280);
+    // ...add it to the canvas
+    canvas.add(start, 50, 250);
+    canvas.add(end, 230, 280);
 
-      // first Connection
-      //
-      var c = draw2d.Connection.createConnection();
-      c.setSource(start.getOutputPort(0));
-      c.setTarget(end.getInputPort(0));
-      canvas.add(c);
+    // first Connection
+    //
+    c = draw2d.Connection.createConnection();
+    c.setSource(start.getOutputPort(0));
+    c.setTarget(end.getInputPort(0));
+    canvas.add(c);
 
-      // second Connection
-      //
-      c = draw2d.Connection.createConnection();
-      c.setSource(start.getOutputPort(0));
-      c.setTarget(end.getInputPort(0));
-      canvas.add(c);
+    // second Connection
+    //
+    c = draw2d.Connection.createConnection();
+    c.setSource(start.getOutputPort(0));
+    c.setTarget(end.getInputPort(0));
+    canvas.add(c);
 
-      // third Connection
-      //
-      c = draw2d.Connection.createConnection();
-      c.setSource(start.getOutputPort(0));
-      c.setTarget(end.getInputPort(0));
-      canvas.add(c);
+    // third Connection
+    //
+    c = draw2d.Connection.createConnection();
+    c.setSource(start.getOutputPort(0));
+    c.setTarget(end.getInputPort(0));
+    canvas.add(c);
 
-      // fourth Connection
-      //
-      c = draw2d.Connection.createConnection();
-      c.setSource(start.getOutputPort(0));
-      c.setTarget(end.getInputPort(0));
-      canvas.add(c);
-    }
+    // fourth Connection
+    //
+    c = draw2d.Connection.createConnection();
+    c.setSource(start.getOutputPort(0));
+    c.setTarget(end.getInputPort(0));
+    canvas.add(c);
 
     // Zoom mose wheel support
-    {
-      canvas.installEditPolicy(new draw2d.policy.canvas.WheelZoomPolicy());
-      var shape = new draw2d.shape.basic.Text({
-        text: "Use the mouse wheel + SHIFT to zoom"
-      });
+    canvas.installEditPolicy(new draw2d.policy.canvas.WheelZoomPolicy());
+    shape = new draw2d.shape.basic.Text({
+      text: "Use the mouse wheel + SHIFT to zoom"
+    });
 
-      canvas.add(shape, 400, 300);
-    }
+    canvas.add(shape, 400, 300);
 
     // Register some callbacks
     canvas.on("select", function(emitter, event) {

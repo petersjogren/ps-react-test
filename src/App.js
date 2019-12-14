@@ -11,13 +11,7 @@ import "katex/dist/katex.min.css";
 import TopBar from "./components/TopBar";
 import { zoomAction, toggleGraphicsLibraryAction } from "./redux/actions";
 
-const kNoMetod = { nodeId: -1, direction: "input", type: "N/A" };
-
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="App">
