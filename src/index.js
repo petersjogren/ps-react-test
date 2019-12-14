@@ -6,8 +6,14 @@ import graphEditorReducer from "./redux/reducers";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-const store = createStore(graphEditorReducer);
+const store = createStore(
+  graphEditorReducer,
+  composeWithDevTools()
+
+  // other store enhancers if any
+);
 
 ReactDOM.render(
   <Provider store={store}>

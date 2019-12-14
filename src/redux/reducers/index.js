@@ -9,18 +9,17 @@ import {
 } from "../actions";
 
 export default function graphEditorReducer(state = InitialState(), action) {
-  console.log("graphEditorReducer", action);
+  //  console.log("graphEditorReducer", action);
   var newState;
-  console.log("state before ", state);
+  //  console.log("state before ", state);
   switch (action.type) {
     case CHANGE_ZOOM:
       newState = update(state, { scale: { $set: action.percent / 100 } });
       break;
     case POSITION_NODE:
-      var { index, position } = action;
       newState = update(state, {
         nodes: {
-          [index]: {
+          [action.index]: {
             position: {
               x: { $set: action.position.x },
               y: { $set: action.position.y }
@@ -28,6 +27,7 @@ export default function graphEditorReducer(state = InitialState(), action) {
           }
         }
       });
+
       break;
     case POSITION_TEXT_NODE:
       newState = update(state, {
@@ -57,6 +57,6 @@ export default function graphEditorReducer(state = InitialState(), action) {
       break;
   }
 
-  console.log("newState  ", newState);
+  //  console.log("newState  ", newState);
   return newState;
 }
