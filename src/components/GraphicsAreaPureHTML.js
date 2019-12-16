@@ -12,7 +12,6 @@ import {
 
 class GraphicsAreaPureHTML extends React.Component {
   render() {
-    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
     return (
       <div
         className="graphicsarea"
@@ -88,7 +87,6 @@ class GraphicsAreaPureHTML extends React.Component {
             key={index}
             scale={this.props.scale}
             position={this.props.nodes[index].position}
-            {...dragHandlers}
             onDrag={(e, position) => this.props.onSetPosition(index, position)}
           >
             <div className="box no-cursor">
