@@ -109,9 +109,7 @@ class GraphicsAreaPureHTML extends React.Component {
               </svg>
 
               <div className="drag">{key.title}</div>
-              <h3>
-                <InlineMath>\int_0^\infty x^2 dx</InlineMath>
-              </h3>
+              <h3>{/* <InlineMath>\int_0^\infty x^2 dx</InlineMath> */}</h3>
 
               <svg className="graphics outport" width="30" height="30">
                 <circle
