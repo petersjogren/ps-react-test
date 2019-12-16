@@ -27,6 +27,7 @@ class GraphicsAreaPureHTML extends React.Component {
             var toNode = this.props.nodes[key.to.nodeIndex];
             return (
               <BezierCurve
+                key={index}
                 start={{ ...fromNode.position }}
                 end={{ ...toNode.position }}
                 c1={{
@@ -55,13 +56,13 @@ class GraphicsAreaPureHTML extends React.Component {
               style={{
                 width: "50%",
                 height: "50%",
-                "border-style": "solid",
-                "user-drag": "none",
-                "user-select": "none",
-                "-moz-user-select": "none",
-                "-webkit-user-drag": "none",
-                "-webkit-user-select": "none",
-                "-ms-user-select": "none"
+                borderStyle: "solid",
+                userDrag: "none",
+                userSelect: "none",
+                MozUserSelect: "none",
+                WebkitUserDrag: "none",
+                WebkitUserSelect: "none",
+                msUserSelect: "none"
               }}
               src={this.props.imgNode.url}
               alt="Something nice"
@@ -76,9 +77,7 @@ class GraphicsAreaPureHTML extends React.Component {
             height={this.props.textNode.height}
             onDrag={(e, position) => this.props.onSetTextNodePosition(position)}
           >
-            <div
-              style={{ "background-color": "#eeb", "border-style": "solid" }}
-            >
+            <div style={{ backgroundColor: "#eeb", borderStyle: "solid" }}>
               {this.props.textNode.text}
             </div>
           </DraggableForeignObject>
@@ -86,6 +85,7 @@ class GraphicsAreaPureHTML extends React.Component {
 
         {this.props.nodes.map((key, index) => (
           <Draggable
+            key={index}
             scale={this.props.scale}
             position={this.props.nodes[index].position}
             {...dragHandlers}
@@ -101,7 +101,7 @@ class GraphicsAreaPureHTML extends React.Component {
                   r="15"
                   style={{
                     stroke: "#000000",
-                    "stroke-width": 3,
+                    strokeWidth: 3,
                     fill: "#66ff66"
                   }}
                   opacity=".7"
@@ -122,7 +122,7 @@ class GraphicsAreaPureHTML extends React.Component {
                   r="15"
                   style={{
                     stroke: "#000000",
-                    "stroke-width": 3,
+                    strokeWidth: 3,
                     fill: "#ff0000"
                   }}
                   opacity=".7"
