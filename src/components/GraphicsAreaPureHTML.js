@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import Draggable from "react-draggable";
 // import { InlineMath } from "react-katex";
 import BezierCurve from "./BezierCurve";
 import DraggableForeignObject from "./DraggableForeignObject";
@@ -9,6 +8,7 @@ import {
   positionTextNodeAction,
   positionImgNodeAction
 } from "../redux/actions";
+import HTMLNode from "./HTMLNode";
 
 import InOutNode from "../components/InOutNode";
 
@@ -39,8 +39,8 @@ class GraphicsAreaPureHTML extends React.Component {
                   x: (fromNode.position.x + toNode.position.x) / 2,
                   y: toNode.position.y
                 }}
-                curveColor="blue"
-                curveWidth={7}
+                curveColor="black"
+                curveWidth={2}
               />
             );
           })}
@@ -84,51 +84,29 @@ class GraphicsAreaPureHTML extends React.Component {
           </DraggableForeignObject>
         </svg>
 
-        {this.props.nodes.map((key, index) => (
-          <Draggable
-            key={index}
-            scale={this.props.scale}
-            position={this.props.nodes[index].position}
-            onDrag={(e, position) => this.props.onSetPosition(index, position)}
-          >
-            <div className="box no-cursor">
-              <svg className="graphics inport">
-                <circle
-                  className="circle"
-                  xmlns="http://www.w3.org/2000/svg"
-                  cx="15"
-                  cy="15"
-                  r="15"
-                  style={{
-                    stroke: "#000000",
-                    strokeWidth: 3,
-                    fill: "#66ff66"
-                  }}
-                  opacity=".7"
-                />
-              </svg>
-
-              <div className="drag">{key.title}</div>
-              <h3>{/* <InlineMath>\int_0^\infty x^2 dx</InlineMath> */}</h3>
-
-              <svg className="graphics outport" width="30" height="30">
-                <circle
-                  className="circle"
-                  xmlns="http://www.w3.org/2000/svg"
-                  cx="15"
-                  cy="15"
-                  r="15"
-                  style={{
-                    stroke: "#000000",
-                    strokeWidth: 3,
-                    fill: "#ff0000"
-                  }}
-                  opacity=".7"
-                />
-              </svg>
-            </div>
-          </Draggable>
-        ))}
+        {this.props.nodes.map((key, index) =>
+          key.htmlNode ? (
+            <HTMLNode
+              title={key.title}
+              key={index}
+              scale={this.props.scale}
+              position={this.props.nodes[index].position}
+              onDrag={(e, position) =>
+                this.props.onSetPosition(index, position)
+              }
+            />
+          ) : (
+            <InOutNode
+              title={key.title}
+              key={index}
+              scale={this.props.scale}
+              position={this.props.nodes[index].position}
+              onDrag={(e, position) =>
+                this.props.onSetPosition(index, position)
+              }
+            />
+          )
+        )}
       </div>
     );
   }
