@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Draggable from "react-draggable";
-import { InlineMath } from "react-katex";
+// import { InlineMath } from "react-katex";
 import BezierCurve from "./BezierCurve";
 import DraggableForeignObject from "./DraggableForeignObject";
 import {
@@ -9,6 +9,8 @@ import {
   positionTextNodeAction,
   positionImgNodeAction
 } from "../redux/actions";
+
+import InOutNode from "../components/InOutNode";
 
 class GraphicsAreaPureHTML extends React.Component {
   render() {

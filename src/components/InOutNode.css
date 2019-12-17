@@ -1,0 +1,98 @@
+.node {
+  vertical-align: middle;
+  background-color: #0a0;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10px;
+  overflow: hidden;
+  color: red;
+  width: 120px;
+  height: 45px;
+}
+
+.main_area {
+  cursor: move;
+  display: flex;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #090;
+  color: red;
+  height: 15px;
+  font-family: sans-serif;
+  color: white;
+  font-size: 11px;
+}
+
+.port_area {
+  display: flex;
+  border-top: 1px solid #000;
+  text-align: center;
+  vertical-align: middle;
+  color: red;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  height: 15px;
+  font-family: sans-serif;
+  color: white;
+  font-size: 11px;
+}
+
+.in {
+  background-color: #0a0;
+}
+
+.out {
+  background-color: #0c0;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Opera and Firefox */
+}
+
+.addin {
+  background-color: #090;
+  width: 15px;
+  text-align: center;
+  cursor: auto;
+}
+.addin:hover {
+  font-weight: bold;
+}
+.nodetext {
+  flex: 1;
+  text-align: center;
+  background-color: green;
+}
+.porttext {
+  flex: 1;
+  text-align: center;
+}
+.noport {
+  width: 15px;
+  text-align: center;
+  cursor: auto;
+}
+.port {
+  width: 15px;
+  text-align: center;
+  cursor: auto;
+}
+.port:hover {
+  background-color: #0e0;
+}
+.addout {
+  background-color: #090;
+  width: 15px;
+  text-align: center;
+  cursor: auto;
+}
+.addout:hover {
+  font-weight: bold;
+}
