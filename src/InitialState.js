@@ -1,5 +1,5 @@
 export default function InitialState() {
-  var someIndexes = [...Array(82).keys()];
+  var someIndexes = [...Array(1000).keys()];
   var someNodes = someIndexes.map(index => {
     return {
       title: "1D transformation",
