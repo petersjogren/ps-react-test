@@ -5,6 +5,7 @@ import BezierCurve from "./BezierCurve";
 import DraggableForeignObject from "./DraggableForeignObject";
 import {
   positionNodeAction,
+  positionEveryOtherNodeAction,
   positionTextNodeAction,
   positionImgNodeAction
 } from "../redux/actions";
@@ -122,7 +123,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onSetPosition: (index, position) =>
-    dispatch(positionNodeAction(index, position)),
+    dispatch(positionEveryOtherNodeAction(index, position)),
   onSetTextNodePosition: position => dispatch(positionTextNodeAction(position)),
   onSetImgNodePosition: position => dispatch(positionImgNodeAction(position))
 });

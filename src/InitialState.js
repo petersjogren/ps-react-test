@@ -1,7 +1,42 @@
 export default function InitialState() {
+  var someIndexes = [...Array(250).keys()];
+  var someNodes = someIndexes.map(index => {
+    return {
+      title: "1D transformation",
+      id: 1000 + index,
+      position: {
+        x: 0 + 500 * Math.cos(((2 * 3.14) / someIndexes.length) * index),
+        y: 400 + 500 * Math.sin(((2 * 3.14) / someIndexes.length) * index)
+      },
+      inputPorts: [
+        { name: "in x", type: "int" },
+        { name: "in y", type: "int" }
+      ],
+      outputPorts: [
+        { name: "out x", type: "float" },
+        { name: "out y", type: "float" }
+      ]
+    };
+  });
+
+  var someConnections = someIndexes
+    .filter(a => a % 2 == 0)
+    .map(index => {
+      return {
+        from: {
+          nodeIndex: (index + someIndexes.length / 2 + 2) % someIndexes.length,
+          index: 0
+        },
+        to: {
+          nodeIndex: index,
+          index: 0
+        }
+      };
+    });
+
   return {
     pureHTMLgraph: true,
-    scale: 1.0,
+    scale: 0.4,
     activeDrags: 0,
     deltaPosition: {
       x: 0,
@@ -70,7 +105,8 @@ export default function InitialState() {
         },
         inputPorts: [{ name: "x", type: "float" }],
         outputPorts: [{ name: "x", type: "float" }]
-      }
+      },
+      ...someNodes
     ],
     connections: [
       {
@@ -102,7 +138,8 @@ export default function InitialState() {
           nodeIndex: 1,
           index: 1
         }
-      }
+      },
+      ...someConnections
     ],
     textNode: {
       x: 400,

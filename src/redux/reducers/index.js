@@ -3,6 +3,7 @@ import update from "immutability-helper";
 import {
   CHANGE_ZOOM,
   POSITION_NODE,
+  POSITION_EVERY_OTHER_NODE,
   POSITION_TEXT_NODE,
   POSITION_IMG_NODE,
   TOGGLE_GRAPHICS
@@ -17,17 +18,48 @@ export default function graphEditorReducer(state = InitialState(), action) {
       newState = update(state, { scale: { $set: action.percent / 100 } });
       break;
     case POSITION_NODE:
-      newState = update(state, {
-        nodes: {
-          [action.index]: {
-            position: {
-              x: { $set: action.position.x },
-              y: { $set: action.position.y }
+      {
+        var deltaX = action.position.x - state.nodes[action.index].position.x;
+        var deltaY = action.position.y - state.nodes[action.index].position.y;
+        newState = update(state, {
+          nodes: {
+            [action.index]: {
+              position: {
+                x: { $set: action.position.x },
+                y: { $set: action.position.y }
+              }
             }
           }
-        }
-      });
-
+        });
+      }
+      break;
+    case POSITION_EVERY_OTHER_NODE:
+      {
+        var deltaX = action.position.x - state.nodes[action.index].position.x;
+        var deltaY = action.position.y - state.nodes[action.index].position.y;
+        var updateObject = {};
+        state.nodes.map((value, index) => {
+          if (index % 2 == 0) {
+            updateObject[index] = {
+              position: {
+                x: { $set: state.nodes[index].position.x + deltaX },
+                y: { $set: state.nodes[index].position.y + deltaY }
+              }
+            };
+          }
+        });
+        newState = update(state, {
+          nodes: {
+            [action.index]: {
+              position: {
+                x: { $set: action.position.x },
+                y: { $set: action.position.y }
+              }
+            },
+            ...updateObject
+          }
+        });
+      }
       break;
     case POSITION_TEXT_NODE:
       newState = update(state, {
