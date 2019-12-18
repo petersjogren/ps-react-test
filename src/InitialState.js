@@ -43,7 +43,7 @@ export default function InitialState() {
       y: 0
     },
     nodes: [
-      {
+      /* {
         title: "2D shape transformation",
         id: 213,
         position: {
@@ -105,11 +105,11 @@ export default function InitialState() {
         },
         inputPorts: [{ name: "x", type: "float" }],
         outputPorts: [{ name: "x", type: "float" }]
-      },
+      },*/
       ...someNodes
     ],
     connections: [
-      {
+      /*{
         from: {
           nodeIndex: 0,
           index: 0
@@ -138,12 +138,12 @@ export default function InitialState() {
           nodeIndex: 1,
           index: 1
         }
-      },
+      },*/
       ...someConnections
     ],
     textNode: {
-      x: 400,
-      y: 350,
+      x: -500,
+      y: -350,
       width: 200,
       height: 400,
       text: `Over hill, over dale, Thorough bush, thorough brier, Over park,
@@ -156,7 +156,7 @@ export default function InitialState() {
     },
     imgNode: {
       x: 50,
-      y: 350,
+      y: -350,
       width: 400,
       height: 300,
       url: "http://minerva-central.net/images/minerva-forward-m1.png"
