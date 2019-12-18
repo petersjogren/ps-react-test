@@ -1,5 +1,5 @@
 export default function InitialState() {
-  var someIndexes = [...Array(250).keys()];
+  var someIndexes = [...Array(82).keys()];
   var someNodes = someIndexes.map(index => {
     return {
       title: "1D transformation",
@@ -20,7 +20,7 @@ export default function InitialState() {
   });
 
   var someConnections = someIndexes
-    .filter(a => a % 2 == 0)
+    .filter(a => a % 2 === 0)
     .map(index => {
       return {
         from: {
