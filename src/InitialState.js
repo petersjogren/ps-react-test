@@ -1,5 +1,5 @@
 export function InitialStateStressTest() {
-  var someIndexes = [...Array(202).keys()];
+  var someIndexes = [...Array(1002).keys()];
   var someNodes = someIndexes.map(index => {
     return {
       title: "1D transformation",

@@ -1,4 +1,4 @@
-import { InitialState } from "../../InitialState";
+import { InitialStateStressTest } from "../../InitialState";
 import update from "immutability-helper";
 import {
   CHANGE_ZOOM,
@@ -9,7 +9,10 @@ import {
   TOGGLE_GRAPHICS
 } from "../actions";
 
-export default function graphEditorReducer(state = InitialState(), action) {
+export default function graphEditorReducer(
+  state = InitialStateStressTest(),
+  action
+) {
   //  console.log("graphEditorReducer", action);
   var newState;
   //  console.log("state before ", state);
