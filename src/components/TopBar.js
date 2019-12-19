@@ -34,7 +34,7 @@ const TopBar = props => {
           <Slider
             min={20}
             max={150}
-            defaultValue={props.defaultScale}
+            value={props.scale}
             handle={handle}
             onChange={props.onChange}
           />

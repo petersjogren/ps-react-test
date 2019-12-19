@@ -21,7 +21,7 @@ class App extends React.Component {
         <TopBar
           className="topbar"
           showControls={this.props.state.pureHTMLgraph}
-          defaultScale={this.props.state.scale * 100}
+          scale={this.props.state.scale * 100}
           state={this.props.state}
           onChange={this.props.onZoomChange}
         />
