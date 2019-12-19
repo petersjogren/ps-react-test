@@ -7,10 +7,14 @@ export default class BezierCurve extends React.Component {
     return (
       nextProps.curveColor !== curveColor ||
       nextProps.curveWidth !== curveWidth ||
-      nextProps.start !== start ||
-      nextProps.end !== end ||
-      nextProps.c1 !== c1 ||
-      nextProps.c2 !== c2
+      nextProps.start.x !== start.x ||
+      nextProps.start.y !== start.y ||
+      nextProps.end.x !== end.x ||
+      nextProps.end.y !== end.y ||
+      nextProps.c1.x !== c1.x ||
+      nextProps.c1.y !== c1.y ||
+      nextProps.c2.x !== c2.x ||
+      nextProps.c2.y !== c2.y
     );
   }
 
