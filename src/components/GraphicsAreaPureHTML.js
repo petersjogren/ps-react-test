@@ -10,8 +10,11 @@ import {
   positionImgNodeAction
 } from "../redux/actions";
 import HTMLNode from "./HTMLNode";
-
-import InOutNode from "../components/InOutNode";
+import {
+  InOutNode,
+  inPortRelativePosition,
+  outPortRelativePosition
+} from "./InOutNode";
 
 class GraphicsAreaPureHTML extends React.Component {
   render() {
@@ -27,18 +30,30 @@ class GraphicsAreaPureHTML extends React.Component {
           {this.props.connections.map((key, index) => {
             var fromNode = this.props.nodes[key.from.nodeIndex];
             var toNode = this.props.nodes[key.to.nodeIndex];
+            var fromX =
+              fromNode.position.x +
+              outPortRelativePosition(fromNode, key.from.index).x;
+            var fromY =
+              fromNode.position.y +
+              outPortRelativePosition(fromNode, key.from.index).y;
+            var toX =
+              toNode.position.x +
+              inPortRelativePosition(toNode, key.to.index).x;
+            var toY =
+              toNode.position.y +
+              inPortRelativePosition(toNode, key.to.index).y;
             return (
               <BezierCurve
                 key={index}
-                start={{ ...fromNode.position }}
-                end={{ ...toNode.position }}
+                start={{ x: fromX, y: fromY }}
+                end={{ x: toX, y: toY }}
                 c1={{
-                  x: (fromNode.position.x + toNode.position.x) / 2,
-                  y: fromNode.position.y
+                  x: (fromX + toX) / 2,
+                  y: fromY
                 }}
                 c2={{
-                  x: (fromNode.position.x + toNode.position.x) / 2,
-                  y: toNode.position.y
+                  x: (fromX + toX) / 2,
+                  y: toY
                 }}
                 curveColor="black"
                 curveWidth={2}
@@ -102,6 +117,7 @@ class GraphicsAreaPureHTML extends React.Component {
               key={index}
               scale={this.props.scale}
               position={this.props.nodes[index].position}
+              width={this.props.nodes[index].width}
               onDrag={(e, position) =>
                 this.props.onSetPosition(index, position)
               }
@@ -123,7 +139,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onSetPosition: (index, position) =>
-    dispatch(positionEveryOtherNodeAction(index, position)),
+    dispatch(positionNodeAction(index, position)),
   onSetTextNodePosition: position => dispatch(positionTextNodeAction(position)),
   onSetImgNodePosition: position => dispatch(positionImgNodeAction(position))
 });
