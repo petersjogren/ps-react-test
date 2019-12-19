@@ -48,11 +48,11 @@ class GraphicsAreaPureHTML extends React.Component {
                 start={{ x: fromX, y: fromY }}
                 end={{ x: toX, y: toY }}
                 c1={{
-                  x: (fromX + toX) / 2,
+                  x: fromX + (fromNode.width * 3) / 4,
                   y: fromY
                 }}
                 c2={{
-                  x: (fromX + toX) / 2,
+                  x: toX - (toNode.width * 3) / 4,
                   y: toY
                 }}
                 curveColor="black"
