@@ -52,19 +52,19 @@ export class InOutNode extends React.Component {
           </div>
           <div className="port_area">
             <div className="port noselect">→</div>
-            <div className="porttext in noselect">x</div>
+            <header className="porttext in noselect">x</header>
             <div className="noport noselect"></div>
           </div>
           <div className="port_area in">
             <div className="port noselect" draggable={true}>
               →
             </div>
-            <div className="porttext in noselect">y</div>
+            <header className="porttext in noselect">y</header>
             <div className="noport noselect"></div>
           </div>
           <div className="port_area out">
             <div className="noport noselect"></div>
-            <div className="porttext out noselect">sum</div>
+            <header className="porttext out noselect">sum</header>
             <div
               className="port noselect"
               draggable={true}
