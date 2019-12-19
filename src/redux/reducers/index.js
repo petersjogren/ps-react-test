@@ -1,4 +1,4 @@
-import { InitialStateStressTest } from "../../InitialState";
+import InitialState from "../../InitialState";
 import update from "immutability-helper";
 import {
   CHANGE_ZOOM,
@@ -10,7 +10,7 @@ import {
 } from "../actions";
 
 export default function graphEditorReducer(
-  state = InitialStateStressTest(),
+  state = InitialState(false),
   action
 ) {
   //  console.log("graphEditorReducer", action);

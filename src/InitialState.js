@@ -1,4 +1,4 @@
-export function InitialStateStressTest() {
+function InitialStateStressTest() {
   var someIndexes = [...Array(202).keys()];
   var someNodes = someIndexes.map(index => {
     return {
@@ -65,7 +65,7 @@ export function InitialStateStressTest() {
   };
 }
 
-export function InitialState() {
+function InitialStateNormal() {
   return {
     pureHTMLgraph: true,
     scale: 0.9,
@@ -107,10 +107,10 @@ export function InitialState() {
         title: "Add",
         id: 215,
         position: {
-          x: 55,
-          y: 100
+          x: 85,
+          y: 200
         },
-        width: 100,
+        width: 80,
         inputPorts: [
           { name: "x", type: "int" },
           { name: "y", type: "int" }
@@ -121,8 +121,8 @@ export function InitialState() {
         title: "Add",
         id: 216,
         position: {
-          x: 26,
-          y: 236
+          x: 86,
+          y: 106
         },
         width: 140,
         inputPorts: [
@@ -185,4 +185,12 @@ export function InitialState() {
       url: "http://minerva-central.net/images/minerva-forward-m1.png"
     }
   };
+}
+
+export default function InitialState(stressTest) {
+  if (stressTest) {
+    return InitialStateStressTest();
+  } else {
+    return InitialStateNormal();
+  }
 }
