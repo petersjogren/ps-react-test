@@ -2,20 +2,18 @@ export function InitialStateStressTest() {
   var someIndexes = [...Array(202).keys()];
   var someNodes = someIndexes.map(index => {
     return {
-      title: "1D transformation",
+      title: "Add",
       id: 1000 + index,
       position: {
         x: 0 + 500 * Math.cos(((2 * 3.14) / someIndexes.length) * index),
         y: 400 + 500 * Math.sin(((2 * 3.14) / someIndexes.length) * index)
       },
+      width: 120,
       inputPorts: [
-        { name: "in x", type: "int" },
-        { name: "in y", type: "int" }
+        { name: "x", type: "int" },
+        { name: "y", type: "int" }
       ],
-      outputPorts: [
-        { name: "out x", type: "float" },
-        { name: "out y", type: "float" }
-      ]
+      outputPorts: [{ name: "sum", type: "int" }]
     };
   });
 
@@ -42,105 +40,8 @@ export function InitialStateStressTest() {
       x: 0,
       y: 0
     },
-    nodes: [
-      /* {
-        title: "2D shape transformation",
-        id: 213,
-        position: {
-          x: 260,
-          y: 20
-        },
-        inputPorts: [
-          { name: "in x", type: "int" },
-          { name: "in y", type: "int" }
-        ],
-        outputPorts: [
-          { name: "out x", type: "float" },
-          { name: "out y", type: "float" }
-        ]
-      },
-      {
-        title: "Measurement",
-        id: 19,
-        position: {
-          x: 350,
-          y: 120
-        },
-        inputPorts: [
-          { name: "amount", type: "int" },
-          { name: "temperature", type: "float" },
-          { name: "the grid", type: "se.minerva.Grid" }
-        ],
-        outputPorts: [
-          { name: "result x", type: "float" },
-          { name: "result y", type: "float" },
-          { name: "result z", type: "float" }
-        ]
-      },
-      {
-        title: "Colorizer",
-        id: 23,
-        position: {
-          x: 510,
-          y: 236
-        },
-        inputPorts: [
-          { name: "amount", type: "int" },
-          { name: "temperature", type: "float" }
-        ],
-        outputPorts: [
-          { name: "red", type: "int" },
-          { name: "blue", type: "int" },
-          { name: "green", type: "int" },
-          { name: "alpha", type: "float" },
-          { name: "grid", type: "se.minerva.Grid" }
-        ]
-      },
-      {
-        title: "1D transformation",
-        id: 101,
-        position: {
-          x: 95,
-          y: 236
-        },
-        inputPorts: [{ name: "x", type: "float" }],
-        outputPorts: [{ name: "x", type: "float" }]
-      },*/
-      ...someNodes
-    ],
-    connections: [
-      /*{
-        from: {
-          nodeIndex: 0,
-          index: 0
-        },
-        to: {
-          nodeIndex: 1,
-          index: 1
-        }
-      },
-      {
-        from: {
-          nodeIndex: 2,
-          index: 4
-        },
-        to: {
-          nodeIndex: 1,
-          index: 2
-        }
-      },
-      {
-        from: {
-          nodeIndex: 3,
-          index: 0
-        },
-        to: {
-          nodeIndex: 1,
-          index: 1
-        }
-      },*/
-      ...someConnections
-    ],
+    nodes: [...someNodes],
+    connections: [...someConnections],
     textNode: {
       x: -500,
       y: -350,
@@ -175,67 +76,60 @@ export function InitialState() {
     },
     nodes: [
       {
-        title: "2D shape transformation",
+        title: "Add",
         id: 213,
         position: {
-          x: 260,
-          y: 20
+          x: 186,
+          y: 7
         },
+        width: 120,
         inputPorts: [
-          { name: "in x", type: "int" },
-          { name: "in y", type: "int" }
+          { name: "x", type: "int" },
+          { name: "y", type: "int" }
         ],
-        outputPorts: [
-          { name: "out x", type: "float" },
-          { name: "out y", type: "float" }
-        ]
+        outputPorts: [{ name: "sum", type: "int" }]
       },
       {
-        title: "Measurement",
-        id: 19,
+        title: "Add",
+        id: 214,
         position: {
-          x: 350,
-          y: 120
+          x: 421,
+          y: 123
         },
+        width: 120,
         inputPorts: [
-          { name: "amount", type: "int" },
-          { name: "temperature", type: "float" },
-          { name: "the grid", type: "se.minerva.Grid" }
+          { name: "x", type: "int" },
+          { name: "y", type: "int" }
         ],
-        outputPorts: [
-          { name: "result x", type: "float" },
-          { name: "result y", type: "float" },
-          { name: "result z", type: "float" }
-        ]
+        outputPorts: [{ name: "sum", type: "int" }]
       },
       {
-        title: "Colorizer",
-        id: 23,
+        title: "Add",
+        id: 215,
         position: {
-          x: 510,
+          x: 55,
+          y: 100
+        },
+        width: 100,
+        inputPorts: [
+          { name: "x", type: "int" },
+          { name: "y", type: "int" }
+        ],
+        outputPorts: [{ name: "sum", type: "int" }]
+      },
+      {
+        title: "Add",
+        id: 216,
+        position: {
+          x: 26,
           y: 236
         },
+        width: 140,
         inputPorts: [
-          { name: "amount", type: "int" },
-          { name: "temperature", type: "float" }
+          { name: "x", type: "int" },
+          { name: "y", type: "int" }
         ],
-        outputPorts: [
-          { name: "red", type: "int" },
-          { name: "blue", type: "int" },
-          { name: "green", type: "int" },
-          { name: "alpha", type: "float" },
-          { name: "grid", type: "se.minerva.Grid" }
-        ]
-      },
-      {
-        title: "1D transformation",
-        id: 101,
-        position: {
-          x: 95,
-          y: 236
-        },
-        inputPorts: [{ name: "x", type: "float" }],
-        outputPorts: [{ name: "x", type: "float" }]
+        outputPorts: [{ name: "sum", type: "int" }]
       }
     ],
     connections: [
@@ -246,17 +140,17 @@ export function InitialState() {
         },
         to: {
           nodeIndex: 1,
-          index: 1
+          index: 0
         }
       },
       {
         from: {
           nodeIndex: 2,
-          index: 4
+          index: 0
         },
         to: {
           nodeIndex: 1,
-          index: 2
+          index: 1
         }
       },
       {
@@ -266,7 +160,7 @@ export function InitialState() {
         },
         to: {
           nodeIndex: 1,
-          index: 1
+          index: 0
         }
       }
     ],
