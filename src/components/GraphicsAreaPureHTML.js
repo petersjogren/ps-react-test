@@ -123,7 +123,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onSetPosition: (index, position) =>
-    dispatch(positionEveryOtherNodeAction(index, position)),
+    dispatch(positionNodeAction(index, position)),
   onSetTextNodePosition: position => dispatch(positionTextNodeAction(position)),
   onSetImgNodePosition: position => dispatch(positionImgNodeAction(position))
 });

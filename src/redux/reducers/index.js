@@ -1,4 +1,4 @@
-import InitialState from "../../InitialState";
+import { InitialState } from "../../InitialState";
 import update from "immutability-helper";
 import {
   CHANGE_ZOOM,
