@@ -4,6 +4,8 @@ export const POSITION_EVERY_OTHER_NODE = "POSITION_EVERY_OTHER_NODE";
 export const POSITION_TEXT_NODE = "POSITION_TEXT_NODE";
 export const POSITION_IMG_NODE = "POSITION_IMG_NODE";
 export const TOGGLE_GRAPHICS = "TOGGLE_GRAPHICS";
+export const RESET_NORMAL = "RESET_NORMAL";
+export const RESET_STRESS_TEST = "RESET_STRESS_TEST";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -34,4 +36,12 @@ export const positionImgNodeAction = position => ({
 
 export const toggleGraphicsLibraryAction = () => ({
   type: TOGGLE_GRAPHICS
+});
+
+export const resetStateNormalAction = () => ({
+  type: RESET_NORMAL
+});
+
+export const resetStateStressTestAction = () => ({
+  type: RESET_STRESS_TEST
 });

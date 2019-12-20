@@ -107,9 +107,9 @@ class GraphicsAreaPureHTML extends React.Component {
               key={index}
               scale={this.props.scale}
               position={this.props.nodes[index].position}
-              onDrag={(e, position) =>
-                this.props.onSetPosition(index, position)
-              }
+              onDrag={(e, position) => {
+                this.props.onSetPosition(index, position, false);
+              }}
             />
           ) : (
             <InOutNode
@@ -118,9 +118,13 @@ class GraphicsAreaPureHTML extends React.Component {
               scale={this.props.scale}
               position={this.props.nodes[index].position}
               width={this.props.nodes[index].width}
-              onDrag={(e, position) =>
-                this.props.onSetPosition(index, position)
-              }
+              onDrag={(e, position) => {
+                this.props.onSetPosition(
+                  index,
+                  position,
+                  this.props.stressTest
+                );
+              }}
             />
           )
         )}
@@ -134,12 +138,18 @@ const mapStateToProps = state => ({
   connections: state.connections,
   scale: state.scale,
   textNode: state.textNode,
-  imgNode: state.imgNode
+  imgNode: state.imgNode,
+  stressTest: state.stressTest
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetPosition: (index, position) =>
-    dispatch(positionNodeAction(index, position)),
+  onSetPosition: (index, position, stressTest) => {
+    if (stressTest) {
+      dispatch(positionEveryOtherNodeAction(index, position));
+    } else {
+      dispatch(positionNodeAction(index, position));
+    }
+  },
   onSetTextNodePosition: position => dispatch(positionTextNodeAction(position)),
   onSetImgNodePosition: position => dispatch(positionImgNodeAction(position))
 });

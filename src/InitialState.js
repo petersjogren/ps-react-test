@@ -35,6 +35,7 @@ function InitialStateStressTest() {
   return {
     pureHTMLgraph: true,
     scale: 0.4,
+    stressTest: true,
     activeDrags: 0,
     deltaPosition: {
       x: 0,
@@ -68,6 +69,7 @@ function InitialStateStressTest() {
 function InitialStateNormal() {
   return {
     pureHTMLgraph: true,
+    stressTest: false,
     scale: 0.9,
     activeDrags: 0,
     deltaPosition: {
@@ -130,6 +132,20 @@ function InitialStateNormal() {
           { name: "y", type: "int" }
         ],
         outputPorts: [{ name: "sum", type: "int" }]
+      },
+      {
+        title: "Add",
+        id: 217,
+        position: {
+          x: 421,
+          y: 7
+        },
+        width: 140,
+        inputPorts: [
+          { name: "x", type: "int" },
+          { name: "y", type: "int" }
+        ],
+        outputPorts: [{ name: "sum", type: "int" }]
       }
     ],
     connections: [
@@ -160,6 +176,16 @@ function InitialStateNormal() {
         },
         to: {
           nodeIndex: 1,
+          index: 0
+        }
+      },
+      {
+        from: {
+          nodeIndex: 3,
+          index: 0
+        },
+        to: {
+          nodeIndex: 4,
           index: 0
         }
       }

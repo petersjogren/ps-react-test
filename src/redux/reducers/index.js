@@ -6,7 +6,9 @@ import {
   POSITION_EVERY_OTHER_NODE,
   POSITION_TEXT_NODE,
   POSITION_IMG_NODE,
-  TOGGLE_GRAPHICS
+  TOGGLE_GRAPHICS,
+  RESET_NORMAL,
+  RESET_STRESS_TEST
 } from "../actions";
 
 export default function graphEditorReducer(
@@ -86,6 +88,13 @@ export default function graphEditorReducer(
         pureHTMLgraph: { $set: newValue }
       });
       break;
+    case RESET_NORMAL:
+      newState = InitialState(false);
+      break;
+    case RESET_STRESS_TEST:
+      newState = InitialState(true);
+      break;
+
     default:
       console.log("default ", state);
       newState = state;
