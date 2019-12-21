@@ -6,6 +6,7 @@ export const POSITION_IMG_NODE = "POSITION_IMG_NODE";
 export const TOGGLE_GRAPHICS = "TOGGLE_GRAPHICS";
 export const RESET_NORMAL = "RESET_NORMAL";
 export const RESET_STRESS_TEST = "RESET_STRESS_TEST";
+export const CONNECT_PORTS = "CONNECT_PORTS";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -44,4 +45,17 @@ export const resetStateNormalAction = () => ({
 
 export const resetStateStressTestAction = () => ({
   type: RESET_STRESS_TEST
+});
+
+export const connectPortsAction = (
+  fromNodeIndex,
+  fromPortIndex,
+  toNodeIndex,
+  toPortIndex
+) => ({
+  type: CONNECT_PORTS,
+  fromNodeIndex,
+  fromPortIndex,
+  toNodeIndex,
+  toPortIndex
 });

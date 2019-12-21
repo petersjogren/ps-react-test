@@ -7,7 +7,8 @@ import {
   positionNodeAction,
   positionEveryOtherNodeAction,
   positionTextNodeAction,
-  positionImgNodeAction
+  positionImgNodeAction,
+  connectPortsAction
 } from "../redux/actions";
 import HTMLNode from "./HTMLNode";
 import {
@@ -115,6 +116,7 @@ class GraphicsAreaPureHTML extends React.Component {
             <InOutNode
               title={key.title}
               key={index}
+              nodeIndex={index}
               scale={this.props.scale}
               position={this.props.nodes[index].position}
               width={this.props.nodes[index].width}
@@ -125,6 +127,7 @@ class GraphicsAreaPureHTML extends React.Component {
                   this.props.stressTest
                 );
               }}
+              onConnect={this.props.onConnect}
             />
           )
         )}
@@ -151,7 +154,13 @@ const mapDispatchToProps = dispatch => ({
     }
   },
   onSetTextNodePosition: position => dispatch(positionTextNodeAction(position)),
-  onSetImgNodePosition: position => dispatch(positionImgNodeAction(position))
+  onSetImgNodePosition: position => dispatch(positionImgNodeAction(position)),
+  onConnect: (fromNodeIndex, fromPortIndex, toNodeIndex, toPortIndex) => {
+    console.log("onConnected");
+    dispatch(
+      connectPortsAction(fromNodeIndex, fromPortIndex, toNodeIndex, toPortIndex)
+    );
+  }
 });
 
 export default connect(

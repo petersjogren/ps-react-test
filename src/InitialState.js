@@ -146,6 +146,20 @@ function InitialStateNormal() {
           { name: "y", type: "int" }
         ],
         outputPorts: [{ name: "sum", type: "int" }]
+      },
+      {
+        title: "Add",
+        id: 217,
+        position: {
+          x: 421,
+          y: 250
+        },
+        width: 140,
+        inputPorts: [
+          { name: "x", type: "int" },
+          { name: "y", type: "int" }
+        ],
+        outputPorts: [{ name: "sum", type: "int" }]
       }
     ],
     connections: [
@@ -159,16 +173,7 @@ function InitialStateNormal() {
           index: 0
         }
       },
-      {
-        from: {
-          nodeIndex: 2,
-          index: 0
-        },
-        to: {
-          nodeIndex: 1,
-          index: 1
-        }
-      },
+
       {
         from: {
           nodeIndex: 3,
@@ -176,16 +181,6 @@ function InitialStateNormal() {
         },
         to: {
           nodeIndex: 1,
-          index: 0
-        }
-      },
-      {
-        from: {
-          nodeIndex: 3,
-          index: 0
-        },
-        to: {
-          nodeIndex: 4,
           index: 0
         }
       }

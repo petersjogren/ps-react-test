@@ -5,6 +5,73 @@ import "./InOutNode.css";
 var rowHeight = 16;
 var portWidth = 15;
 
+function InPort(props) {
+  const { name, nodeIndex, portIndex, onConnect } = props;
+  return (
+    <div className="port_area in">
+      <div
+        className="port noselect"
+        draggable={true}
+        onDrop={e => {
+          var payLoad = JSON.parse(e.dataTransfer.getData("text"));
+          console.log("payLoad", payLoad);
+          if (payLoad.outPortIndex !== null) {
+            console.log(
+              `connect node ${payLoad.nodeIndex}:${payLoad.outPortIndex} and node ${nodeIndex}:${portIndex}`
+            );
+            onConnect(
+              payLoad.nodeIndex,
+              payLoad.outPortIndex,
+              nodeIndex,
+              portIndex
+            );
+          } else {
+            console.log("invalid drop");
+          }
+          e.preventDefault();
+        }}
+        onDragOver={e => {
+          e.preventDefault();
+        }}
+      >
+        →
+      </div>
+      <header className="porttext in noselect">{name}</header>
+      <div className="noport noselect"></div>
+    </div>
+  );
+}
+
+function OutPort(props) {
+  const { name, nodeIndex, portIndex } = props;
+  return (
+    <div className="port_area out">
+      <div className="noport noselect"></div>
+      <header className="porttext out noselect">{name}</header>
+      <div
+        className="port noselect"
+        draggable={true}
+        onDragStart={e => {
+          //console.log(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+          {
+            var payLoadString = JSON.stringify({
+              nodeIndex: nodeIndex,
+              outPortIndex: portIndex
+            });
+            console.log("drag start", payLoadString);
+            e.dataTransfer.setData("text/plain", payLoadString);
+          }
+        }}
+        onDrag={e => {
+          //console.log("e.nativeEvent.offsetX, e.nativeEvent.offsetY");
+        }}
+      >
+        →
+      </div>
+    </div>
+  );
+}
+
 export function inPortRelativePosition(node, inPortIndex) {
   return {
     x: portWidth / 2,
@@ -25,65 +92,46 @@ export function outPortRelativePosition(node, outPortIndex) {
 
 export class InOutNode extends React.Component {
   shouldComponentUpdate(nextProps) {
-    const { scale, position } = this.props;
+    const { nodeIndex, scale, position } = this.props;
     return (
       nextProps.scale !== scale ||
+      nextProps.nodeIndex !== nodeIndex ||
       nextProps.position.x !== position.x ||
       nextProps.position.y !== position.y
     );
   }
 
   render() {
+    const { nodeIndex, scale, position, onConnect, onDrag, width } = this.props;
     return (
       <Draggable
-        scale={this.props.scale}
-        position={this.props.position}
-        onDrag={this.props.onDrag}
+        scale={scale}
+        position={position}
+        onDrag={onDrag}
         handle="header"
       >
         <div
           className="node noselect"
-          style={{ height: "60px", width: `${this.props.width}px` }}
+          style={{ height: "60px", width: `${width}px` }}
         >
           <div className="main_area">
             <div className="addin noselect">+</div>
             <header className="nodetext noselect">Add</header>
             <div className="addout noselect">+</div>
           </div>
-          <div className="port_area">
-            <div className="port noselect">→</div>
-            <header className="porttext in noselect">x</header>
-            <div className="noport noselect"></div>
-          </div>
-          <div className="port_area in">
-            <div className="port noselect" draggable={true}>
-              →
-            </div>
-            <header className="porttext in noselect">y</header>
-            <div className="noport noselect"></div>
-          </div>
-          <div className="port_area out">
-            <div className="noport noselect"></div>
-            <header className="porttext out noselect">sum</header>
-            <div
-              className="port noselect"
-              draggable={true}
-              onDragStart={e => {
-                e.preventDefault();
-                console.log(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-                //e.dataTransfer.setData("URL", "http://www.sf.se");
-                //e.dataTransfer.effectAllowed = "link";
-              }}
-              onDrag={e => {
-                console.log("e.nativeEvent.offsetX, e.nativeEvent.offsetY");
-              }}
-              onDragEnd={e => {
-                console.log("e.nativeEvent.offsetX, e.nativeEvent.offsetY");
-              }}
-            >
-              →
-            </div>
-          </div>
+          <InPort
+            name="x"
+            nodeIndex={nodeIndex}
+            portIndex={0}
+            onConnect={onConnect}
+          />
+          <InPort
+            name="y"
+            nodeIndex={nodeIndex}
+            portIndex={1}
+            onConnect={onConnect}
+          />
+          <OutPort name="sum" nodeIndex={nodeIndex} portIndex={0} />
         </div>
       </Draggable>
     );

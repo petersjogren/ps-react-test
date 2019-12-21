@@ -8,7 +8,8 @@ import {
   POSITION_IMG_NODE,
   TOGGLE_GRAPHICS,
   RESET_NORMAL,
-  RESET_STRESS_TEST
+  RESET_STRESS_TEST,
+  CONNECT_PORTS
 } from "../actions";
 
 export default function graphEditorReducer(
@@ -93,6 +94,25 @@ export default function graphEditorReducer(
       break;
     case RESET_STRESS_TEST:
       newState = InitialState(true);
+      break;
+    case CONNECT_PORTS:
+      console.log("CONNECT_PORTS reducer");
+      newState = update(state, {
+        connections: {
+          $push: [
+            {
+              from: {
+                nodeIndex: action.fromNodeIndex,
+                index: action.fromPortIndex
+              },
+              to: {
+                nodeIndex: action.toNodeIndex,
+                index: action.toPortIndex
+              }
+            }
+          ]
+        }
+      });
       break;
 
     default:
