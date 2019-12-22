@@ -42,6 +42,13 @@ function InPort(props) {
   );
 }
 
+const invisibleDragImage = (() => {
+  var img = new Image();
+  img.src =
+    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  return img;
+})();
+
 function OutPort(props) {
   const { name, nodeIndex, portIndex } = props;
   return (
@@ -60,10 +67,12 @@ function OutPort(props) {
             });
             console.log("drag start", payLoadString);
             e.dataTransfer.setData("text/plain", payLoadString);
+            e.dataTransfer.setDragImage(invisibleDragImage, 0, 0);
+            e.dataTransfer.dropEffect = "none";
           }
         }}
         onDrag={e => {
-          //console.log("e.nativeEvent.offsetX, e.nativeEvent.offsetY");
+          console.log("onDrag");
         }}
       >
         →
