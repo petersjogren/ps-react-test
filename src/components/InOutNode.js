@@ -1,5 +1,5 @@
 import React from "react";
-import Draggable from "react-draggable";
+import DraggableForeignObject from "./DraggableForeignObject";
 import "./InOutNode.css";
 
 var rowHeight = 16;
@@ -99,6 +99,8 @@ export function outPortRelativePosition(node, outPortIndex) {
   };
 }
 
+const borderWidth = 3;
+
 export class InOutNode extends React.Component {
   shouldComponentUpdate(nextProps) {
     const { nodeIndex, scale, position } = this.props;
@@ -112,16 +114,23 @@ export class InOutNode extends React.Component {
 
   render() {
     const { nodeIndex, scale, position, onConnect, onDrag, width } = this.props;
+    var height = 60;
     return (
-      <Draggable
+      <DraggableForeignObject
         scale={scale}
-        position={position}
+        x={position.x}
+        y={position.y}
+        width={width + 2 * borderWidth}
+        height={height + 2 * borderWidth}
         onDrag={onDrag}
         handle="header"
       >
         <div
           className="node noselect"
-          style={{ height: "60px", width: `${width}px` }}
+          style={{
+            width: `${width}px`,
+            borderWidth: `${borderWidth}px`
+          }}
         >
           <div className="main_area">
             <div className="addin noselect">+</div>
@@ -142,7 +151,7 @@ export class InOutNode extends React.Component {
           />
           <OutPort name="sum" nodeIndex={nodeIndex} portIndex={0} />
         </div>
-      </Draggable>
+      </DraggableForeignObject>
     );
   }
 }

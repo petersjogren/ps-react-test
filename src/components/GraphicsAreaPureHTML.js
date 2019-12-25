@@ -99,38 +99,38 @@ class GraphicsAreaPureHTML extends React.Component {
               {this.props.textNode.text}
             </div>
           </DraggableForeignObject>
-        </svg>
 
-        {this.props.nodes.map((key, index) =>
-          key.htmlNode ? (
-            <HTMLNode
-              title={key.title}
-              key={index}
-              scale={this.props.scale}
-              position={this.props.nodes[index].position}
-              onDrag={(e, position) => {
-                this.props.onSetPosition(index, position, false);
-              }}
-            />
-          ) : (
-            <InOutNode
-              title={key.title}
-              key={index}
-              nodeIndex={index}
-              scale={this.props.scale}
-              position={this.props.nodes[index].position}
-              width={this.props.nodes[index].width}
-              onDrag={(e, position) => {
-                this.props.onSetPosition(
-                  index,
-                  position,
-                  this.props.stressTest
-                );
-              }}
-              onConnect={this.props.onConnect}
-            />
-          )
-        )}
+          {this.props.nodes.map((key, index) =>
+            key.htmlNode ? (
+              <HTMLNode
+                title={key.title}
+                key={index}
+                scale={this.props.scale}
+                position={this.props.nodes[index].position}
+                onDrag={(e, position) => {
+                  this.props.onSetPosition(index, position, false);
+                }}
+              />
+            ) : (
+              <InOutNode
+                title={key.title}
+                key={index}
+                nodeIndex={index}
+                scale={this.props.scale}
+                position={this.props.nodes[index].position}
+                width={this.props.nodes[index].width}
+                onDrag={(e, position) => {
+                  this.props.onSetPosition(
+                    index,
+                    position,
+                    this.props.stressTest
+                  );
+                }}
+                onConnect={this.props.onConnect}
+              />
+            )
+          )}
+        </svg>
       </div>
     );
   }
