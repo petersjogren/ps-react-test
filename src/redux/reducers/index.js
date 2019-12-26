@@ -25,6 +25,7 @@ export default function graphEditorReducer(
   //  console.log("state before ", state);
   var deltaX;
   var deltaY;
+  var updateObject;
   switch (action.type) {
     case CHANGE_ZOOM:
       newState = update(state, { scale: { $set: action.percent / 100 } });
@@ -48,11 +49,17 @@ export default function graphEditorReducer(
       break;
     case SELECT_CONNECTION:
       console.log("SELECT_CONNECTION", action.connectionIndex);
-      newState = state;
+      newState = update(state, {
+        connections: {
+          [action.connectionIndex]: {
+            isSelected: { $set: true }
+          }
+        }
+      });
       break;
     case SELECT_CLEAR:
       console.log("SELECT_CLEAR");
-      var updateObject = {};
+      updateObject = {};
       state.nodes.map((value, index) => {
         updateObject[index] = {
           isSelected: { $set: false }
@@ -61,6 +68,19 @@ export default function graphEditorReducer(
       });
       newState = update(state, {
         nodes: {
+          ...updateObject
+        }
+      });
+
+      updateObject = {};
+      state.connections.map((value, index) => {
+        updateObject[index] = {
+          isSelected: { $set: false }
+        };
+        return null;
+      });
+      newState = update(newState, {
+        connections: {
           ...updateObject
         }
       });

@@ -52,6 +52,7 @@ class GraphicsAreaPureHTML extends React.Component {
             return (
               <BezierCurve
                 key={index}
+                isSelected={key.isSelected}
                 connectionIndex={index}
                 onSelectConnection={this.props.onSelectConnection}
                 start={{ x: fromX, y: fromY }}

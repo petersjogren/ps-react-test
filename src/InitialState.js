@@ -22,6 +22,7 @@ function InitialStateStressTest() {
     .filter(a => a % 2 === 0)
     .map(index => {
       return {
+        isSelected: false,
         from: {
           nodeIndex: (index + someIndexes.length / 2 + 2) % someIndexes.length,
           index: 0
@@ -171,6 +172,7 @@ function InitialStateNormal() {
     ],
     connections: [
       {
+        isSelected: false,
         from: {
           nodeIndex: 0,
           index: 0
@@ -180,8 +182,8 @@ function InitialStateNormal() {
           index: 0
         }
       },
-
       {
+        isSelected: false,
         from: {
           nodeIndex: 3,
           index: 0
