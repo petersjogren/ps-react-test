@@ -11,12 +11,26 @@ import "katex/dist/katex.min.css";
 import TopBar from "./components/TopBar";
 import {
   zoomAction,
+  deleteSelectedAction,
   toggleGraphicsLibraryAction,
   resetStateNormalAction,
   resetStateStressTestAction
 } from "./redux/actions";
 
 class App extends React.Component {
+  componentDidMount() {
+    document.body.addEventListener("keydown", e => {
+      console.log("key down ", e, this);
+      if (e.key === "Backspace") {
+        this.props.deleteSelected();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    document.body.removeEventListener("keydown");
+  }
+
   render() {
     return (
       <div className="App">
@@ -54,6 +68,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  deleteSelected: () => dispatch(deleteSelectedAction()),
   onZoomChange: scale => dispatch(zoomAction(scale)),
   toggleGraphicsLibrary: () => dispatch(toggleGraphicsLibraryAction()),
   resetStateNormal: () => dispatch(resetStateNormalAction()),

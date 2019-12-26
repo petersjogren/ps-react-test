@@ -2,6 +2,7 @@ import InitialState from "../../InitialState";
 import update from "immutability-helper";
 import {
   CHANGE_ZOOM,
+  DELETE_SELECTED,
   POSITION_NODE,
   POSITION_EVERY_OTHER_NODE,
   POSITION_TEXT_NODE,
@@ -24,6 +25,10 @@ export default function graphEditorReducer(
   switch (action.type) {
     case CHANGE_ZOOM:
       newState = update(state, { scale: { $set: action.percent / 100 } });
+      break;
+    case DELETE_SELECTED:
+      console.log("DELETE_SELECTED");
+      newState = state;
       break;
     case POSITION_NODE:
       deltaX = action.position.x - state.nodes[action.index].position.x;

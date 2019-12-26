@@ -7,10 +7,15 @@ export const TOGGLE_GRAPHICS = "TOGGLE_GRAPHICS";
 export const RESET_NORMAL = "RESET_NORMAL";
 export const RESET_STRESS_TEST = "RESET_STRESS_TEST";
 export const CONNECT_PORTS = "CONNECT_PORTS";
+export const DELETE_SELECTED = "DELETE_SELECTED";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
   percent
+});
+
+export const deleteSelectedAction = () => ({
+  type: DELETE_SELECTED
 });
 
 export const positionNodeAction = (index, position) => ({
