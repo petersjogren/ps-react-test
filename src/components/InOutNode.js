@@ -111,7 +111,15 @@ export class InOutNode extends React.Component {
   }
 
   render() {
-    const { nodeIndex, scale, position, onConnect, onDrag, width } = this.props;
+    const {
+      nodeIndex,
+      scale,
+      position,
+      onConnect,
+      onDrag,
+      width,
+      onSelectNode
+    } = this.props;
     return (
       <Draggable
         scale={scale}
@@ -122,6 +130,11 @@ export class InOutNode extends React.Component {
         <div
           className="node noselect"
           style={{ height: "60px", width: `${width}px` }}
+          onClick={e => {
+            e.stopPropagation();
+            console.log("node clicked");
+            onSelectNode(nodeIndex);
+          }}
         >
           <div className="main_area">
             <div className="addin noselect">+</div>

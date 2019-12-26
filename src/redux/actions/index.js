@@ -8,6 +8,9 @@ export const RESET_NORMAL = "RESET_NORMAL";
 export const RESET_STRESS_TEST = "RESET_STRESS_TEST";
 export const CONNECT_PORTS = "CONNECT_PORTS";
 export const DELETE_SELECTED = "DELETE_SELECTED";
+export const SELECT_NODE = "SELECT_NODE";
+export const SELECT_CONNECTION = "SELECT_CONNECTION";
+export const SELECT_CLEAR = "SELECT_CLEAR";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -16,6 +19,20 @@ export const zoomAction = percent => ({
 
 export const deleteSelectedAction = () => ({
   type: DELETE_SELECTED
+});
+
+export const selectNodeAction = nodeIndex => ({
+  type: SELECT_NODE,
+  nodeIndex
+});
+
+export const selectClearAction = () => ({
+  type: SELECT_CLEAR
+});
+
+export const selectConnectionAction = connectionIndex => ({
+  type: SELECT_CONNECTION,
+  connectionIndex
 });
 
 export const positionNodeAction = (index, position) => ({

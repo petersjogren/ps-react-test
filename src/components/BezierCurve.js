@@ -3,8 +3,17 @@ import PropTypes from "prop-types";
 
 export default class BezierCurve extends React.Component {
   shouldComponentUpdate(nextProps) {
-    const { curveColor, curveWidth, start, end, c1, c2 } = this.props;
+    const {
+      connectionIndex,
+      curveColor,
+      curveWidth,
+      start,
+      end,
+      c1,
+      c2
+    } = this.props;
     return (
+      nextProps.connectionIndex !== connectionIndex ||
       nextProps.curveColor !== curveColor ||
       nextProps.curveWidth !== curveWidth ||
       nextProps.start.x !== start.x ||
@@ -19,11 +28,25 @@ export default class BezierCurve extends React.Component {
   }
 
   render() {
-    const { curveColor, curveWidth, start, end, c1, c2 } = this.props;
+    const {
+      connectionIndex,
+      curveColor,
+      curveWidth,
+      start,
+      end,
+      c1,
+      c2,
+      onSelectConnection
+    } = this.props;
     const curve = `M${start.x},${start.y} C${c1.x},${c1.y} ${c2.x},${c2.y} ${end.x},${end.y}`;
 
     return (
       <path
+        onClick={e => {
+          e.stopPropagation();
+          console.log("BezierCurve click");
+          onSelectConnection(connectionIndex);
+        }}
         fill="none"
         stroke={curveColor}
         strokeWidth={curveWidth}
@@ -34,8 +57,10 @@ export default class BezierCurve extends React.Component {
 }
 
 BezierCurve.propTypes = {
+  connectionIndex: PropTypes.number.isRequired,
   curveColor: PropTypes.string.isRequired,
   curveWidth: PropTypes.number.isRequired,
+  onSelectConnection: PropTypes.func.isRequired,
   start: PropTypes.exact({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired

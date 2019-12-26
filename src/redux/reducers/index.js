@@ -3,6 +3,9 @@ import update from "immutability-helper";
 import {
   CHANGE_ZOOM,
   DELETE_SELECTED,
+  SELECT_NODE,
+  SELECT_CONNECTION,
+  SELECT_CLEAR,
   POSITION_NODE,
   POSITION_EVERY_OTHER_NODE,
   POSITION_TEXT_NODE,
@@ -28,6 +31,18 @@ export default function graphEditorReducer(
       break;
     case DELETE_SELECTED:
       console.log("DELETE_SELECTED");
+      newState = state;
+      break;
+    case SELECT_NODE:
+      console.log("SELECT_NODE", action.nodeIndex);
+      newState = state;
+      break;
+    case SELECT_CONNECTION:
+      console.log("SELECT_CONNECTION", action.connectionIndex);
+      newState = state;
+      break;
+    case SELECT_CLEAR:
+      console.log("SELECT_CLEAR");
       newState = state;
       break;
     case POSITION_NODE:

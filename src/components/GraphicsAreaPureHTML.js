@@ -8,7 +8,10 @@ import {
   positionEveryOtherNodeAction,
   positionTextNodeAction,
   positionImgNodeAction,
-  connectPortsAction
+  connectPortsAction,
+  selectNodeAction,
+  selectConnectionAction,
+  selectClearAction
 } from "../redux/actions";
 import HTMLNode from "./HTMLNode";
 import {
@@ -22,6 +25,10 @@ class GraphicsAreaPureHTML extends React.Component {
     return (
       <div
         className="graphicsarea"
+        onClick={e => {
+          console.log("graphicsarea clicked");
+          this.props.onSelectClear();
+        }}
         style={{ transform: "scale(" + this.props.scale + ")" }}
       >
         <svg
@@ -46,6 +53,8 @@ class GraphicsAreaPureHTML extends React.Component {
             return (
               <BezierCurve
                 key={index}
+                connectionIndex={index}
+                onSelectConnection={this.props.onSelectConnection}
                 start={{ x: fromX, y: fromY }}
                 end={{ x: toX, y: toY }}
                 c1={{
@@ -57,7 +66,7 @@ class GraphicsAreaPureHTML extends React.Component {
                   y: toY
                 }}
                 curveColor="black"
-                curveWidth={2}
+                curveWidth={3}
               />
             );
           })}
@@ -128,6 +137,7 @@ class GraphicsAreaPureHTML extends React.Component {
                 );
               }}
               onConnect={this.props.onConnect}
+              onSelectNode={this.props.onSelectNode}
             />
           )
         )}
@@ -160,7 +170,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       connectPortsAction(fromNodeIndex, fromPortIndex, toNodeIndex, toPortIndex)
     );
-  }
+  },
+  onSelectNode: nodeIndex => dispatch(selectNodeAction(nodeIndex)),
+  onSelectConnection: connectionIndex =>
+    dispatch(selectConnectionAction(connectionIndex)),
+  onSelectClear: () => dispatch(selectClearAction())
 });
 
 export default connect(
