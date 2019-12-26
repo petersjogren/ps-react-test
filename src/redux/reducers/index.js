@@ -31,11 +31,20 @@ export default function graphEditorReducer(
       break;
     case DELETE_SELECTED:
       console.log("DELETE_SELECTED");
+      // Delete all selected nodes and all selected connections.
+      // Remember to also delete all connections that goes from or to a deleted node.
+      // Also remember to update all indexes of connections to the new node indexes.
       newState = state;
       break;
     case SELECT_NODE:
-      console.log("SELECT_NODE", action.nodeIndex);
-      newState = state;
+      console.log("SELECT_NODE", action.nodeIndex, state);
+      newState = update(state, {
+        nodes: {
+          [action.nodeIndex]: {
+            isSelected: { $set: true }
+          }
+        }
+      });
       break;
     case SELECT_CONNECTION:
       console.log("SELECT_CONNECTION", action.connectionIndex);
@@ -43,7 +52,18 @@ export default function graphEditorReducer(
       break;
     case SELECT_CLEAR:
       console.log("SELECT_CLEAR");
-      newState = state;
+      var updateObject = {};
+      state.nodes.map((value, index) => {
+        updateObject[index] = {
+          isSelected: { $set: false }
+        };
+        return null;
+      });
+      newState = update(state, {
+        nodes: {
+          ...updateObject
+        }
+      });
       break;
     case POSITION_NODE:
       deltaX = action.position.x - state.nodes[action.index].position.x;
@@ -58,7 +78,6 @@ export default function graphEditorReducer(
           }
         }
       });
-
       break;
     case POSITION_EVERY_OTHER_NODE:
       deltaX = action.position.x - state.nodes[action.index].position.x;

@@ -11,6 +11,10 @@
   left: 0px;
 }
 
+.nodeselected {
+  border-style: dashed;
+}
+
 .main_area {
   cursor: move;
   display: flex;

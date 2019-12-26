@@ -101,12 +101,14 @@ export function outPortRelativePosition(node, outPortIndex) {
 
 export class InOutNode extends React.Component {
   shouldComponentUpdate(nextProps) {
-    const { nodeIndex, scale, position } = this.props;
+    const { nodeIndex, scale, position, width, isSelected } = this.props;
     return (
-      nextProps.scale !== scale ||
       nextProps.nodeIndex !== nodeIndex ||
+      nextProps.scale !== scale ||
       nextProps.position.x !== position.x ||
-      nextProps.position.y !== position.y
+      nextProps.position.y !== position.y ||
+      nextProps.width !== width ||
+      nextProps.isSelected !== isSelected
     );
   }
 
@@ -118,8 +120,12 @@ export class InOutNode extends React.Component {
       onConnect,
       onDrag,
       width,
+      isSelected,
       onSelectNode
     } = this.props;
+    var classes =
+      "node noselect" + (isSelected === true ? " nodeselected" : "");
+    console.log("classes", classes);
     return (
       <Draggable
         scale={scale}
@@ -128,7 +134,7 @@ export class InOutNode extends React.Component {
         handle="header"
       >
         <div
-          className="node noselect"
+          className={classes}
           style={{ height: "60px", width: `${width}px` }}
           onClick={e => {
             e.stopPropagation();

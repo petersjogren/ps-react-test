@@ -9,6 +9,7 @@ function InitialStateStressTest() {
         y: 400 + 500 * Math.sin(((2 * 3.14) / someIndexes.length) * index)
       },
       width: 120,
+      isSelected: false,
       inputPorts: [
         { name: "x", type: "int" },
         { name: "y", type: "int" }
@@ -84,6 +85,7 @@ function InitialStateNormal() {
           x: 186,
           y: 7
         },
+        isSelected: false,
         width: 120,
         inputPorts: [
           { name: "x", type: "int" },
@@ -98,6 +100,7 @@ function InitialStateNormal() {
           x: 421,
           y: 123
         },
+        isSelected: false,
         width: 120,
         inputPorts: [
           { name: "x", type: "int" },
@@ -112,6 +115,7 @@ function InitialStateNormal() {
           x: 85,
           y: 200
         },
+        isSelected: false,
         width: 80,
         inputPorts: [
           { name: "x", type: "int" },
@@ -126,6 +130,7 @@ function InitialStateNormal() {
           x: 86,
           y: 106
         },
+        isSelected: false,
         width: 140,
         inputPorts: [
           { name: "x", type: "int" },
@@ -140,6 +145,7 @@ function InitialStateNormal() {
           x: 421,
           y: 7
         },
+        isSelected: false,
         width: 140,
         inputPorts: [
           { name: "x", type: "int" },
@@ -154,6 +160,7 @@ function InitialStateNormal() {
           x: 421,
           y: 250
         },
+        isSelected: false,
         width: 140,
         inputPorts: [
           { name: "x", type: "int" },

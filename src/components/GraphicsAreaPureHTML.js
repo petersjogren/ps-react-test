@@ -116,7 +116,7 @@ class GraphicsAreaPureHTML extends React.Component {
               title={key.title}
               key={index}
               scale={this.props.scale}
-              position={this.props.nodes[index].position}
+              position={key.position}
               onDrag={(e, position) => {
                 this.props.onSetPosition(index, position, false);
               }}
@@ -127,8 +127,9 @@ class GraphicsAreaPureHTML extends React.Component {
               key={index}
               nodeIndex={index}
               scale={this.props.scale}
-              position={this.props.nodes[index].position}
-              width={this.props.nodes[index].width}
+              position={key.position}
+              width={key.width}
+              isSelected={key.isSelected}
               onDrag={(e, position) => {
                 this.props.onSetPosition(
                   index,
