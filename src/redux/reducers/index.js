@@ -82,7 +82,7 @@ export default function graphEditorReducer(
     case POSITION_EVERY_OTHER_NODE:
       deltaX = action.position.x - state.nodes[action.index].position.x;
       deltaY = action.position.y - state.nodes[action.index].position.y;
-      var updateObject = {};
+      updateObject = {};
       state.nodes.map((value, index) => {
         if (index % 2 === 0) {
           updateObject[index] = {

@@ -60,16 +60,15 @@ function OutPort(props) {
         draggable={true}
         onDragStart={e => {
           //console.log(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-          {
-            var payLoadString = JSON.stringify({
-              nodeIndex: nodeIndex,
-              outPortIndex: portIndex
-            });
-            console.log("drag start", payLoadString);
-            e.dataTransfer.setData("text/plain", payLoadString);
-            e.dataTransfer.setDragImage(invisibleDragImage, 0, 0);
-            e.dataTransfer.dropEffect = "none";
-          }
+
+          var payLoadString = JSON.stringify({
+            nodeIndex: nodeIndex,
+            outPortIndex: portIndex
+          });
+          console.log("drag start", payLoadString);
+          e.dataTransfer.setData("text/plain", payLoadString);
+          e.dataTransfer.setDragImage(invisibleDragImage, 0, 0);
+          e.dataTransfer.dropEffect = "none";
         }}
         onDrag={e => {
           console.log("onDrag");
@@ -125,7 +124,6 @@ export class InOutNode extends React.Component {
     } = this.props;
     var classes =
       "node noselect" + (isSelected === true ? " nodeselected" : "");
-    console.log("classes", classes);
     return (
       <Draggable
         scale={scale}
