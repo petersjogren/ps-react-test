@@ -39,13 +39,19 @@ export default function graphEditorReducer(
 
       // Delete selected connections
       updateObject = {};
-      state.connections.map((value, index) => {
-        if (state.connections[index].isSelected) {
-          // Delete at a specific index, no matter what value is in it
-          newState = update(state, { connections: { $splice: [[index, 1]] } });
+      var i;
+      var wasSomethingDeleted = true;
+      while (wasSomethingDeleted) {
+        wasSomethingDeleted = false;
+        for (i = 0; i < newState.connections.length; i++) {
+          if (newState.connections[i].isSelected) {
+            // Delete at a specific index, no matter what value is in it
+            newState = update(newState, { connections: { $splice: [[i, 1]] } });
+            wasSomethingDeleted = true;
+            break;
+          }
         }
-        return null;
-      });
+      }
       break;
     case SELECT_NODE:
       console.log("SELECT_NODE", action.nodeIndex, state);
