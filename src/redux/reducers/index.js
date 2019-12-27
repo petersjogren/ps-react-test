@@ -36,11 +36,80 @@ export default function graphEditorReducer(
       // Delete all selected nodes and all selected connections.
       // Remember to also delete all connections that goes from or to a deleted node.
       // Also remember to update all indexes of connections to the new node indexes.
+      var i;
+      var connIdx;
+      var wasSomethingDeleted;
+      var wasConnectionDeleted;
+
+      // Delete selected nodes
+      wasSomethingDeleted = true;
+      while (wasSomethingDeleted) {
+        wasSomethingDeleted = false;
+        for (i = 0; i < newState.nodes.length; i++) {
+          if (newState.nodes[i].isSelected) {
+            // Delete at a specific index, no matter what value is in it
+            newState = update(newState, { nodes: { $splice: [[i, 1]] } });
+
+            // Remove connections to/from the deleted node
+            wasConnectionDeleted = true;
+            while (wasConnectionDeleted) {
+              wasConnectionDeleted = false;
+              for (
+                connIdx = 0;
+                connIdx < newState.connections.length;
+                connIdx++
+              ) {
+                if (
+                  newState.connections[connIdx].from.nodeIndex === i ||
+                  newState.connections[connIdx].to.nodeIndex === i
+                ) {
+                  newState = update(newState, {
+                    connections: { $splice: [[connIdx, 1]] }
+                  });
+                  wasConnectionDeleted = true;
+                  break;
+                }
+              }
+            }
+
+            // Decrement node indexes in connections by one if > i
+            updateObject = {};
+            // eslint-disable-next-line
+            newState.connections.map((value, index) => {
+              updateObject[index] = {
+                to: {
+                  nodeIndex: {
+                    $set:
+                      value.to.nodeIndex > i
+                        ? value.to.nodeIndex - 1
+                        : value.to.nodeIndex
+                  }
+                },
+                from: {
+                  nodeIndex: {
+                    $set:
+                      value.from.nodeIndex > i
+                        ? value.from.nodeIndex - 1
+                        : value.from.nodeIndex
+                  }
+                }
+              };
+              return null;
+            });
+            newState = update(newState, {
+              connections: {
+                ...updateObject
+              }
+            });
+
+            wasSomethingDeleted = true;
+            break;
+          }
+        }
+      }
 
       // Delete selected connections
-      updateObject = {};
-      var i;
-      var wasSomethingDeleted = true;
+      wasSomethingDeleted = true;
       while (wasSomethingDeleted) {
         wasSomethingDeleted = false;
         for (i = 0; i < newState.connections.length; i++) {
