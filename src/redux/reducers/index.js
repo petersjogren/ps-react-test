@@ -32,10 +32,20 @@ export default function graphEditorReducer(
       break;
     case DELETE_SELECTED:
       console.log("DELETE_SELECTED");
+      newState = state;
       // Delete all selected nodes and all selected connections.
       // Remember to also delete all connections that goes from or to a deleted node.
       // Also remember to update all indexes of connections to the new node indexes.
-      newState = state;
+
+      // Delete selected connections
+      updateObject = {};
+      state.connections.map((value, index) => {
+        if (state.connections[index].isSelected) {
+          // Delete at a specific index, no matter what value is in it
+          newState = update(state, { connections: { $splice: [[index, 1]] } });
+        }
+        return null;
+      });
       break;
     case SELECT_NODE:
       console.log("SELECT_NODE", action.nodeIndex, state);
