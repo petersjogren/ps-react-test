@@ -45,7 +45,7 @@ export default class BezierCurve extends React.Component {
 
     return (
       <path
-        onClick={e => {
+        onMouseDown={e => {
           e.stopPropagation();
           console.log("BezierCurve click");
           onSelectConnection(connectionIndex);

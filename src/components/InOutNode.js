@@ -130,15 +130,15 @@ export class InOutNode extends React.Component {
         position={position}
         onDrag={onDrag}
         handle="header"
+        onMouseDown={e => {
+          e.stopPropagation();
+          console.log("node clicked");
+          onSelectNode(nodeIndex);
+        }}
       >
         <div
           className={classes}
           style={{ height: "60px", width: `${width}px` }}
-          onClick={e => {
-            e.stopPropagation();
-            console.log("node clicked");
-            onSelectNode(nodeIndex);
-          }}
         >
           <div className="main_area">
             <div className="addin noselect">+</div>

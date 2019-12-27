@@ -24,7 +24,7 @@ class GraphicsAreaPureHTML extends React.Component {
     return (
       <div
         className="graphicsarea"
-        onClick={e => {
+        onMouseDown={e => {
           console.log("graphicsarea clicked");
           this.props.onSelectClear();
         }}
