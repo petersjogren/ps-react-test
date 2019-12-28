@@ -142,6 +142,9 @@ div.position-view {
   flex: 80%;
   overflow: hidden;
 }
+.bgpattern {
+  background-color: #060;
+}
 .graphicsarea {
   width: 500px;
   height: 500px;
