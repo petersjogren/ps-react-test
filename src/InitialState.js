@@ -5,8 +5,8 @@ function InitialStateStressTest() {
       title: "Add",
       id: 1000 + index,
       position: {
-        x: 0 + 500 * Math.cos(((2 * 3.14) / someIndexes.length) * index),
-        y: 400 + 500 * Math.sin(((2 * 3.14) / someIndexes.length) * index)
+        x: 600 + 500 * Math.cos(((2 * 3.14) / someIndexes.length) * index),
+        y: 600 + 500 * Math.sin(((2 * 3.14) / someIndexes.length) * index)
       },
       width: 120,
       isSelected: false,
