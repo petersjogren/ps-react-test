@@ -138,8 +138,16 @@ div.position-view {
   top: 0px;
   bottom: 0px;
 }
+.editor {
+  background-color: red;
+  flex: 80%;
+  overflow: hidden;
+}
 .graphicsarea {
-  flex: 90%;
+  width: 500px;
+  height: 500px;
+  transform-origin: 0px 0px;
+  background-color: blue;
 }
 .arrowsvg {
   position: absolute;

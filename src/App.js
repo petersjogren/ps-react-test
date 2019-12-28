@@ -56,7 +56,7 @@ class App extends React.Component {
         {this.props.state.pureHTMLgraph ? (
           <GraphicsAreaPureHTML />
         ) : (
-          <GraphicsAreaDraw2D className="graphicsarea" />
+          <GraphicsAreaDraw2D />
         )}
       </div>
     );
