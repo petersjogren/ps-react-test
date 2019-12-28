@@ -33,7 +33,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App noselect">
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <button onClick={this.props.resetStateNormal}>
             <h2>Reset state to some nodes</h2>
