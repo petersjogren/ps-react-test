@@ -40,11 +40,11 @@ class GraphicsAreaPureHTML extends React.Component {
               var payLoad = JSON.parse(textData);
               console.log("dropped on nodearea", e, e.clientX, e.clientY);
               if (payLoad.type === "CREATE_NODE") {
-                this.props.onCreateNode(
-                  e.clientX,
-                  e.clientY,
-                  payLoad.templateIndex
-                );
+                var rect = e.target.getBoundingClientRect();
+                var x = (e.clientX - rect.left) / this.props.scale; //x position within the element.
+                var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
+
+                this.props.onCreateNode(x, y, payLoad.templateIndex);
               }
             }
           }

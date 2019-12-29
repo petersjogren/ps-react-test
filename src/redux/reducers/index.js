@@ -142,8 +142,10 @@ export default function graphEditorReducer(
         nodes: {
           [newState.nodes.length - 1]: {
             position: {
-              x: { $set: action.x },
-              y: { $set: action.y }
+              x: {
+                $set: action.x - state.nodeTemplates[action.index].width / 2
+              },
+              y: { $set: action.y - 10 }
             }
           }
         }
