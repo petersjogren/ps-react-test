@@ -140,10 +140,19 @@ div.position-view {
 }
 .editor {
   flex: 80%;
+  display: flex;
   overflow: hidden;
 }
 .bgpattern {
   background-color: #060;
+}
+.nodelist {
+  width: 200px;
+}
+.nodearea {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 .graphicsarea {
   width: 500px;

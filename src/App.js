@@ -52,12 +52,14 @@ class App extends React.Component {
           state={this.props.state}
           onChange={this.props.onZoomChange}
         />
-
-        {this.props.state.pureHTMLgraph ? (
-          <GraphicsAreaPureHTML />
-        ) : (
-          <GraphicsAreaDraw2D />
-        )}
+        <div className="editor">
+          <div className="nodelist"></div>
+          {this.props.state.pureHTMLgraph ? (
+            <GraphicsAreaPureHTML />
+          ) : (
+            <GraphicsAreaDraw2D />
+          )}
+        </div>
       </div>
     );
   }

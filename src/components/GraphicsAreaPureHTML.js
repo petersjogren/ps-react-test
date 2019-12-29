@@ -23,7 +23,7 @@ class GraphicsAreaPureHTML extends React.Component {
   render() {
     return (
       <div
-        className="editor bgpattern"
+        className="nodearea bgpattern"
         onMouseDown={e => {
           console.log("graphicsarea clicked");
           this.props.onSelectClear();
