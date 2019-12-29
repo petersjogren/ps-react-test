@@ -10,7 +10,8 @@ import {
   connectPortsAction,
   selectNodeAction,
   selectConnectionAction,
-  selectClearAction
+  selectClearAction,
+  createNodeAction
 } from "../redux/actions";
 import HTMLNode from "./HTMLNode";
 import {
@@ -27,6 +28,26 @@ class GraphicsAreaPureHTML extends React.Component {
         onMouseDown={e => {
           console.log("graphicsarea clicked");
           this.props.onSelectClear();
+        }}
+        onDragOver={e => {
+          e.preventDefault();
+        }}
+        onDrop={e => {
+          if (e.dataTransfer != null) {
+            var textData = e.dataTransfer.getData("text");
+            console.log("textData", textData);
+            if (textData != null && textData !== "") {
+              var payLoad = JSON.parse(textData);
+              console.log("dropped on nodearea", e, e.clientX, e.clientY);
+              if (payLoad.type === "CREATE_NODE") {
+                this.props.onCreateNode(
+                  e.clientX,
+                  e.clientY,
+                  payLoad.templateIndex
+                );
+              }
+            }
+          }
         }}
       >
         <div
@@ -141,7 +162,8 @@ const mapDispatchToProps = dispatch => ({
   onSelectNode: nodeIndex => dispatch(selectNodeAction(nodeIndex)),
   onSelectConnection: connectionIndex =>
     dispatch(selectConnectionAction(connectionIndex)),
-  onSelectClear: () => dispatch(selectClearAction())
+  onSelectClear: () => dispatch(selectClearAction()),
+  onCreateNode: (x, y, index) => dispatch(createNodeAction(x, y, index))
 });
 
 export default connect(

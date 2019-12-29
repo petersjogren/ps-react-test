@@ -13,22 +13,29 @@ function InPort(props) {
         className="port noselect"
         draggable={true}
         onDrop={e => {
-          var payLoad = JSON.parse(e.dataTransfer.getData("text"));
-          console.log("payLoad", payLoad);
-          if (payLoad.outPortIndex !== null) {
-            console.log(
-              `connect node ${payLoad.nodeIndex}:${payLoad.outPortIndex} and node ${nodeIndex}:${portIndex}`
-            );
-            onConnect(
-              payLoad.nodeIndex,
-              payLoad.outPortIndex,
-              nodeIndex,
-              portIndex
-            );
-          } else {
-            console.log("invalid drop");
+          if (e.dataTransfer !== null) {
+            var textData = e.dataTransfer.getData("text");
+            if (textData !== null && textData !== "") {
+              var payLoad = JSON.parse(textData);
+              if (payLoad !== null && payLoad !== "") {
+                console.log("payLoad", payLoad);
+                if (payLoad.type === "CONNECT") {
+                  console.log(
+                    `connect node ${payLoad.nodeIndex}:${payLoad.outPortIndex} and node ${nodeIndex}:${portIndex}`
+                  );
+                  onConnect(
+                    payLoad.nodeIndex,
+                    payLoad.outPortIndex,
+                    nodeIndex,
+                    portIndex
+                  );
+                } else {
+                  console.log("invalid drop");
+                }
+                e.preventDefault();
+              }
+            }
           }
-          e.preventDefault();
         }}
         onDragOver={e => {
           e.preventDefault();
@@ -62,6 +69,7 @@ function OutPort(props) {
           //console.log(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 
           var payLoadString = JSON.stringify({
+            type: "CONNECT",
             nodeIndex: nodeIndex,
             outPortIndex: portIndex
           });
@@ -113,6 +121,7 @@ export class InOutNode extends React.Component {
 
   render() {
     const {
+      title,
       nodeIndex,
       scale,
       position,
@@ -142,7 +151,7 @@ export class InOutNode extends React.Component {
         >
           <div className="main_area">
             <div className="addin noselect">+</div>
-            <header className="nodetext noselect">Add</header>
+            <header className="nodetext noselect">{title}</header>
             <div className="addout noselect">+</div>
           </div>
           <InPort

@@ -1,0 +1,10 @@
+.nodelistitem {
+  margin: 3px;
+  color: #ccc;
+  padding: 2px;
+  border: 3px;
+  border-radius: 10px;
+  border-color: black;
+  border-style: solid;
+  background-color: green;
+}

@@ -1,5 +1,6 @@
 export const CHANGE_ZOOM = "CHANGE_ZOOM";
 export const POSITION_NODE = "POSITION_NODE";
+export const CREATE_NODE = "CREATE_NODE";
 export const POSITION_EVERY_OTHER_NODE = "POSITION_EVERY_OTHER_NODE";
 export const POSITION_TEXT_NODE = "POSITION_TEXT_NODE";
 export const POSITION_IMG_NODE = "POSITION_IMG_NODE";
@@ -19,6 +20,13 @@ export const zoomAction = percent => ({
 
 export const deleteSelectedAction = () => ({
   type: DELETE_SELECTED
+});
+
+export const createNodeAction = (x, y, index) => ({
+  type: CREATE_NODE,
+  x,
+  y,
+  index
 });
 
 export const selectNodeAction = nodeIndex => ({

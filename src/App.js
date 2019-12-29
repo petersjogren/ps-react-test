@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import "./App.css";
+import "./NodeList.css";
+import { NodeList } from "./components/NodeList";
 
 import GraphicsAreaPureHTML from "./components/GraphicsAreaPureHTML";
 import GraphicsAreaDraw2D from "./components/CanvasDraw2D";
@@ -53,7 +55,9 @@ class App extends React.Component {
           onChange={this.props.onZoomChange}
         />
         <div className="editor">
-          <div className="nodelist"></div>
+          <div className="nodelist">
+            <NodeList templates={this.props.state.nodeTemplates} />
+          </div>
           {this.props.state.pureHTMLgraph ? (
             <GraphicsAreaPureHTML />
           ) : (

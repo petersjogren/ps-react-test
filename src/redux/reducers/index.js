@@ -13,7 +13,8 @@ import {
   TOGGLE_GRAPHICS,
   RESET_NORMAL,
   RESET_STRESS_TEST,
-  CONNECT_PORTS
+  CONNECT_PORTS,
+  CREATE_NODE
 } from "../actions";
 
 export default function graphEditorReducer(
@@ -132,6 +133,23 @@ export default function graphEditorReducer(
         }
       });
       break;
+    case CREATE_NODE:
+      console.log("CREATE_NODE", action.x, action.y, action);
+      newState = update(state, {
+        nodes: { $push: [state.nodeTemplates[action.index]] }
+      });
+      newState = update(newState, {
+        nodes: {
+          [newState.nodes.length - 1]: {
+            position: {
+              x: { $set: action.x },
+              y: { $set: action.y }
+            }
+          }
+        }
+      });
+      console.log("state after ", newState);
+      break;
     case SELECT_CONNECTION:
       console.log("SELECT_CONNECTION", action.connectionIndex);
       newState = update(state, {
@@ -245,6 +263,7 @@ export default function graphEditorReducer(
         connections: {
           $push: [
             {
+              isSelected: false,
               from: {
                 nodeIndex: action.fromNodeIndex,
                 index: action.fromPortIndex
