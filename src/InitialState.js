@@ -1,3 +1,68 @@
+function nodeTemplates() {
+  return [
+    {
+      title: "Add",
+      id: 213,
+      position: {
+        x: 186,
+        y: 7
+      },
+      isSelected: false,
+      width: 120,
+      inputPorts: [
+        { name: "x", type: "int" },
+        { name: "y", type: "int" }
+      ],
+      outputPorts: [{ name: "sum", type: "int" }]
+    },
+    {
+      title: "Mult",
+      id: 213,
+      position: {
+        x: 186,
+        y: 7
+      },
+      isSelected: false,
+      width: 180,
+      inputPorts: [
+        { name: "x", type: "int" },
+        { name: "y", type: "int" }
+      ],
+      outputPorts: [{ name: "sum", type: "int" }]
+    },
+    {
+      title: "Sub",
+      id: 213,
+      position: {
+        x: 186,
+        y: 7
+      },
+      isSelected: false,
+      width: 100,
+      inputPorts: [
+        { name: "x", type: "int" },
+        { name: "y", type: "int" }
+      ],
+      outputPorts: [{ name: "sum", type: "int" }]
+    },
+    {
+      title: "Div",
+      id: 213,
+      position: {
+        x: 186,
+        y: 7
+      },
+      isSelected: false,
+      width: 120,
+      inputPorts: [
+        { name: "x", type: "int" },
+        { name: "y", type: "int" }
+      ],
+      outputPorts: [{ name: "sum", type: "int" }]
+    }
+  ];
+}
+
 function InitialStateStressTest() {
   var someIndexes = [...Array(202).keys()];
   var someNodes = someIndexes.map(index => {
@@ -43,68 +108,7 @@ function InitialStateStressTest() {
       x: 0,
       y: 0
     },
-    nodeTemplates: [
-      {
-        title: "Add",
-        id: 213,
-        position: {
-          x: 186,
-          y: 7
-        },
-        isSelected: false,
-        width: 120,
-        inputPorts: [
-          { name: "x", type: "int" },
-          { name: "y", type: "int" }
-        ],
-        outputPorts: [{ name: "sum", type: "int" }]
-      },
-      {
-        title: "Mult",
-        id: 213,
-        position: {
-          x: 186,
-          y: 7
-        },
-        isSelected: false,
-        width: 120,
-        inputPorts: [
-          { name: "x", type: "int" },
-          { name: "y", type: "int" }
-        ],
-        outputPorts: [{ name: "sum", type: "int" }]
-      },
-      {
-        title: "Sub",
-        id: 213,
-        position: {
-          x: 186,
-          y: 7
-        },
-        isSelected: false,
-        width: 120,
-        inputPorts: [
-          { name: "x", type: "int" },
-          { name: "y", type: "int" }
-        ],
-        outputPorts: [{ name: "sum", type: "int" }]
-      },
-      {
-        title: "Div",
-        id: 213,
-        position: {
-          x: 186,
-          y: 7
-        },
-        isSelected: false,
-        width: 120,
-        inputPorts: [
-          { name: "x", type: "int" },
-          { name: "y", type: "int" }
-        ],
-        outputPorts: [{ name: "sum", type: "int" }]
-      }
-    ],
+    nodeTemplates: nodeTemplates(),
     nodes: [...someNodes],
     connections: [...someConnections],
     textNode: {
@@ -140,68 +144,7 @@ function InitialStateNormal() {
       x: 0,
       y: 0
     },
-    nodeTemplates: [
-      {
-        title: "Add",
-        id: 213,
-        position: {
-          x: 186,
-          y: 7
-        },
-        isSelected: false,
-        width: 120,
-        inputPorts: [
-          { name: "x", type: "int" },
-          { name: "y", type: "int" }
-        ],
-        outputPorts: [{ name: "sum", type: "int" }]
-      },
-      {
-        title: "Mult",
-        id: 213,
-        position: {
-          x: 186,
-          y: 7
-        },
-        isSelected: false,
-        width: 120,
-        inputPorts: [
-          { name: "x", type: "int" },
-          { name: "y", type: "int" }
-        ],
-        outputPorts: [{ name: "sum", type: "int" }]
-      },
-      {
-        title: "Sub",
-        id: 213,
-        position: {
-          x: 186,
-          y: 7
-        },
-        isSelected: false,
-        width: 120,
-        inputPorts: [
-          { name: "x", type: "int" },
-          { name: "y", type: "int" }
-        ],
-        outputPorts: [{ name: "sum", type: "int" }]
-      },
-      {
-        title: "Div",
-        id: 213,
-        position: {
-          x: 186,
-          y: 7
-        },
-        isSelected: false,
-        width: 120,
-        inputPorts: [
-          { name: "x", type: "int" },
-          { name: "y", type: "int" }
-        ],
-        outputPorts: [{ name: "sum", type: "int" }]
-      }
-    ],
+    nodeTemplates: nodeTemplates(),
     nodes: [
       {
         title: "Add",
