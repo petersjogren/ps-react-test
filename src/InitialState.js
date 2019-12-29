@@ -10,8 +10,8 @@ function nodeTemplates() {
       isSelected: false,
       width: 120,
       inputPorts: [
-        { name: "x", type: "int" },
-        { name: "y", type: "int" }
+        { name: "a", type: "int" },
+        { name: "b", type: "int" }
       ],
       outputPorts: [{ name: "sum", type: "int" }]
     },
@@ -26,7 +26,8 @@ function nodeTemplates() {
       width: 180,
       inputPorts: [
         { name: "x", type: "int" },
-        { name: "y", type: "int" }
+        { name: "y", type: "int" },
+        { name: "z", type: "int" }
       ],
       outputPorts: [{ name: "sum", type: "int" }]
     },
@@ -59,6 +60,26 @@ function nodeTemplates() {
         { name: "y", type: "int" }
       ],
       outputPorts: [{ name: "sum", type: "int" }]
+    },
+    {
+      title: "Add/Sub 4",
+      id: 213,
+      position: {
+        x: 186,
+        y: 7
+      },
+      isSelected: false,
+      width: 120,
+      inputPorts: [
+        { name: "x", type: "int" },
+        { name: "y", type: "int" },
+        { name: "z", type: "int" },
+        { name: "w", type: "int" }
+      ],
+      outputPorts: [
+        { name: "sum", type: "int" },
+        { name: "diff", type: "int" }
+      ]
     }
   ];
 }

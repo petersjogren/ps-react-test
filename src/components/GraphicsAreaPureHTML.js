@@ -114,6 +114,8 @@ class GraphicsAreaPureHTML extends React.Component {
                 nodeIndex={index}
                 scale={this.props.scale}
                 position={key.position}
+                inputPorts={key.inputPorts}
+                outputPorts={key.outputPorts}
                 width={key.width}
                 isSelected={key.isSelected}
                 onDrag={(e, position) => {

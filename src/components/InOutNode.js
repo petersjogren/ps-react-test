@@ -128,6 +128,8 @@ export class InOutNode extends React.Component {
       onConnect,
       onDrag,
       width,
+      inputPorts,
+      outputPorts,
       isSelected,
       onSelectNode
     } = this.props;
@@ -147,26 +149,37 @@ export class InOutNode extends React.Component {
       >
         <div
           className={classes}
-          style={{ height: "60px", width: `${width}px` }}
+          style={{
+            height: `${(inputPorts.length + outputPorts.length + 1) *
+              (rowHeight - 1)}px`,
+            width: `${width}px`
+          }}
         >
           <div className="main_area">
             <div className="addin noselect">+</div>
             <header className="nodetext noselect">{title}</header>
             <div className="addout noselect">+</div>
           </div>
-          <InPort
-            name="x"
-            nodeIndex={nodeIndex}
-            portIndex={0}
-            onConnect={onConnect}
-          />
-          <InPort
-            name="y"
-            nodeIndex={nodeIndex}
-            portIndex={1}
-            onConnect={onConnect}
-          />
-          <OutPort name="sum" nodeIndex={nodeIndex} portIndex={0} />
+          {inputPorts.map((port, portIndex) => {
+            return (
+              <InPort
+                name={port.name}
+                nodeIndex={nodeIndex}
+                portIndex={portIndex}
+                onConnect={onConnect}
+              />
+            );
+          })}
+
+          {outputPorts.map((port, portIndex) => {
+            return (
+              <OutPort
+                name={port.name}
+                nodeIndex={nodeIndex}
+                portIndex={portIndex}
+              />
+            );
+          })}
         </div>
       </Draggable>
     );
