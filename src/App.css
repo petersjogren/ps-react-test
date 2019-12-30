@@ -148,6 +148,7 @@ div.position-view {
 }
 .nodelist {
   width: 200px;
+  overflow-y: scroll;
 }
 .nodearea {
   flex: 1;
