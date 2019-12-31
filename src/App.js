@@ -16,7 +16,9 @@ import {
   deleteSelectedAction,
   toggleGraphicsLibraryAction,
   resetStateNormalAction,
-  resetStateStressTestAction
+  resetStateStressTestAction,
+  loadDefaultNodeTemplatesAsyncAction,
+  loadOtherNodeTemplatesAsyncAction
 } from "./redux/actions";
 
 class App extends React.Component {
@@ -56,7 +58,11 @@ class App extends React.Component {
         />
         <div className="editor">
           <div className="nodelist">
-            <NodeList templates={this.props.state.nodeTemplates} />
+            <NodeList
+              templates={this.props.state.nodeTemplates}
+              onLoadDefault={this.props.onLoadDefault}
+              onLoadOther={this.props.onLoadOther}
+            />
           </div>
           {this.props.state.pureHTMLgraph ? (
             <GraphicsAreaPureHTML />
@@ -78,7 +84,9 @@ const mapDispatchToProps = dispatch => ({
   onZoomChange: scale => dispatch(zoomAction(scale)),
   toggleGraphicsLibrary: () => dispatch(toggleGraphicsLibraryAction()),
   resetStateNormal: () => dispatch(resetStateNormalAction()),
-  resetStateStressTest: () => dispatch(resetStateStressTestAction())
+  resetStateStressTest: () => dispatch(resetStateStressTestAction()),
+  onLoadDefault: () => dispatch(loadDefaultNodeTemplatesAsyncAction()),
+  onLoadOther: () => dispatch(loadOtherNodeTemplatesAsyncAction())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

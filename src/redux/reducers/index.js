@@ -14,7 +14,8 @@ import {
   RESET_NORMAL,
   RESET_STRESS_TEST,
   CONNECT_PORTS,
-  CREATE_NODE
+  CREATE_NODE,
+  SET_NODE_TEMPLATE_LIST
 } from "../actions";
 
 export default function graphEditorReducer(
@@ -277,6 +278,12 @@ export default function graphEditorReducer(
             }
           ]
         }
+      });
+      break;
+    case SET_NODE_TEMPLATE_LIST:
+      console.log("SET_NODE_TEMPLATE_LIST");
+      newState = update(state, {
+        nodeTemplates: { $set: action.data.nodeTemplates }
       });
       break;
 

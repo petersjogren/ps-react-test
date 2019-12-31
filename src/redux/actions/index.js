@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const CHANGE_ZOOM = "CHANGE_ZOOM";
 export const POSITION_NODE = "POSITION_NODE";
 export const CREATE_NODE = "CREATE_NODE";
@@ -12,6 +14,7 @@ export const DELETE_SELECTED = "DELETE_SELECTED";
 export const SELECT_NODE = "SELECT_NODE";
 export const SELECT_CONNECTION = "SELECT_CONNECTION";
 export const SELECT_CLEAR = "SELECT_CLEAR";
+export const SET_NODE_TEMPLATE_LIST = "SET_NODE_TEMPLATE_LIST";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -89,3 +92,25 @@ export const connectPortsAction = (
   toNodeIndex,
   toPortIndex
 });
+
+export const loadDefaultNodeTemplatesAsyncAction = () => dispatch => {
+  console.log("loadDefaultNodeTemplatesAsyncAction");
+  axios.get("templates/defaultNodes.json").then(response => {
+    console.log(response);
+    dispatch({
+      type: SET_NODE_TEMPLATE_LIST,
+      data: response.data
+    });
+  });
+};
+
+export const loadOtherNodeTemplatesAsyncAction = () => dispatch => {
+  console.log("loadOtherNodeTemplatesAsyncAction");
+  axios.get("templates/otherNodes.json").then(response => {
+    console.log(response);
+    dispatch({
+      type: SET_NODE_TEMPLATE_LIST,
+      data: response.data
+    });
+  });
+};
