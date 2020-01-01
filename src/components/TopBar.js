@@ -7,8 +7,6 @@ import Tooltip from "rc-tooltip";
 import Slider from "rc-slider";
 import { connect } from "react-redux";
 
-const wrapperStyle = { width: 400, margin: 50 };
-
 const Handle = Slider.Handle;
 
 const handle = props => {
@@ -30,7 +28,7 @@ const TopBar = props => {
   if (props.showControls) {
     return (
       <div className="topbar">
-        <div className="zoom" style={wrapperStyle}>
+        <div className="zoom">
           <Slider
             min={20}
             max={150}

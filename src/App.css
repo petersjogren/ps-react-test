@@ -123,19 +123,30 @@ div.position-view {
 .topbar {
   display: flex;
   background-color: #42a742b4;
-  flex: 10%;
   width: 100%;
-  height: 100px;
+  height: 60px;
   flex-direction: row;
   align-items: stretch;
+}
+.buttonrow {
+  font-weight: bold;
+  height: 25px;
+}
+button {
+  font-weight: bold;
+  font-size: 12px;
 }
 .zoom {
   flex: 1;
 }
+.rc-slider {
+  top: 40%;
+  left: 10px;
+}
 .savestate {
   flex: 1;
   position: relative;
-  top: 0px;
+  top: 10px;
   bottom: 0px;
 }
 .editor {

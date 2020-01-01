@@ -38,15 +38,14 @@ class App extends React.Component {
   render() {
     return (
       <div className="App noselect">
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <button onClick={this.props.resetStateNormal}>
-            <h2>Reset state to some nodes</h2>
-          </button>
-          <button onClick={this.props.resetStateStressTest}>
-            <h2>Reset state to stress test</h2>
-          </button>
+        <div
+          className="buttonrow"
+          style={{ display: "flex", justifyContent: "space-around" }}
+        >
+          <button onClick={this.props.resetStateNormal}>Some nodes</button>
+          <button onClick={this.props.resetStateStressTest}>Stress test</button>
           <button onClick={this.props.toggleGraphicsLibrary}>
-            <h2>Toggle graphics library (Pure HTML / Draw2D)</h2>
+            Pure HTML / Draw2D
           </button>
         </div>
         <TopBar
