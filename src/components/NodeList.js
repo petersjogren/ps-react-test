@@ -31,7 +31,7 @@ export class NodeList extends React.Component {
                 e.dataTransfer.setData("text/plain", payLoadString);
               }}
             >
-              {value.title}
+              {value.title.substring(0, 20)}
             </div>
           );
         })}
