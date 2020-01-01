@@ -25,7 +25,8 @@ export class NodeList extends React.Component {
 
                 var payLoadString = JSON.stringify({
                   type: "CREATE_NODE",
-                  templateIndex: index
+                  templateIndex: index,
+                  title: value.title
                 });
                 console.log("drag start", payLoadString);
                 e.dataTransfer.setData("text/plain", payLoadString);

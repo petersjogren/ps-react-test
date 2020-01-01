@@ -1,4 +1,5 @@
 import axios from "axios";
+import { websocketSendCommand } from "../../websocketClientUtils";
 
 export const CHANGE_ZOOM = "CHANGE_ZOOM";
 export const POSITION_NODE = "POSITION_NODE";
@@ -25,12 +26,17 @@ export const deleteSelectedAction = () => ({
   type: DELETE_SELECTED
 });
 
-export const createNodeAction = (x, y, index) => ({
-  type: CREATE_NODE,
-  x,
-  y,
-  index
-});
+export const createNodeAction = (x, y, index, title) => dispatch => {
+  websocketSendCommand("add node: " + title).then(value => {
+    console.log("answer", value);
+    dispatch({
+      type: CREATE_NODE,
+      x,
+      y,
+      index
+    });
+  });
+};
 
 export const selectNodeAction = nodeIndex => ({
   type: SELECT_NODE,

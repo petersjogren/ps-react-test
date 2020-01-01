@@ -30,7 +30,8 @@
     "redbox-react": "^1.6.0",
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "websocket": "^1.0.31"
   },
   "scripts": {
     "start": "react-scripts start",

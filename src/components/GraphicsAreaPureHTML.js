@@ -44,7 +44,12 @@ class GraphicsAreaPureHTML extends React.Component {
                 var x = (e.clientX - rect.left) / this.props.scale; //x position within the element.
                 var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
 
-                this.props.onCreateNode(x, y, payLoad.templateIndex);
+                this.props.onCreateNode(
+                  x,
+                  y,
+                  payLoad.templateIndex,
+                  payLoad.title
+                );
               }
             }
           }
@@ -165,7 +170,8 @@ const mapDispatchToProps = dispatch => ({
   onSelectConnection: connectionIndex =>
     dispatch(selectConnectionAction(connectionIndex)),
   onSelectClear: () => dispatch(selectClearAction()),
-  onCreateNode: (x, y, index) => dispatch(createNodeAction(x, y, index))
+  onCreateNode: (x, y, index, title) =>
+    dispatch(createNodeAction(x, y, index, title))
 });
 
 export default connect(

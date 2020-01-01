@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { websocketClientSetup } from "./websocketClientUtils";
 
 import "./App.css";
 import "./NodeList.css";
@@ -29,6 +30,8 @@ class App extends React.Component {
         this.props.deleteSelected();
       }
     });
+
+    websocketClientSetup();
   }
 
   componentWillUnmount() {
