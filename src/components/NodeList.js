@@ -17,6 +17,7 @@ export class NodeList extends React.Component {
         {this.props.templates.map((value, index) => {
           return (
             <div
+              key={index}
               className="nodelistitem"
               draggable
               onDragStart={e => {

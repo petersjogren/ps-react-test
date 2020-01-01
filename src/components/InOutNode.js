@@ -163,6 +163,7 @@ export class InOutNode extends React.Component {
           {inputPorts.map((port, portIndex) => {
             return (
               <InPort
+                key={portIndex}
                 name={port.name}
                 nodeIndex={nodeIndex}
                 portIndex={portIndex}
@@ -174,6 +175,7 @@ export class InOutNode extends React.Component {
           {outputPorts.map((port, portIndex) => {
             return (
               <OutPort
+                key={portIndex}
                 name={port.name}
                 nodeIndex={nodeIndex}
                 portIndex={portIndex}
