@@ -20,7 +20,8 @@ import {
   resetStateStressTestAction,
   loadDefaultNodeTemplatesAsyncAction,
   loadOtherNodeTemplatesAsyncAction,
-  reconnectAction
+  reconnectAction,
+  syncAction
 } from "./redux/actions";
 
 class App extends React.Component {
@@ -47,6 +48,16 @@ class App extends React.Component {
           style={{ display: "flex", justifyContent: "space-around" }}
         >
           <button onClick={this.props.reconnect}>Reconnect</button>
+          <button
+            onClick={() =>
+              this.props.sync(
+                this.props.state.currentSessionID,
+                this.props.state.nodes
+              )
+            }
+          >
+            Sync
+          </button>
           <button onClick={this.props.resetStateNormal}>Some nodes</button>
           <button onClick={this.props.resetStateStressTest}>Stress test</button>
           <button onClick={this.props.toggleGraphicsLibrary}>
@@ -91,7 +102,10 @@ const mapDispatchToProps = dispatch => ({
   resetStateStressTest: () => dispatch(resetStateStressTestAction()),
   onLoadDefault: () => dispatch(loadDefaultNodeTemplatesAsyncAction()),
   onLoadOther: () => dispatch(loadOtherNodeTemplatesAsyncAction()),
-  reconnect: () => dispatch(reconnectAction())
+  reconnect: () => dispatch(reconnectAction()),
+  sync: (currentSessionID, nodes) => {
+    dispatch(syncAction(currentSessionID, nodes));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

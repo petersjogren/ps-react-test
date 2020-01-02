@@ -152,3 +152,25 @@ export const reconnectAction = () => {
     type: RECONNECT_SERVER
   };
 };
+
+// Add unconfirmed nodes to server
+export const syncAction = (currentSessionId, nodes) => dispatch => {
+  // Filter out the nodes that are not confirmed in the current session adn add them to server
+  var missingNodes = nodes.filter(node => {
+    return node.nodeConfirmedInSessionWithID !== currentSessionId;
+  });
+  missingNodes.forEach(node => {
+    websocketSendCommand("addnode;" + node.id + ";" + node.title).then(
+      value => {
+        console.log("answer", value);
+        var json = JSON.parse(value.data);
+        console.log("Response", json.type, json.nodeId, json.sessionId);
+        dispatch({
+          type: CONFIRM_NODE,
+          nodeId: json.nodeId,
+          sessionId: json.sessionId
+        });
+      }
+    );
+  });
+};
