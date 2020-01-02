@@ -26,7 +26,7 @@ class App extends React.Component {
   componentDidMount() {
     document.body.addEventListener("keydown", e => {
       console.log("key down ", e, this);
-      if (e.key === "Backspace") {
+      if (e.key === "Backspace" || e.key === "Delete") {
         this.props.deleteSelected();
       }
     });
