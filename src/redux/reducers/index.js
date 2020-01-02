@@ -15,7 +15,8 @@ import {
   RESET_STRESS_TEST,
   CONNECT_PORTS,
   CREATE_NODE,
-  SET_NODE_TEMPLATE_LIST
+  SET_NODE_TEMPLATE_LIST,
+  SET_CURRENT_SESSIONID
 } from "../actions";
 
 export default function graphEditorReducer(
@@ -286,7 +287,12 @@ export default function graphEditorReducer(
         nodeTemplates: { $set: action.data.nodeTemplates }
       });
       break;
-
+    case SET_CURRENT_SESSIONID:
+      console.log("SET_CURRENT_SESSIONID", action);
+      newState = update(state, {
+        currentSessionID: { $set: action.id }
+      });
+      break;
     default:
       console.log("default ", state);
       newState = state;

@@ -121,6 +121,7 @@ function InitialStateStressTest() {
     });
 
   return {
+    currentSessionID: 0,
     pureHTMLgraph: true,
     scale: 0.4,
     stressTest: true,
@@ -157,6 +158,7 @@ function InitialStateStressTest() {
 
 function InitialStateNormal() {
   return {
+    currentSessionID: 0,
     pureHTMLgraph: true,
     stressTest: false,
     scale: 0.9,

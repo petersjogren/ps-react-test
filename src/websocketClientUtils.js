@@ -1,5 +1,7 @@
+import { store } from "./index.js";
+import { storeCurrentSessionIDAction } from "./redux/actions";
+
 var connection;
-var sessionID;
 
 export function websocketClientSetup() {
   // if user is running mozilla then use it's built-in WebSocket
@@ -14,7 +16,7 @@ export function websocketClientSetup() {
 
   connection.onclose = function() {
     console.log("Connection closed");
-    sessionID = "";
+    store.dispatch(storeCurrentSessionIDAction(""));
   };
 
   connection.onerror = function(error) {
@@ -26,8 +28,8 @@ export function websocketClientSetup() {
   };
 
   connection.onmessage = function(message) {
-    sessionID = message.data;
-    console.log("sessionID: " + sessionID);
+    console.log("sessionID: " + message.data);
+    store.dispatch(storeCurrentSessionIDAction(message.data));
   };
 }
 

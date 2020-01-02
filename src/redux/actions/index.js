@@ -16,6 +16,7 @@ export const SELECT_NODE = "SELECT_NODE";
 export const SELECT_CONNECTION = "SELECT_CONNECTION";
 export const SELECT_CLEAR = "SELECT_CLEAR";
 export const SET_NODE_TEMPLATE_LIST = "SET_NODE_TEMPLATE_LIST";
+export const SET_CURRENT_SESSIONID = "SET_CURRENT_SESSIONID";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -121,4 +122,12 @@ export const loadOtherNodeTemplatesAsyncAction = () => dispatch => {
       data: response.data
     });
   });
+};
+
+export const storeCurrentSessionIDAction = sessionID => {
+  console.log("set sessionID action", sessionID);
+  return {
+    type: SET_CURRENT_SESSIONID,
+    id: sessionID
+  };
 };
