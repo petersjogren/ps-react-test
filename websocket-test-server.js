@@ -3,6 +3,9 @@
 // Start with
 // node websocket-test-server.js
 
+/**
+ * Global variables
+ */
 var nextNodeId = 1;
 var nodes = [];
 
@@ -13,13 +16,6 @@ var webSocketsServerPort = 1337;
 // websocket and http servers
 var webSocketServer = require("websocket").server;
 var http = require("http");
-/**
- * Global variables
- */
-// latest 100 messages
-var history = [];
-// list of currently connected clients (users)
-var clients = [];
 
 /**
  * HTTP server
@@ -51,14 +47,9 @@ wsServer.on("request", function(request) {
   // (http://en.wikipedia.org/wiki/Same_origin_policy)
   var connection = request.accept(null, request.origin);
   // we need to know client index to remove them on 'close' event
-  var index = clients.push(connection) - 1;
   var userName = false;
   var userColor = false;
   console.log(new Date() + " Connection accepted.");
-  // send back chat history
-  if (history.length > 0) {
-    connection.sendUTF(JSON.stringify({ type: "history", data: history }));
-  }
   // user sent some message
   connection.on("message", function(message) {
     if (message.type === "utf8") {
@@ -92,14 +83,8 @@ wsServer.on("request", function(request) {
   });
   // user disconnected
   connection.on("close", function(connection) {
-    if (userName !== false && userColor !== false) {
-      console.log(
-        new Date() + " Peer " + connection.remoteAddress + " disconnected."
-      );
-      // remove user from the list of connected clients
-      clients.splice(index, 1);
-      // push back user's color to be reused by another user
-      colors.push(userColor);
-    }
+    console.log(
+      new Date() + " Peer " + connection.remoteAddress + " disconnected."
+    );
   });
 });
