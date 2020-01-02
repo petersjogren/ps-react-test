@@ -52,7 +52,7 @@ class App extends React.Component {
           className="buttonrow"
           style={{ display: "flex", justifyContent: "space-around" }}
         >
-          <button onClick={this.props.reconnect}>Reconnect</button>
+          <button onClick={this.props.reconnect}>New session</button>
           <button
             onClick={() =>
               this.props.sync(
