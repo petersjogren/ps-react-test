@@ -117,6 +117,8 @@ class GraphicsAreaPureHTML extends React.Component {
                 title={key.title}
                 key={index}
                 nodeIndex={index}
+                currentSessionID={this.props.currentSessionID}
+                nodeConfirmedInSessionWithID={key.nodeConfirmedInSessionWithID}
                 scale={this.props.scale}
                 position={key.position}
                 inputPorts={key.inputPorts}
@@ -145,6 +147,7 @@ const mapStateToProps = state => ({
   nodes: state.nodes,
   connections: state.connections,
   scale: state.scale,
+  currentSessionID: state.currentSessionID,
   textNode: state.textNode,
   imgNode: state.imgNode,
   stressTest: state.stressTest

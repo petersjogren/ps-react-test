@@ -20,6 +20,13 @@ var webSocketsServerPort = 1337;
 var webSocketServer = require("websocket").server;
 var http = require("http");
 
+function dumpNodesToConsole() {
+  console.log("\nAll nodes:");
+  nodes.forEach(value => {
+    console.log(value.title, value.nodeId);
+  });
+}
+
 /**
  * HTTP server
  */
@@ -54,6 +61,7 @@ wsServer.on("request", function(request) {
   var userColor = false;
   console.log(new Date() + " Connection accepted.");
   sessionID = uuidv4();
+  nodes = [];
   connection.send(sessionID);
 
   // user sent some message
@@ -66,14 +74,18 @@ wsServer.on("request", function(request) {
           new Date() + " Received Message " + ": " + message.utf8Data
         );
 
-        var commandArray = message.utf8Data.split(" ");
+        var commandArray = message.utf8Data.split(";");
         var responseJSON = {};
+
         switch (commandArray[0]) {
           case "addnode":
             responseJSON = {
               type: "NODE_ADDED",
-              id: nextNodeId++
+              nodeId: commandArray[1],
+              sessionId: sessionID
             };
+            nodes.push({ title: commandArray[2], nodeId: commandArray[1] });
+            dumpNodesToConsole();
             break;
           default:
             responseJSON = {
@@ -83,7 +95,9 @@ wsServer.on("request", function(request) {
             break;
         }
 
-        connection.send(JSON.stringify(responseJSON));
+        setTimeout(function() {
+          connection.send(JSON.stringify(responseJSON));
+        }, 1 * 1000);
       }
     }
   });

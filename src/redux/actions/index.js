@@ -1,5 +1,6 @@
 import axios from "axios";
 import { websocketSendCommand } from "../../websocketClientUtils";
+import uuidv4 from "uuid/v4";
 
 export const CHANGE_ZOOM = "CHANGE_ZOOM";
 export const POSITION_NODE = "POSITION_NODE";
@@ -17,6 +18,7 @@ export const SELECT_CONNECTION = "SELECT_CONNECTION";
 export const SELECT_CLEAR = "SELECT_CLEAR";
 export const SET_NODE_TEMPLATE_LIST = "SET_NODE_TEMPLATE_LIST";
 export const SET_CURRENT_SESSIONID = "SET_CURRENT_SESSIONID";
+export const CONFIRM_NODE = "CONFIRM_NODE";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -28,15 +30,22 @@ export const deleteSelectedAction = () => ({
 });
 
 export const createNodeAction = (x, y, index, title) => dispatch => {
-  websocketSendCommand("addnode " + title).then(value => {
+  var nodeId = uuidv4();
+  dispatch({
+    type: CREATE_NODE,
+    x,
+    y,
+    index,
+    nodeId
+  });
+  websocketSendCommand("addnode;" + nodeId + ";" + title).then(value => {
     console.log("answer", value);
     var json = JSON.parse(value.data);
-    console.log("Response", json.type, json.id);
+    console.log("Response", json.type, json.nodeId, json.sessionId);
     dispatch({
-      type: CREATE_NODE,
-      x,
-      y,
-      index
+      type: CONFIRM_NODE,
+      nodeId: json.nodeId,
+      sessionId: json.sessionId
     });
   });
 };

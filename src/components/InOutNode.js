@@ -108,10 +108,18 @@ export function outPortRelativePosition(node, outPortIndex) {
 
 export class InOutNode extends React.Component {
   shouldComponentUpdate(nextProps) {
-    const { nodeIndex, scale, position, width, isSelected } = this.props;
+    const {
+      nodeIndex,
+      scale,
+      position,
+      width,
+      isSelected,
+      nodeConfirmedInSessionWithID
+    } = this.props;
     return (
       nextProps.nodeIndex !== nodeIndex ||
       nextProps.scale !== scale ||
+      nextProps.nodeConfirmedInSessionWithID !== nodeConfirmedInSessionWithID ||
       nextProps.position.x !== position.x ||
       nextProps.position.y !== position.y ||
       nextProps.width !== width ||
@@ -123,6 +131,8 @@ export class InOutNode extends React.Component {
     const {
       title,
       nodeIndex,
+      currentSessionID,
+      nodeConfirmedInSessionWithID,
       scale,
       position,
       onConnect,
@@ -133,8 +143,21 @@ export class InOutNode extends React.Component {
       isSelected,
       onSelectNode
     } = this.props;
-    var classes =
-      "node noselect" + (isSelected === true ? " nodeselected" : "");
+    var classes = ["node"];
+    if (isSelected) {
+      classes.push("nodeselected");
+    }
+    var isConfirmedInThisSession =
+      currentSessionID === nodeConfirmedInSessionWithID;
+    console.log(
+      "currentSessionID",
+      currentSessionID,
+      "nodeConfirmedInSessionWithID",
+      nodeConfirmedInSessionWithID
+    );
+    if (!isConfirmedInThisSession) {
+      classes.push("notconfirmed");
+    }
     return (
       <Draggable
         scale={scale}
@@ -148,7 +171,7 @@ export class InOutNode extends React.Component {
         }}
       >
         <div
-          className={classes}
+          className={classes.join(" ")}
           style={{
             height: `${(inputPorts.length + outputPorts.length + 1) *
               (rowHeight - 1)}px`,

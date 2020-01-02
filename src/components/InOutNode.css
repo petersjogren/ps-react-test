@@ -15,6 +15,10 @@
   border-style: dashed;
 }
 
+.notconfirmed {
+  border-color: red;
+}
+
 .main_area {
   cursor: move;
   display: flex;

@@ -16,8 +16,19 @@ import {
   CONNECT_PORTS,
   CREATE_NODE,
   SET_NODE_TEMPLATE_LIST,
-  SET_CURRENT_SESSIONID
+  SET_CURRENT_SESSIONID,
+  CONFIRM_NODE
 } from "../actions";
+
+function findNodeIndexWithId(state, id) {
+  var foundIndex = -1;
+  state.nodes.forEach((value, index) => {
+    if (value.id === id) {
+      foundIndex = index;
+    }
+  });
+  return foundIndex;
+}
 
 export default function graphEditorReducer(
   state = InitialState(false),
@@ -29,6 +40,8 @@ export default function graphEditorReducer(
   var deltaX;
   var deltaY;
   var updateObject;
+  var oldSessionId;
+
   switch (action.type) {
     case CHANGE_ZOOM:
       newState = update(state, { scale: { $set: action.percent / 100 } });
@@ -148,11 +161,25 @@ export default function graphEditorReducer(
                 $set: action.x - state.nodeTemplates[action.index].width / 2
               },
               y: { $set: action.y - 10 }
-            }
+            },
+            id: { $set: action.nodeId }
           }
         }
       });
       console.log("state after ", newState);
+      break;
+    case CONFIRM_NODE:
+      console.log("CONFIRM_NODE", action.nodeId, action.sessionId, action);
+      var nodeIndex = findNodeIndexWithId(state, action.nodeId);
+      console.log("nodeIndex", nodeIndex);
+      newState = update(state, {
+        nodes: {
+          [nodeIndex]: {
+            nodeConfirmedInSessionWithID: { $set: action.sessionId }
+          }
+        }
+      });
+
       break;
     case SELECT_CONNECTION:
       console.log("SELECT_CONNECTION", action.connectionIndex);
@@ -256,10 +283,18 @@ export default function graphEditorReducer(
       });
       break;
     case RESET_NORMAL:
+      oldSessionId = state.currentSessionID;
       newState = InitialState(false);
+      newState = update(newState, {
+        currentSessionID: { $set: oldSessionId }
+      });
       break;
     case RESET_STRESS_TEST:
+      oldSessionId = state.currentSessionID;
       newState = InitialState(true);
+      newState = update(newState, {
+        currentSessionID: { $set: oldSessionId }
+      });
       break;
     case CONNECT_PORTS:
       console.log("CONNECT_PORTS reducer");
