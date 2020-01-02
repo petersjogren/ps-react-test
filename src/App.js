@@ -43,6 +43,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App noselect">
+        <div className="messagerow">
+          {this.props.state.currentSessionID === ""
+            ? "Server disconnected"
+            : "Server online"}
+        </div>
         <div
           className="buttonrow"
           style={{ display: "flex", justifyContent: "space-around" }}

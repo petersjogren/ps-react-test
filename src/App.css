@@ -81,7 +81,10 @@ body {
   flex-direction: row;
   justify-content: center;
 }
-
+.messagerow {
+  background-color: #020;
+  color: #999;
+}
 div.position-view {
   text-align: left;
 }
