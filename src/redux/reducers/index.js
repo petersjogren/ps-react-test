@@ -17,7 +17,8 @@ import {
   CREATE_NODE,
   SET_NODE_TEMPLATE_LIST,
   SET_CURRENT_SESSIONID,
-  CONFIRM_NODE
+  CONFIRM_NODE,
+  RECONNECT_SERVER
 } from "../actions";
 
 function findNodeIndexWithId(state, id) {
@@ -327,6 +328,10 @@ export default function graphEditorReducer(
       newState = update(state, {
         currentSessionID: { $set: action.id }
       });
+      break;
+    case RECONNECT_SERVER:
+      // Connection was reset in action creator
+      newState = state;
       break;
     default:
       console.log("default ", state);

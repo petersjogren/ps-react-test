@@ -114,10 +114,12 @@ export class InOutNode extends React.Component {
       position,
       width,
       isSelected,
+      currentSessionID,
       nodeConfirmedInSessionWithID
     } = this.props;
     return (
       nextProps.nodeIndex !== nodeIndex ||
+      nextProps.currentSessionID !== currentSessionID ||
       nextProps.scale !== scale ||
       nextProps.nodeConfirmedInSessionWithID !== nodeConfirmedInSessionWithID ||
       nextProps.position.x !== position.x ||

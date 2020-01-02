@@ -1,5 +1,8 @@
 import axios from "axios";
-import { websocketSendCommand } from "../../websocketClientUtils";
+import {
+  websocketSendCommand,
+  websocketClientSetup
+} from "../../websocketClientUtils";
 import uuidv4 from "uuid/v4";
 
 export const CHANGE_ZOOM = "CHANGE_ZOOM";
@@ -19,6 +22,7 @@ export const SELECT_CLEAR = "SELECT_CLEAR";
 export const SET_NODE_TEMPLATE_LIST = "SET_NODE_TEMPLATE_LIST";
 export const SET_CURRENT_SESSIONID = "SET_CURRENT_SESSIONID";
 export const CONFIRM_NODE = "CONFIRM_NODE";
+export const RECONNECT_SERVER = "RECONNECT_SERVER";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -138,5 +142,13 @@ export const storeCurrentSessionIDAction = sessionID => {
   return {
     type: SET_CURRENT_SESSIONID,
     id: sessionID
+  };
+};
+
+export const reconnectAction = () => {
+  console.log("reconnectAction");
+  websocketClientSetup();
+  return {
+    type: RECONNECT_SERVER
   };
 };
