@@ -3,6 +3,9 @@
 // Start with
 // node websocket-test-server.js
 
+var nextNodeId = 1;
+var nodes = [];
+
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = "node-chat";
 // Port where we'll run the websocket server
@@ -17,22 +20,7 @@ var http = require("http");
 var history = [];
 // list of currently connected clients (users)
 var clients = [];
-/**
- * Helper function for escaping input strings
- */
-function htmlEntities(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-// Array with some colors
-var colors = ["red", "green", "blue", "magenta", "purple", "plum", "orange"];
-// ... in random order
-colors.sort(function(a, b) {
-  return Math.random() > 0.5;
-});
+
 /**
  * HTTP server
  */
@@ -75,14 +63,30 @@ wsServer.on("request", function(request) {
   connection.on("message", function(message) {
     if (message.type === "utf8") {
       // accept only text
-      // first message sent by user is their name
       {
         // log and broadcast the message
         console.log(
           new Date() + " Received Message " + ": " + message.utf8Data
         );
 
-        connection.send("Got a message: " + message.utf8Data);
+        var commandArray = message.utf8Data.split(" ");
+        var responseJSON = {};
+        switch (commandArray[0]) {
+          case "addnode":
+            responseJSON = {
+              type: "NODE_ADDED",
+              id: nextNodeId++
+            };
+            break;
+          default:
+            responseJSON = {
+              type: "ERROR",
+              message: 'Invalid command: "' + message.utf8Data + '"'
+            };
+            break;
+        }
+
+        connection.send(JSON.stringify(responseJSON));
       }
     }
   });

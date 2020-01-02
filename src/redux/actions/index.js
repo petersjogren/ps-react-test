@@ -27,8 +27,10 @@ export const deleteSelectedAction = () => ({
 });
 
 export const createNodeAction = (x, y, index, title) => dispatch => {
-  websocketSendCommand("add node: " + title).then(value => {
+  websocketSendCommand("addnode " + title).then(value => {
     console.log("answer", value);
+    var json = JSON.parse(value.data);
+    console.log("Response", json.type, json.id);
     dispatch({
       type: CREATE_NODE,
       x,
