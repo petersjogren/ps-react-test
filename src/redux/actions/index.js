@@ -42,7 +42,7 @@ export const createNodeAction = (x, y, index, title) => dispatch => {
     index,
     nodeId
   });
-  websocketSendCommand("addnode;" + nodeId + ";" + title).then(value => {
+  websocketSendCommand("addnode;" + nodeId + ";" + title, value => {
     console.log("answer", value);
     var json = JSON.parse(value.data);
     console.log("Response", json.type, json.nodeId, json.sessionId);
@@ -160,17 +160,15 @@ export const syncAction = (currentSessionId, nodes) => dispatch => {
     return node.nodeConfirmedInSessionWithID !== currentSessionId;
   });
   missingNodes.forEach(node => {
-    websocketSendCommand("addnode;" + node.id + ";" + node.title).then(
-      value => {
-        console.log("answer", value);
-        var json = JSON.parse(value.data);
-        console.log("Response", json.type, json.nodeId, json.sessionId);
-        dispatch({
-          type: CONFIRM_NODE,
-          nodeId: json.nodeId,
-          sessionId: json.sessionId
-        });
-      }
-    );
+    websocketSendCommand("addnode;" + node.id + ";" + node.title, value => {
+      console.log("answer", value);
+      var json = JSON.parse(value.data);
+      console.log("Response", json.type, json.nodeId, json.sessionId);
+      dispatch({
+        type: CONFIRM_NODE,
+        nodeId: json.nodeId,
+        sessionId: json.sessionId
+      });
+    });
   });
 };

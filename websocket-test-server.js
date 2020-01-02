@@ -97,7 +97,7 @@ wsServer.on("request", function(request) {
 
         setTimeout(function() {
           connection.send(JSON.stringify(responseJSON));
-        }, 1 * 1000);
+        }, 100); // in milliseconds
       }
     }
   });

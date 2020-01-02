@@ -2,6 +2,9 @@ import { store } from "./index.js";
 import { storeCurrentSessionIDAction } from "./redux/actions";
 
 var connection;
+var messageInProgress = false;
+var messageQueue = [];
+var successFunctionForMessageInProgress = null;
 
 export function websocketClientSetup() {
   // if user is running mozilla then use it's built-in WebSocket
@@ -30,19 +33,36 @@ export function websocketClientSetup() {
   connection.onmessage = function(message) {
     console.log("sessionID: " + message.data);
     store.dispatch(storeCurrentSessionIDAction(message.data));
+
+    // Reset onmessage handler to handle response messages
+    connection.onmessage = function(message) {
+      if (messageInProgress) {
+        successFunctionForMessageInProgress(message);
+        if (messageQueue.length > 0) {
+          var nextCommand = messageQueue[0];
+          messageQueue.shift();
+          successFunctionForMessageInProgress = nextCommand.successFunction;
+          connection.send(nextCommand.string);
+        } else {
+          messageInProgress = false;
+        }
+      }
+    };
   };
 }
 
-export async function websocketSendCommand(string) {
+export function websocketSendCommand(string, successFunction) {
   if (connection.readyState !== WebSocket.CLOSED) {
-    var websocketPromise = new Promise(function(resolve, reject) {
-      connection.onmessage = function(message) {
-        console.log("got message", message);
-        resolve(message);
-      };
+    if (messageInProgress) {
+      messageQueue.push({
+        string,
+        successFunction
+      });
+    } else {
+      successFunctionForMessageInProgress = successFunction;
       connection.send(string);
-    });
-    return websocketPromise;
+      messageInProgress = true;
+    }
   } else {
     return "Error";
   }
