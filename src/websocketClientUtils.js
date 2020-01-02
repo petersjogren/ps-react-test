@@ -1,5 +1,5 @@
 var connection;
-var onAnswer = null;
+var sessionID;
 
 export function websocketClientSetup() {
   // if user is running mozilla then use it's built-in WebSocket
@@ -12,6 +12,11 @@ export function websocketClientSetup() {
     // connection is opened and ready to use
   };
 
+  connection.onclose = function() {
+    console.log("Connection closed");
+    sessionID = "";
+  };
+
   connection.onerror = function(error) {
     // an error occurred when sending/receiving data
     window.alert(
@@ -20,7 +25,10 @@ export function websocketClientSetup() {
     );
   };
 
-  connection.onmessage = null;
+  connection.onmessage = function(message) {
+    sessionID = message.data;
+    console.log("sessionID: " + sessionID);
+  };
 }
 
 export async function websocketSendCommand(string) {

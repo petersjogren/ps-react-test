@@ -8,6 +8,9 @@
  */
 var nextNodeId = 1;
 var nodes = [];
+var sessionID = "";
+
+var uuidv4 = require("uuid/v4");
 
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = "node-chat";
@@ -50,6 +53,9 @@ wsServer.on("request", function(request) {
   var userName = false;
   var userColor = false;
   console.log(new Date() + " Connection accepted.");
+  sessionID = uuidv4();
+  connection.send(sessionID);
+
   // user sent some message
   connection.on("message", function(message) {
     if (message.type === "utf8") {
