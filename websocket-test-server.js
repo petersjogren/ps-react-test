@@ -22,9 +22,17 @@ var http = require("http");
 
 function dumpNodesToConsole() {
   console.log("\nAll nodes:");
+  console.log("digraph G {");
   nodes.forEach(value => {
-    console.log(value.title, value.nodeId);
+    console.log(
+      '"' +
+        value.title +
+        " " +
+        value.nodeId.substring(value.nodeId.length - 4) +
+        '"'
+    );
   });
+  console.log("}");
 }
 
 /**
