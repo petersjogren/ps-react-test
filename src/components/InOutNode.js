@@ -111,7 +111,8 @@ export class InOutNode extends React.Component {
     const {
       nodeIndex,
       scale,
-      position,
+      positionX,
+      positionY,
       width,
       isSelected,
       currentSessionID,
@@ -122,8 +123,8 @@ export class InOutNode extends React.Component {
       nextProps.currentSessionID !== currentSessionID ||
       nextProps.scale !== scale ||
       nextProps.nodeConfirmedInSessionWithID !== nodeConfirmedInSessionWithID ||
-      nextProps.position.x !== position.x ||
-      nextProps.position.y !== position.y ||
+      nextProps.positionX !== positionX ||
+      nextProps.positionY !== positionY ||
       nextProps.width !== width ||
       nextProps.isSelected !== isSelected
     );
@@ -136,7 +137,8 @@ export class InOutNode extends React.Component {
       currentSessionID,
       nodeConfirmedInSessionWithID,
       scale,
-      position,
+      positionX,
+      positionY,
       onConnect,
       onDrag,
       width,
@@ -149,6 +151,7 @@ export class InOutNode extends React.Component {
     if (isSelected) {
       classes.push("nodeselected");
     }
+    console.log(`InOutNode(${nodeIndex}) render`);
     var isConfirmedInThisSession =
       currentSessionID === nodeConfirmedInSessionWithID;
     console.log(
@@ -163,7 +166,7 @@ export class InOutNode extends React.Component {
     return (
       <Draggable
         scale={scale}
-        position={position}
+        position={{ x: positionX, y: positionY }}
         onDrag={onDrag}
         handle="header"
         onMouseDown={e => {

@@ -120,7 +120,8 @@ class GraphicsAreaPureHTML extends React.Component {
                 currentSessionID={this.props.currentSessionID}
                 nodeConfirmedInSessionWithID={key.nodeConfirmedInSessionWithID}
                 scale={this.props.scale}
-                position={key.position}
+                positionX={key.position.x}
+                positionY={key.position.y}
                 inputPorts={key.inputPorts}
                 outputPorts={key.outputPorts}
                 width={key.width}
