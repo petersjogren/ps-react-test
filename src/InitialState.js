@@ -129,7 +129,7 @@ function InitialStateStressTest() {
     });
 
   return {
-    currentSessionID: 9999,
+    currentSessionID: "9999",
     pureHTMLgraph: true,
     scale: 0.4,
     stressTest: true,
@@ -166,7 +166,7 @@ function InitialStateStressTest() {
 
 function InitialStateNormal() {
   return {
-    currentSessionID: 9999,
+    currentSessionID: "9999",
     pureHTMLgraph: true,
     stressTest: false,
     scale: 0.9,

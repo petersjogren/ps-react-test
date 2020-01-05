@@ -1,6 +1,7 @@
 import React from "react";
 import Draggable from "react-draggable";
 import "./InOutNode.css";
+import PropTypes from "prop-types";
 
 var rowHeight = 16;
 var portWidth = 15;
@@ -151,15 +152,8 @@ export class InOutNode extends React.Component {
     if (isSelected) {
       classes.push("nodeselected");
     }
-    console.log(`InOutNode(${nodeIndex}) render`);
     var isConfirmedInThisSession =
       currentSessionID === nodeConfirmedInSessionWithID;
-    console.log(
-      "currentSessionID",
-      currentSessionID,
-      "nodeConfirmedInSessionWithID",
-      nodeConfirmedInSessionWithID
-    );
     if (!isConfirmedInThisSession) {
       classes.push("notconfirmed");
     }
@@ -215,3 +209,20 @@ export class InOutNode extends React.Component {
     );
   }
 }
+
+InOutNode.propTypes = {
+  title: PropTypes.string.isRequired,
+  nodeIndex: PropTypes.number.isRequired,
+  currentSessionID: PropTypes.string.isRequired,
+  nodeConfirmedInSessionWithID: PropTypes.string.isRequired,
+  scale: PropTypes.number.isRequired,
+  positionX: PropTypes.number.isRequired,
+  positionY: PropTypes.number.isRequired,
+  inputPorts: PropTypes.any.isRequired,
+  outputPorts: PropTypes.any.isRequired,
+  width: PropTypes.number.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  onDrag: PropTypes.func.isRequired,
+  onConnect: PropTypes.func.isRequired,
+  onSelectNode: PropTypes.func.isRequired
+};
