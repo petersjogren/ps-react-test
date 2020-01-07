@@ -5,7 +5,7 @@ export const invalidMousePosition = 999999;
 function nodeTemplates() {
   return [
     {
-      nodeConfirmedInSessionWithID: 0,
+      nodeConfirmedInSessionWithID: "0",
       title: "Add",
       id: 213,
       position: {
@@ -21,7 +21,7 @@ function nodeTemplates() {
       outputPorts: [{ name: "sum", type: "int" }]
     },
     {
-      nodeConfirmedInSessionWithID: 0,
+      nodeConfirmedInSessionWithID: "0",
       title: "Mult",
       id: 213,
       position: {
@@ -38,7 +38,7 @@ function nodeTemplates() {
       outputPorts: [{ name: "sum", type: "int" }]
     },
     {
-      nodeConfirmedInSessionWithID: 0,
+      nodeConfirmedInSessionWithID: "0",
       title: "Sub",
       id: 213,
       position: {
@@ -54,7 +54,7 @@ function nodeTemplates() {
       outputPorts: [{ name: "sum", type: "int" }]
     },
     {
-      nodeConfirmedInSessionWithID: 0,
+      nodeConfirmedInSessionWithID: "0",
       title: "Div",
       id: 213,
       position: {
@@ -70,7 +70,7 @@ function nodeTemplates() {
       outputPorts: [{ name: "sum", type: "int" }]
     },
     {
-      nodeConfirmedInSessionWithID: 0,
+      nodeConfirmedInSessionWithID: "0",
       title: "Add/Sub 4",
       id: 213,
       position: {
@@ -97,7 +97,7 @@ function InitialStateStressTest() {
   var someIndexes = [...Array(202).keys()];
   var someNodes = someIndexes.map(index => {
     return {
-      nodeConfirmedInSessionWithID: 0,
+      nodeConfirmedInSessionWithID: "0",
       title: "Add",
       id: uuidv4(),
       position: {
