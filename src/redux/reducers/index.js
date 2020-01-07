@@ -21,7 +21,8 @@ import {
   RECONNECT_SERVER,
   OUTPORT_DRAG_STARTED,
   DRAG_CANCELLED,
-  INPORT_DROP
+  INPORT_DROP,
+  DRAG_MOUSE_POSITION
 } from "../actions";
 
 const payLoadTypeOutport = "FROM_OUTPORT";
@@ -254,6 +255,15 @@ export default function graphEditorReducer(
       newState = update(state, {
         isDragInProgress: {
           $set: false
+        }
+      });
+      break;
+    case DRAG_MOUSE_POSITION:
+      console.log("DRAG_MOUSE_POSITION", action.x, action.y);
+      newState = update(state, {
+        dragMousePosition: {
+          x: { $set: action.x },
+          y: { $set: action.y }
         }
       });
       break;

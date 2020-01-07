@@ -14,7 +14,8 @@ import {
   createNodeAction,
   outportDragStartedAction,
   dragCancelledAction,
-  inportDropAction
+  inportDropAction,
+  dragMousePositionAction
 } from "../redux/actions";
 import HTMLNode from "./HTMLNode";
 import {
@@ -40,6 +41,7 @@ class GraphicsAreaPureHTML extends React.Component {
 
           if (this.props.isDragInProgress) {
             console.log("mouse move", x, y);
+            this.props.onDragMousePosition(x, y);
           }
         }}
         onDragOver={e => {
@@ -197,7 +199,8 @@ const mapDispatchToProps = dispatch => ({
   },
   onInportDrop: (nodeIndex, portIndex) =>
     dispatch(inportDropAction(nodeIndex, portIndex)),
-  onDragCancelled: () => dispatch(dragCancelledAction())
+  onDragCancelled: () => dispatch(dragCancelledAction()),
+  onDragMousePosition: (x, y) => dispatch(dragMousePositionAction(x, y))
 });
 
 export default connect(

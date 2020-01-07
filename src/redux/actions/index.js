@@ -26,6 +26,7 @@ export const RECONNECT_SERVER = "RECONNECT_SERVER";
 export const OUTPORT_DRAG_STARTED = "OUTPORT_DRAG_STARTED";
 export const DRAG_CANCELLED = "DRAG_CANCELLED";
 export const INPORT_DROP = "INPORT_DROP";
+export const DRAG_MOUSE_POSITION = "DRAG_MOUSE_POSITION";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -72,6 +73,12 @@ export const inportDropAction = (nodeIndex, portIndex) => ({
   type: INPORT_DROP,
   nodeIndex,
   portIndex
+});
+
+export const dragMousePositionAction = (x, y) => ({
+  type: DRAG_MOUSE_POSITION,
+  x,
+  y
 });
 
 export const dragCancelledAction = () => ({

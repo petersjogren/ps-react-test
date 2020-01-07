@@ -135,6 +135,7 @@ function InitialStateStressTest() {
     stressTest: true,
     isDragInProgress: false,
     dragPayload: {},
+    dragMousePosition: { x: 0, y: 0 },
     deltaPosition: {
       x: 0,
       y: 0
@@ -173,6 +174,7 @@ function InitialStateNormal() {
     scale: 0.9,
     isDragInProgress: false,
     dragPayload: {},
+    dragMousePosition: { x: 0, y: 0 },
     deltaPosition: {
       x: 0,
       y: 0
