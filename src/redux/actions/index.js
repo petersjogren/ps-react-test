@@ -27,6 +27,7 @@ export const OUTPORT_DRAG_STARTED = "OUTPORT_DRAG_STARTED";
 export const DRAG_CANCELLED = "DRAG_CANCELLED";
 export const INPORT_DROP = "INPORT_DROP";
 export const DRAG_MOUSE_POSITION = "DRAG_MOUSE_POSITION";
+export const LOAD_STATE = "LOAD_STATE";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -198,3 +199,8 @@ export const syncAction = (currentSessionId, nodes) => dispatch => {
     });
   });
 };
+
+export const loadStateFromStringAction = string => ({
+  type: LOAD_STATE,
+  data: string
+});

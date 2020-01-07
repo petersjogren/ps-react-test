@@ -22,8 +22,12 @@ import {
   loadDefaultNodeTemplatesAsyncAction,
   loadOtherNodeTemplatesAsyncAction,
   reconnectAction,
-  syncAction
+  syncAction,
+  loadStateFromStringAction
 } from "./redux/actions";
+
+var reader = new FileReader();
+var file;
 
 class App extends React.Component {
   componentDidMount() {
@@ -57,6 +61,31 @@ class App extends React.Component {
           style={{ display: "flex", justifyContent: "space-around" }}
         >
           <button onClick={this.props.reconnect}>New session</button>
+          <button
+            onClick={() => {
+              var input = document.createElement("input");
+              input.type = "file";
+
+              input.onchange = e => {
+                console.log("File loaded onchange");
+                // getting a hold of the file reference
+                file = e.target.files[0];
+
+                // setting up the reader
+                reader.readAsText(file, "UTF-8");
+
+                // here we tell the reader what to do when it's done reading...
+                reader.onload = readerEvent => {
+                  console.log("File loaded");
+                  var content = readerEvent.target.result; // this is the content!
+                  this.props.onLoadStateFromString(content);
+                };
+              };
+              input.click();
+            }}
+          >
+            Load state
+          </button>
           <button
             onClick={() => {
               var stateString = JSON.stringify(this.props.state, null, 2);
@@ -126,7 +155,8 @@ const mapDispatchToProps = dispatch => ({
   reconnect: () => dispatch(reconnectAction()),
   sync: (currentSessionID, nodes) => {
     dispatch(syncAction(currentSessionID, nodes));
-  }
+  },
+  onLoadStateFromString: string => dispatch(loadStateFromStringAction(string))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

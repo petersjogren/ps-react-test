@@ -22,7 +22,8 @@ import {
   OUTPORT_DRAG_STARTED,
   DRAG_CANCELLED,
   INPORT_DROP,
-  DRAG_MOUSE_POSITION
+  DRAG_MOUSE_POSITION,
+  LOAD_STATE
 } from "../actions";
 import { invalidMousePosition } from "../../InitialState";
 
@@ -90,6 +91,9 @@ export default function graphEditorReducer(
   var oldSessionId;
 
   switch (action.type) {
+    case LOAD_STATE:
+      newState = JSON.parse(action.data);
+      break;
     case CHANGE_ZOOM:
       newState = update(state, { scale: { $set: action.percent / 100 } });
       break;
