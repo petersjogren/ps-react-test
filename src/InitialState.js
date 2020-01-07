@@ -1,5 +1,7 @@
 import uuidv4 from "uuid/v4";
 
+export const invalidMousePosition = 999999;
+
 function nodeTemplates() {
   return [
     {
@@ -135,11 +137,7 @@ function InitialStateStressTest() {
     stressTest: true,
     isDragInProgress: false,
     dragPayload: {},
-    dragMousePosition: { x: 0, y: 0 },
-    deltaPosition: {
-      x: 0,
-      y: 0
-    },
+    dragMousePosition: { x: invalidMousePosition, y: invalidMousePosition },
     nodeTemplates: nodeTemplates(),
     nodes: [...someNodes],
     connections: [...someConnections],
@@ -174,11 +172,7 @@ function InitialStateNormal() {
     scale: 0.9,
     isDragInProgress: false,
     dragPayload: {},
-    dragMousePosition: { x: 0, y: 0 },
-    deltaPosition: {
-      x: 0,
-      y: 0
-    },
+    dragMousePosition: { x: invalidMousePosition, y: invalidMousePosition },
     nodeTemplates: nodeTemplates(),
     nodes: [
       {

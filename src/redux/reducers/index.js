@@ -24,8 +24,9 @@ import {
   INPORT_DROP,
   DRAG_MOUSE_POSITION
 } from "../actions";
+import { invalidMousePosition } from "../../InitialState";
 
-const payLoadTypeOutport = "FROM_OUTPORT";
+export const payLoadTypeOutport = "FROM_OUTPORT";
 
 function findNodeIndexWithId(state, id) {
   var foundIndex = -1;
@@ -60,6 +61,19 @@ function connectPorts(
         }
       ]
     }
+  });
+}
+
+function clearDragState(state) {
+  return update(state, {
+    isDragInProgress: {
+      $set: false
+    },
+    dragMousePosition: {
+      x: { $set: invalidMousePosition },
+      y: { $set: invalidMousePosition }
+    },
+    dragPayload: { $set: {} }
   });
 }
 
@@ -243,20 +257,12 @@ export default function graphEditorReducer(
           action.portIndex
         );
       }
-      newState = update(newState, {
-        isDragInProgress: {
-          $set: false
-        },
-        dragPayload: { $set: {} }
-      });
+      newState = clearDragState(newState);
+
       break;
     case DRAG_CANCELLED:
       console.log("DRAG_CANCELLED");
-      newState = update(state, {
-        isDragInProgress: {
-          $set: false
-        }
-      });
+      newState = clearDragState(state);
       break;
     case DRAG_MOUSE_POSITION:
       console.log("DRAG_MOUSE_POSITION", action.x, action.y);

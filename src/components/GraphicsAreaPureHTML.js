@@ -23,11 +23,14 @@ import {
   inPortRelativePosition,
   outPortRelativePosition
 } from "./InOutNode";
+import { payLoadTypeOutport } from "../redux/reducers";
+import { invalidMousePosition } from "../InitialState";
 
 class GraphicsAreaPureHTML extends React.Component {
   render() {
     return (
       <div
+        id="nodearea"
         className="nodearea bgpattern"
         onMouseDown={e => {
           console.log("graphicsarea clicked");
@@ -35,7 +38,9 @@ class GraphicsAreaPureHTML extends React.Component {
         }}
         onMouseUp={this.props.onDragCancelled}
         onMouseMove={e => {
-          var rect = e.target.getBoundingClientRect();
+          var rect = document
+            .getElementById("nodearea")
+            .getBoundingClientRect();
           var x = (e.clientX - rect.left) / this.props.scale; //x position within the element.
           var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
 
@@ -78,7 +83,55 @@ class GraphicsAreaPureHTML extends React.Component {
             className="arrowsvg"
             style={{ position: "relative", top: "0px", left: "0px" }}
           >
-            {this.props.connections.map((key, index) => {
+            {// Draw a curve during drag
+            (() => {
+              if (
+                this.props.isDragInProgress &&
+                this.props.dragPayload.type === payLoadTypeOutport &&
+                this.props.dragMousePosition.x !== invalidMousePosition
+              ) {
+                var fromNode = this.props.nodes[
+                  this.props.dragPayload.nodeIndex
+                ];
+                var fromX =
+                  fromNode.position.x +
+                  outPortRelativePosition(
+                    fromNode,
+                    this.props.dragPayload.portIndex
+                  ).x;
+                var fromY =
+                  fromNode.position.y +
+                  outPortRelativePosition(
+                    fromNode,
+                    this.props.dragPayload.portIndex
+                  ).y;
+                var toX = this.props.dragMousePosition.x;
+                var toY = this.props.dragMousePosition.y;
+                return (
+                  <BezierCurve
+                    key={0}
+                    isSelected={false}
+                    connectionIndex={0}
+                    onSelectConnection={() => {}}
+                    start={{ x: fromX, y: fromY }}
+                    end={{ x: toX, y: toY }}
+                    c1={{
+                      x: fromX + (fromNode.width * 3) / 4,
+                      y: fromY
+                    }}
+                    c2={{
+                      x: toX - (fromNode.width * 3) / 4,
+                      y: toY
+                    }}
+                    curveColor="black"
+                    curveWidth={3}
+                  />
+                );
+              }
+            })()}
+
+            {// Draw all connections between nodes
+            this.props.connections.map((key, index) => {
               var fromNode = this.props.nodes[key.from.nodeIndex];
               var toNode = this.props.nodes[key.to.nodeIndex];
               var fromX =
@@ -169,7 +222,9 @@ const mapStateToProps = state => ({
   textNode: state.textNode,
   imgNode: state.imgNode,
   stressTest: state.stressTest,
-  isDragInProgress: state.isDragInProgress
+  isDragInProgress: state.isDragInProgress,
+  dragPayload: state.dragPayload,
+  dragMousePosition: state.dragMousePosition
 });
 
 const mapDispatchToProps = dispatch => ({
