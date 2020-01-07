@@ -261,11 +261,11 @@ export default function graphEditorReducer(
 
       break;
     case DRAG_CANCELLED:
-      console.log("DRAG_CANCELLED");
+      // console.log("DRAG_CANCELLED");
       newState = clearDragState(state);
       break;
     case DRAG_MOUSE_POSITION:
-      console.log("DRAG_MOUSE_POSITION", action.x, action.y);
+      // console.log("DRAG_MOUSE_POSITION", action.x, action.y);
       newState = update(state, {
         dragMousePosition: {
           x: { $set: action.x },
@@ -274,7 +274,7 @@ export default function graphEditorReducer(
       });
       break;
     case SELECT_CONNECTION:
-      console.log("SELECT_CONNECTION", action.connectionIndex);
+      // console.log("SELECT_CONNECTION", action.connectionIndex);
       newState = update(state, {
         connections: {
           [action.connectionIndex]: {
@@ -284,7 +284,7 @@ export default function graphEditorReducer(
       });
       break;
     case SELECT_CLEAR:
-      console.log("SELECT_CLEAR");
+      // console.log("SELECT_CLEAR");
       updateObject = {};
       state.nodes.map((value, index) => {
         updateObject[index] = {
@@ -312,8 +312,6 @@ export default function graphEditorReducer(
       });
       break;
     case POSITION_NODE:
-      deltaX = action.position.x - state.nodes[action.index].position.x;
-      deltaY = action.position.y - state.nodes[action.index].position.y;
       newState = update(state, {
         nodes: {
           [action.index]: {

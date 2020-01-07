@@ -7,12 +7,19 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import thunk from "redux-thunk";
+import { createLogger } from "redux-logger";
+import { POSITION_NODE, DRAG_MOUSE_POSITION } from "./redux/actions";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const logger = createLogger({
+  collapsed: (getState, action) =>
+    action.type === POSITION_NODE || action.type === DRAG_MOUSE_POSITION
+});
+
 export const store = createStore(
   graphEditorReducer,
-  composeEnhancer(applyMiddleware(thunk))
+  composeEnhancer(applyMiddleware(thunk, logger))
 
   // other store enhancers if any
 );

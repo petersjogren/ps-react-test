@@ -45,7 +45,7 @@ class GraphicsAreaPureHTML extends React.Component {
           var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
 
           if (this.props.isDragInProgress) {
-            console.log("mouse move", x, y);
+            // console.log("mouse move", x, y);
             this.props.onDragMousePosition(x, y);
           }
         }}
