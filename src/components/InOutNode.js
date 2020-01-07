@@ -55,15 +55,8 @@ function InPort(props) {
   );
 }
 
-const invisibleDragImage = (() => {
-  var img = new Image();
-  img.src =
-    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-  return img;
-})();
-
 function OutPort(props) {
-  const { name, nodeIndex, portIndex } = props;
+  const { name } = props;
   return (
     <div className="port_area out">
       <div className="noport noselect"></div>
