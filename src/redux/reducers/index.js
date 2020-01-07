@@ -92,7 +92,11 @@ export default function graphEditorReducer(
 
   switch (action.type) {
     case LOAD_STATE:
+      var currentSession = state.currentSessionID;
       newState = JSON.parse(action.data);
+      newState = update(newState, {
+        currentSessionID: { $set: currentSession }
+      });
       break;
     case CHANGE_ZOOM:
       newState = update(state, { scale: { $set: action.percent / 100 } });
@@ -224,6 +228,7 @@ export default function graphEditorReducer(
       var nodeIndex = findNodeIndexWithId(state, action.nodeId);
       console.log("nodeIndex", nodeIndex);
       newState = update(state, {
+        currentSessionID: { $set: action.sessionId },
         nodes: {
           [nodeIndex]: {
             nodeConfirmedInSessionWithID: { $set: action.sessionId }
