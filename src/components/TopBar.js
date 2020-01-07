@@ -1,5 +1,4 @@
 import React from "react";
-import DownloadLink from "react-download-link";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 
@@ -37,31 +36,10 @@ const TopBar = props => {
             onChange={props.onChange}
           />
         </div>
-        <DownloadLink
-          label="Save state to disk"
-          className="savestate"
-          tagName="h2"
-          filename="state.txt"
-          exportFile={() => JSON.stringify(props.state, null, 2)}
-        >
-          <h1>Save sta2te to disk</h1>
-        </DownloadLink>
       </div>
     );
   } else {
-    return (
-      <div className="topbar">
-        <DownloadLink
-          label="Save state to disk"
-          className="savestate"
-          tagName="h2"
-          filename="state.txt"
-          exportFile={() => JSON.stringify(props.state, null, 2)}
-        >
-          <h1>Save state to disk</h1>
-        </DownloadLink>
-      </div>
-    );
+    return <div className="topbar"></div>;
   }
 };
 

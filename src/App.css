@@ -141,10 +141,10 @@ button {
 }
 .zoom {
   flex: 1;
+  margin: 20px;
 }
 .rc-slider {
   top: 40%;
-  left: 10px;
 }
 .savestate {
   flex: 1;

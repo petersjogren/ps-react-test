@@ -10,6 +10,7 @@ import GraphicsAreaPureHTML from "./components/GraphicsAreaPureHTML";
 import GraphicsAreaDraw2D from "./components/CanvasDraw2D";
 
 import "katex/dist/katex.min.css";
+import FileSaver from "file-saver";
 
 import TopBar from "./components/TopBar";
 import {
@@ -56,6 +57,18 @@ class App extends React.Component {
           style={{ display: "flex", justifyContent: "space-around" }}
         >
           <button onClick={this.props.reconnect}>New session</button>
+          <button
+            onClick={() => {
+              var stateString = JSON.stringify(this.props.state, null, 2);
+              var blob = new Blob([stateString], {
+                type: "text/plain;charset=utf-8"
+              });
+              FileSaver.saveAs(blob, "state.json");
+            }}
+          >
+            Save state
+          </button>
+
           <button
             onClick={() =>
               this.props.sync(
