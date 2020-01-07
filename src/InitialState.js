@@ -133,7 +133,8 @@ function InitialStateStressTest() {
     pureHTMLgraph: true,
     scale: 0.4,
     stressTest: true,
-    activeDrags: 0,
+    isDragInProgress: false,
+    dragPayload: {},
     deltaPosition: {
       x: 0,
       y: 0
@@ -170,7 +171,8 @@ function InitialStateNormal() {
     pureHTMLgraph: true,
     stressTest: false,
     scale: 0.9,
-    activeDrags: 0,
+    isDragInProgress: false,
+    dragPayload: {},
     deltaPosition: {
       x: 0,
       y: 0

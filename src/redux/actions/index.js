@@ -23,6 +23,9 @@ export const SET_NODE_TEMPLATE_LIST = "SET_NODE_TEMPLATE_LIST";
 export const SET_CURRENT_SESSIONID = "SET_CURRENT_SESSIONID";
 export const CONFIRM_NODE = "CONFIRM_NODE";
 export const RECONNECT_SERVER = "RECONNECT_SERVER";
+export const OUTPORT_DRAG_STARTED = "OUTPORT_DRAG_STARTED";
+export const DRAG_CANCELLED = "DRAG_CANCELLED";
+export const INPORT_DROP = "INPORT_DROP";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -57,6 +60,22 @@ export const createNodeAction = (x, y, index, title) => dispatch => {
 export const selectNodeAction = nodeIndex => ({
   type: SELECT_NODE,
   nodeIndex
+});
+
+export const outportDragStartedAction = (nodeIndex, portIndex) => ({
+  type: OUTPORT_DRAG_STARTED,
+  nodeIndex,
+  portIndex
+});
+
+export const inportDropAction = (nodeIndex, portIndex) => ({
+  type: INPORT_DROP,
+  nodeIndex,
+  portIndex
+});
+
+export const dragCancelledAction = () => ({
+  type: DRAG_CANCELLED
 });
 
 export const selectClearAction = () => ({

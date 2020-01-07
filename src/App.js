@@ -47,6 +47,9 @@ class App extends React.Component {
           {this.props.state.currentSessionID === ""
             ? "Server disconnected"
             : "Server online"}
+          {this.props.state.isDragInProgress === true
+            ? " Draggning " + this.props.state.dragPayload.type
+            : ""}
         </div>
         <div
           className="buttonrow"

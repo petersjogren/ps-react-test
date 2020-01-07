@@ -11,7 +11,10 @@ import {
   selectNodeAction,
   selectConnectionAction,
   selectClearAction,
-  createNodeAction
+  createNodeAction,
+  outportDragStartedAction,
+  dragCancelledAction,
+  inportDropAction
 } from "../redux/actions";
 import HTMLNode from "./HTMLNode";
 import {
@@ -28,6 +31,16 @@ class GraphicsAreaPureHTML extends React.Component {
         onMouseDown={e => {
           console.log("graphicsarea clicked");
           this.props.onSelectClear();
+        }}
+        onMouseUp={this.props.onDragCancelled}
+        onMouseMove={e => {
+          var rect = e.target.getBoundingClientRect();
+          var x = (e.clientX - rect.left) / this.props.scale; //x position within the element.
+          var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
+
+          if (this.props.isDragInProgress) {
+            console.log("mouse move", x, y);
+          }
         }}
         onDragOver={e => {
           e.preventDefault();
@@ -135,6 +148,8 @@ class GraphicsAreaPureHTML extends React.Component {
                 }}
                 onConnect={this.props.onConnect}
                 onSelectNode={this.props.onSelectNode}
+                onOutportDragStarted={this.props.onOutportDragStarted}
+                onInportDrop={this.props.onInportDrop}
               />
             )
           )}
@@ -151,7 +166,8 @@ const mapStateToProps = state => ({
   currentSessionID: state.currentSessionID,
   textNode: state.textNode,
   imgNode: state.imgNode,
-  stressTest: state.stressTest
+  stressTest: state.stressTest,
+  isDragInProgress: state.isDragInProgress
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -175,7 +191,13 @@ const mapDispatchToProps = dispatch => ({
     dispatch(selectConnectionAction(connectionIndex)),
   onSelectClear: () => dispatch(selectClearAction()),
   onCreateNode: (x, y, index, title) =>
-    dispatch(createNodeAction(x, y, index, title))
+    dispatch(createNodeAction(x, y, index, title)),
+  onOutportDragStarted: (nodeIndex, portIndex) => {
+    dispatch(outportDragStartedAction(nodeIndex, portIndex));
+  },
+  onInportDrop: (nodeIndex, portIndex) =>
+    dispatch(inportDropAction(nodeIndex, portIndex)),
+  onDragCancelled: () => dispatch(dragCancelledAction())
 });
 
 export default connect(

@@ -12,7 +12,12 @@ function InPort(props) {
     <div className="port_area in">
       <div
         className="port noselect"
-        draggable={true}
+        // ??? Add onTouchUp onTouchMove onTouchDown that do the same things to support phones.
+        onMouseUp={e => {
+          e.stopPropagation();
+          console.log("mouse up in in port");
+          props.onInportDrop(nodeIndex, portIndex);
+        }}
         onDrop={e => {
           if (e.dataTransfer !== null) {
             var textData = e.dataTransfer.getData("text");
@@ -65,22 +70,9 @@ function OutPort(props) {
       <header className="porttext out noselect">{name}</header>
       <div
         className="port noselect"
-        draggable={true}
-        onDragStart={e => {
-          //console.log(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-
-          var payLoadString = JSON.stringify({
-            type: "CONNECT",
-            nodeIndex: nodeIndex,
-            outPortIndex: portIndex
-          });
-          console.log("drag start", payLoadString);
-          e.dataTransfer.setData("text/plain", payLoadString);
-          e.dataTransfer.setDragImage(invisibleDragImage, 0, 0);
-          e.dataTransfer.dropEffect = "none";
-        }}
-        onDrag={e => {
-          console.log("onDrag");
+        onMouseDown={e => {
+          console.log("outport onmousedown. Begin out port drag");
+          props.onOutportDragStarted();
         }}
       >
         →
@@ -146,7 +138,9 @@ export class InOutNode extends React.Component {
       inputPorts,
       outputPorts,
       isSelected,
-      onSelectNode
+      onSelectNode,
+      onOutportDragStarted,
+      onInportDrop
     } = this.props;
     var classes = ["node"];
     if (isSelected) {
@@ -190,6 +184,7 @@ export class InOutNode extends React.Component {
                 nodeIndex={nodeIndex}
                 portIndex={portIndex}
                 onConnect={onConnect}
+                onInportDrop={onInportDrop}
               />
             );
           })}
@@ -201,6 +196,10 @@ export class InOutNode extends React.Component {
                 name={port.name}
                 nodeIndex={nodeIndex}
                 portIndex={portIndex}
+                onOutportDragStarted={() => {
+                  console.log("onOutportDragStarted");
+                  onOutportDragStarted(nodeIndex, portIndex);
+                }}
               />
             );
           })}
@@ -224,5 +223,7 @@ InOutNode.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   onDrag: PropTypes.func.isRequired,
   onConnect: PropTypes.func.isRequired,
-  onSelectNode: PropTypes.func.isRequired
+  onSelectNode: PropTypes.func.isRequired,
+  onOutportDragStarted: PropTypes.func.isRequired,
+  onInportDrop: PropTypes.func.isRequired
 };

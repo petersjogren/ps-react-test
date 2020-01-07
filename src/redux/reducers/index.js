@@ -18,8 +18,13 @@ import {
   SET_NODE_TEMPLATE_LIST,
   SET_CURRENT_SESSIONID,
   CONFIRM_NODE,
-  RECONNECT_SERVER
+  RECONNECT_SERVER,
+  OUTPORT_DRAG_STARTED,
+  DRAG_CANCELLED,
+  INPORT_DROP
 } from "../actions";
+
+const payLoadTypeOutport = "FROM_OUTPORT";
 
 function findNodeIndexWithId(state, id) {
   var foundIndex = -1;
@@ -29,6 +34,32 @@ function findNodeIndexWithId(state, id) {
     }
   });
   return foundIndex;
+}
+
+function connectPorts(
+  state,
+  fromNodeIndex,
+  fromPortIndex,
+  toNodeIndex,
+  toPortIndex
+) {
+  return update(state, {
+    connections: {
+      $push: [
+        {
+          isSelected: false,
+          from: {
+            nodeIndex: fromNodeIndex,
+            index: fromPortIndex
+          },
+          to: {
+            nodeIndex: toNodeIndex,
+            index: toPortIndex
+          }
+        }
+      ]
+    }
+  });
 }
 
 export default function graphEditorReducer(
@@ -180,7 +211,51 @@ export default function graphEditorReducer(
           }
         }
       });
-
+      break;
+    case OUTPORT_DRAG_STARTED:
+      console.log("OUTPORT_DRAG_STARTED", action.nodeIndex, action.portIndex);
+      newState = update(state, {
+        isDragInProgress: {
+          $set: true
+        },
+        dragPayload: {
+          $set: {
+            type: payLoadTypeOutport,
+            nodeIndex: action.nodeIndex,
+            portIndex: action.portIndex
+          }
+        }
+      });
+      break;
+    case INPORT_DROP:
+      console.log("INPORT_DROP", action.nodeIndex, action.portIndex);
+      newState = state;
+      if (
+        state.isDragInProgress &&
+        state.dragPayload.type === payLoadTypeOutport
+      ) {
+        newState = connectPorts(
+          newState,
+          state.dragPayload.nodeIndex,
+          state.dragPayload.portIndex,
+          action.nodeIndex,
+          action.portIndex
+        );
+      }
+      newState = update(newState, {
+        isDragInProgress: {
+          $set: false
+        },
+        dragPayload: { $set: {} }
+      });
+      break;
+    case DRAG_CANCELLED:
+      console.log("DRAG_CANCELLED");
+      newState = update(state, {
+        isDragInProgress: {
+          $set: false
+        }
+      });
       break;
     case SELECT_CONNECTION:
       console.log("SELECT_CONNECTION", action.connectionIndex);
@@ -299,23 +374,13 @@ export default function graphEditorReducer(
       break;
     case CONNECT_PORTS:
       console.log("CONNECT_PORTS reducer");
-      newState = update(state, {
-        connections: {
-          $push: [
-            {
-              isSelected: false,
-              from: {
-                nodeIndex: action.fromNodeIndex,
-                index: action.fromPortIndex
-              },
-              to: {
-                nodeIndex: action.toNodeIndex,
-                index: action.toPortIndex
-              }
-            }
-          ]
-        }
-      });
+      newState = connectPorts(
+        state,
+        action.fromNodeIndex,
+        action.fromPortIndex,
+        action.toNodeIndex,
+        action.toPortIndex
+      );
       break;
     case SET_NODE_TEMPLATE_LIST:
       console.log("SET_NODE_TEMPLATE_LIST");
