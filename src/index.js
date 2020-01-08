@@ -20,8 +20,7 @@ import {
   CHANGE_ZOOM,
   INPORT_DROP,
   SELECT_NODE,
-  POSITION_EVERY_OTHER_NODE,
-  DRAG_STOP
+  POSITION_EVERY_OTHER_NODE
 } from "./redux/actions";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
