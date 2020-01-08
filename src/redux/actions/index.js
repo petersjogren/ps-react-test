@@ -4,6 +4,7 @@ import {
   websocketClientSetup
 } from "../../websocketClientUtils";
 import uuidv4 from "uuid/v4";
+import { payLoadTypeOutport } from "../reducers";
 
 export const CHANGE_ZOOM = "CHANGE_ZOOM";
 export const POSITION_NODE = "POSITION_NODE";
@@ -28,6 +29,7 @@ export const DRAG_CANCELLED = "DRAG_CANCELLED";
 export const INPORT_DROP = "INPORT_DROP";
 export const DRAG_MOUSE_POSITION = "DRAG_MOUSE_POSITION";
 export const LOAD_STATE = "LOAD_STATE";
+export const DRAG_STOP = "DRAG_STOP";
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,
@@ -70,11 +72,23 @@ export const outportDragStartedAction = (nodeIndex, portIndex) => ({
   portIndex
 });
 
-export const inportDropAction = (nodeIndex, portIndex) => ({
-  type: INPORT_DROP,
+export const inportDropAction = (
   nodeIndex,
-  portIndex
-});
+  portIndex,
+  isDragInProgress,
+  dragPayload
+) => dispatch => {
+  if (isDragInProgress && dragPayload.type === payLoadTypeOutport) {
+    dispatch({ type: DRAG_CANCELLED });
+    dispatch({
+      type: CONNECT_PORTS,
+      fromNodeIndex: dragPayload.nodeIndex,
+      fromPortIndex: dragPayload.portIndex,
+      toNodeIndex: nodeIndex,
+      toPortIndex: portIndex
+    });
+  }
+};
 
 export const dragMousePositionAction = (x, y) => ({
   type: DRAG_MOUSE_POSITION,
@@ -84,6 +98,13 @@ export const dragMousePositionAction = (x, y) => ({
 
 export const dragCancelledAction = () => ({
   type: DRAG_CANCELLED
+});
+
+// This action exists for breaking POSITION_NODE grouping
+// when user ends drag operations. Otherwise all consecutive
+// drag operations will become one undo step.
+export const dragStopAction = () => ({
+  type: DRAG_STOP
 });
 
 export const selectClearAction = () => ({

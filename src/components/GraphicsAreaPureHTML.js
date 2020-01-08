@@ -15,7 +15,8 @@ import {
   outportDragStartedAction,
   dragCancelledAction,
   inportDropAction,
-  dragMousePositionAction
+  dragMousePositionAction,
+  dragStopAction
 } from "../redux/actions";
 import HTMLNode from "./HTMLNode";
 import {
@@ -201,10 +202,18 @@ class GraphicsAreaPureHTML extends React.Component {
                     this.props.stressTest
                   );
                 }}
+                onDragStop={this.props.onDragStop}
                 onConnect={this.props.onConnect}
                 onSelectNode={this.props.onSelectNode}
                 onOutportDragStarted={this.props.onOutportDragStarted}
-                onInportDrop={this.props.onInportDrop}
+                onInportDrop={(nodeIndex, portIndex) => {
+                  this.props.onInportDrop(
+                    nodeIndex,
+                    portIndex,
+                    this.props.isDragInProgress,
+                    this.props.dragPayload
+                  );
+                }}
               />
             )
           )}
@@ -215,16 +224,16 @@ class GraphicsAreaPureHTML extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  nodes: state.nodes,
-  connections: state.connections,
-  scale: state.scale,
-  currentSessionID: state.currentSessionID,
-  textNode: state.textNode,
-  imgNode: state.imgNode,
-  stressTest: state.stressTest,
-  isDragInProgress: state.isDragInProgress,
-  dragPayload: state.dragPayload,
-  dragMousePosition: state.dragMousePosition
+  nodes: state.present.nodes,
+  connections: state.present.connections,
+  scale: state.present.scale,
+  currentSessionID: state.present.currentSessionID,
+  textNode: state.present.textNode,
+  imgNode: state.present.imgNode,
+  stressTest: state.present.stressTest,
+  isDragInProgress: state.present.isDragInProgress,
+  dragPayload: state.present.dragPayload,
+  dragMousePosition: state.present.dragMousePosition
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -252,8 +261,11 @@ const mapDispatchToProps = dispatch => ({
   onOutportDragStarted: (nodeIndex, portIndex) => {
     dispatch(outportDragStartedAction(nodeIndex, portIndex));
   },
-  onInportDrop: (nodeIndex, portIndex) =>
-    dispatch(inportDropAction(nodeIndex, portIndex)),
+  onInportDrop: (nodeIndex, portIndex, isDragInProgress, dragPayload) =>
+    dispatch(
+      inportDropAction(nodeIndex, portIndex, isDragInProgress, dragPayload)
+    ),
+  onDragStop: () => dispatch(dragStopAction()),
   onDragCancelled: () => dispatch(dragCancelledAction()),
   onDragMousePosition: (x, y) => dispatch(dragMousePositionAction(x, y))
 });

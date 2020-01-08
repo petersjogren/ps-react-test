@@ -25,6 +25,7 @@ import {
   syncAction,
   loadStateFromStringAction
 } from "./redux/actions";
+import { ActionCreators } from "redux-undo";
 
 var reader = new FileReader();
 var file;
@@ -61,6 +62,12 @@ class App extends React.Component {
           style={{ display: "flex", justifyContent: "space-around" }}
         >
           <button onClick={this.props.reconnect}>New session</button>
+          <button onClick={this.props.onUndo}>
+            Undo ({this.props.sizePast})
+          </button>
+          <button onClick={this.props.onRedo}>
+            Redo ({this.props.sizeFuture})
+          </button>
           <button
             onClick={() => {
               var input = document.createElement("input");
@@ -141,7 +148,9 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  state: state
+  state: state.present,
+  sizePast: state.past.length,
+  sizeFuture: state.future.length
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -156,7 +165,9 @@ const mapDispatchToProps = dispatch => ({
   sync: (currentSessionID, nodes) => {
     dispatch(syncAction(currentSessionID, nodes));
   },
-  onLoadStateFromString: string => dispatch(loadStateFromStringAction(string))
+  onLoadStateFromString: string => dispatch(loadStateFromStringAction(string)),
+  onUndo: () => dispatch(ActionCreators.undo()),
+  onRedo: () => dispatch(ActionCreators.redo())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

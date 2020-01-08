@@ -32,6 +32,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "redux-undo": "^1.0.0",
     "uuid": "^3.3.3",
     "websocket": "^1.0.31"
   },

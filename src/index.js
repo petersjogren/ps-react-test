@@ -7,8 +7,22 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import thunk from "redux-thunk";
+import undoable from "redux-undo";
+import { groupByActionTypes, excludeAction } from "redux-undo";
 import { createLogger } from "redux-logger";
-import { POSITION_NODE, DRAG_MOUSE_POSITION } from "./redux/actions";
+import {
+  POSITION_NODE,
+  DRAG_MOUSE_POSITION,
+  CONFIRM_NODE,
+  DRAG_CANCELLED,
+  SELECT_CLEAR,
+  OUTPORT_DRAG_STARTED,
+  CHANGE_ZOOM,
+  INPORT_DROP,
+  SELECT_NODE,
+  POSITION_EVERY_OTHER_NODE,
+  DRAG_STOP
+} from "./redux/actions";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -18,7 +32,19 @@ const logger = createLogger({
 });
 
 export const store = createStore(
-  graphEditorReducer,
+  undoable(graphEditorReducer, {
+    groupBy: groupByActionTypes([POSITION_EVERY_OTHER_NODE, CHANGE_ZOOM]),
+    filter: excludeAction([
+      POSITION_NODE,
+      CONFIRM_NODE,
+      OUTPORT_DRAG_STARTED,
+      INPORT_DROP,
+      DRAG_MOUSE_POSITION,
+      DRAG_CANCELLED,
+      SELECT_CLEAR,
+      SELECT_NODE
+    ])
+  }),
   composeEnhancer(applyMiddleware(thunk, logger))
 
   // other store enhancers if any

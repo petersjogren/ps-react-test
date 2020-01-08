@@ -23,7 +23,8 @@ import {
   DRAG_CANCELLED,
   INPORT_DROP,
   DRAG_MOUSE_POSITION,
-  LOAD_STATE
+  LOAD_STATE,
+  DRAG_STOP
 } from "../actions";
 import { invalidMousePosition } from "../../InitialState";
 
@@ -223,6 +224,9 @@ export default function graphEditorReducer(
       });
       console.log("state after ", newState);
       break;
+    case DRAG_STOP:
+      newState = state;
+      break;
     case CONFIRM_NODE:
       console.log("CONFIRM_NODE", action.nodeId, action.sessionId, action);
       var nodeIndex = findNodeIndexWithId(state, action.nodeId);
@@ -267,7 +271,6 @@ export default function graphEditorReducer(
         );
       }
       newState = clearDragState(newState);
-
       break;
     case DRAG_CANCELLED:
       // console.log("DRAG_CANCELLED");
@@ -404,6 +407,7 @@ export default function graphEditorReducer(
         action.toNodeIndex,
         action.toPortIndex
       );
+      newState = clearDragState(newState);
       break;
     case SET_NODE_TEMPLATE_LIST:
       console.log("SET_NODE_TEMPLATE_LIST");

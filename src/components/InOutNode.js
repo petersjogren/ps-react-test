@@ -133,7 +133,8 @@ export class InOutNode extends React.Component {
       isSelected,
       onSelectNode,
       onOutportDragStarted,
-      onInportDrop
+      onInportDrop,
+      onDragStop
     } = this.props;
     var classes = ["node"];
     if (isSelected) {
@@ -149,6 +150,7 @@ export class InOutNode extends React.Component {
         scale={scale}
         position={{ x: positionX, y: positionY }}
         onDrag={onDrag}
+        onStop={onDragStop}
         handle="header"
         onMouseDown={e => {
           e.stopPropagation();
@@ -215,6 +217,7 @@ InOutNode.propTypes = {
   width: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
   onDrag: PropTypes.func.isRequired,
+  onDragStop: PropTypes.func.isRequired,
   onConnect: PropTypes.func.isRequired,
   onSelectNode: PropTypes.func.isRequired,
   onOutportDragStarted: PropTypes.func.isRequired,
