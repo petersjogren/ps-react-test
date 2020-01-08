@@ -19,6 +19,7 @@ export class NodeList extends React.Component {
             <div
               key={index}
               className="nodelistitem"
+              onClick={() => this.props.onCreateNode(index, value.title)}
               draggable
               onDragStart={e => {
                 //console.log(e.nativeEvent.offsetX, e.nativeEvent.offsetY);

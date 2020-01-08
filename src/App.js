@@ -23,7 +23,8 @@ import {
   loadOtherNodeTemplatesAsyncAction,
   reconnectAction,
   syncAction,
-  loadStateFromStringAction
+  loadStateFromStringAction,
+  createNodeAction
 } from "./redux/actions";
 import { ActionCreators } from "redux-undo";
 
@@ -134,6 +135,7 @@ class App extends React.Component {
               templates={this.props.state.nodeTemplates}
               onLoadDefault={this.props.onLoadDefault}
               onLoadOther={this.props.onLoadOther}
+              onCreateNode={this.props.onCreateNode}
             />
           </div>
           {this.props.state.pureHTMLgraph ? (
@@ -167,7 +169,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onLoadStateFromString: string => dispatch(loadStateFromStringAction(string)),
   onUndo: () => dispatch(ActionCreators.undo()),
-  onRedo: () => dispatch(ActionCreators.redo())
+  onRedo: () => dispatch(ActionCreators.redo()),
+  onCreateNode: (templateIndex, title) =>
+    dispatch(createNodeAction(100, 50, templateIndex, title))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
