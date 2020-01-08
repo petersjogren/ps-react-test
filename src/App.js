@@ -116,6 +116,7 @@ class App extends React.Component {
           >
             Sync
           </button>
+          <button onClick={this.props.deleteSelected}>Del</button>
           <button onClick={this.props.resetStateNormal}>Some nodes</button>
           <button onClick={this.props.resetStateStressTest}>Stress test</button>
           <button onClick={this.props.toggleGraphicsLibrary}>
