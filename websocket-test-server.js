@@ -8,6 +8,7 @@
  */
 var nextNodeId = 1;
 var storedNodes = [];
+var storedConnections = [];
 var sessionID = "";
 
 var uuidv4 = require("uuid/v4");
@@ -38,12 +39,9 @@ function getGraphJSON() {
     nodes: storedNodes.map(node => {
       return { id: node.nodeId, label: nodeName(node), color: "#90b141" };
     }),
-    edges: [
-      // { from: 1, to: 2 },
-      // { from: 1, to: 3 },
-      // { from: 2, to: 4 },
-      // { from: 2, to: 5 }
-    ]
+    edges: storedConnections.map(connection => {
+      return { from: connection.from, to: connection.to };
+    })
   };
   return graph;
 }
@@ -83,6 +81,7 @@ wsServer.on("request", function(request) {
   console.log(new Date() + " Connection accepted.");
   sessionID = uuidv4();
   storedNodes = [];
+  storedConnections = [];
   connection.send(sessionID);
 
   // user sent some message
@@ -108,6 +107,18 @@ wsServer.on("request", function(request) {
             storedNodes.push({
               title: commandArray[2],
               nodeId: commandArray[1]
+            });
+            dumpNodesToConsole();
+            break;
+          case "addconnection":
+            // addconnection;fromNodeId;fromNodePortIndex;toNodeId;toNodePortIndex
+            responseJSON = {
+              type: "CONNECTION_ADDED",
+              sessionId: sessionID
+            };
+            storedConnections.push({
+              from: commandArray[1],
+              to: commandArray[3]
             });
             dumpNodesToConsole();
             break;

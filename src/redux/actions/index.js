@@ -89,17 +89,22 @@ export const inportDropAction = (
   nodeIndex,
   portIndex,
   isDragInProgress,
-  dragPayload
+  dragPayload,
+  fromNodeId,
+  toNodeId
 ) => dispatch => {
   if (isDragInProgress && dragPayload.type === payLoadTypeOutport) {
     dispatch({ type: DRAG_CANCELLED });
-    dispatch({
-      type: CONNECT_PORTS,
-      fromNodeIndex: dragPayload.nodeIndex,
-      fromPortIndex: dragPayload.portIndex,
-      toNodeIndex: nodeIndex,
-      toPortIndex: portIndex
-    });
+    dispatch(
+      connectPortsAction(
+        dragPayload.nodeIndex,
+        dragPayload.portIndex,
+        nodeIndex,
+        portIndex,
+        fromNodeId,
+        toNodeId
+      )
+    );
   }
 };
 
@@ -167,14 +172,34 @@ export const connectPortsAction = (
   fromNodeIndex,
   fromPortIndex,
   toNodeIndex,
-  toPortIndex
-) => ({
-  type: CONNECT_PORTS,
-  fromNodeIndex,
-  fromPortIndex,
-  toNodeIndex,
-  toPortIndex
-});
+  toPortIndex,
+  fromNodeId,
+  toNodeId
+) => dispatch => {
+  dispatch({
+    type: CONNECT_PORTS,
+    fromNodeIndex,
+    fromPortIndex,
+    toNodeIndex,
+    toPortIndex
+  });
+
+  websocketSendCommand(
+    "addconnection;" +
+      fromNodeId +
+      ";" +
+      fromPortIndex +
+      ";" +
+      toNodeId +
+      ";" +
+      toPortIndex,
+    value => {
+      console.log("answer", value);
+      var json = JSON.parse(value.data);
+      console.log("Response", json);
+    }
+  );
+};
 
 export const loadDefaultNodeTemplatesAsyncAction = () => dispatch => {
   console.log("loadDefaultNodeTemplatesAsyncAction");

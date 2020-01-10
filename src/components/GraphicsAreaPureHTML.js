@@ -7,7 +7,6 @@ import {
   positionEveryOtherNodeAction,
   positionTextNodeAction,
   positionImgNodeAction,
-  connectPortsAction,
   selectNodeAction,
   selectConnectionAction,
   selectClearAction,
@@ -203,7 +202,6 @@ class GraphicsAreaPureHTML extends React.Component {
                   );
                 }}
                 onDragStop={this.props.onDragStop}
-                onConnect={this.props.onConnect}
                 onSelectNode={this.props.onSelectNode}
                 onOutportDragStarted={this.props.onOutportDragStarted}
                 onInportDrop={(nodeIndex, portIndex) => {
@@ -211,7 +209,9 @@ class GraphicsAreaPureHTML extends React.Component {
                     nodeIndex,
                     portIndex,
                     this.props.isDragInProgress,
-                    this.props.dragPayload
+                    this.props.dragPayload,
+                    this.props.nodes[this.props.dragPayload.nodeIndex].id,
+                    this.props.nodes[nodeIndex].id
                   );
                 }}
               />
@@ -246,12 +246,6 @@ const mapDispatchToProps = dispatch => ({
   },
   onSetTextNodePosition: position => dispatch(positionTextNodeAction(position)),
   onSetImgNodePosition: position => dispatch(positionImgNodeAction(position)),
-  onConnect: (fromNodeIndex, fromPortIndex, toNodeIndex, toPortIndex) => {
-    console.log("onConnected");
-    dispatch(
-      connectPortsAction(fromNodeIndex, fromPortIndex, toNodeIndex, toPortIndex)
-    );
-  },
   onSelectNode: nodeIndex => dispatch(selectNodeAction(nodeIndex)),
   onSelectConnection: connectionIndex =>
     dispatch(selectConnectionAction(connectionIndex)),
@@ -261,9 +255,23 @@ const mapDispatchToProps = dispatch => ({
   onOutportDragStarted: (nodeIndex, portIndex) => {
     dispatch(outportDragStartedAction(nodeIndex, portIndex));
   },
-  onInportDrop: (nodeIndex, portIndex, isDragInProgress, dragPayload) =>
+  onInportDrop: (
+    nodeIndex,
+    portIndex,
+    isDragInProgress,
+    dragPayload,
+    fromNodeId,
+    toNodeId
+  ) =>
     dispatch(
-      inportDropAction(nodeIndex, portIndex, isDragInProgress, dragPayload)
+      inportDropAction(
+        nodeIndex,
+        portIndex,
+        isDragInProgress,
+        dragPayload,
+        fromNodeId,
+        toNodeId
+      )
     ),
   onDragStop: () => dispatch(dragStopAction()),
   onDragCancelled: () => dispatch(dragCancelledAction()),
