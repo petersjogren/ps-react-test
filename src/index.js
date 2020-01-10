@@ -20,7 +20,8 @@ import {
   CHANGE_ZOOM,
   INPORT_DROP,
   SELECT_NODE,
-  POSITION_EVERY_OTHER_NODE
+  POSITION_EVERY_OTHER_NODE,
+  SET_GRAPH_FROM_SERVER
 } from "./redux/actions";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -41,7 +42,8 @@ export const store = createStore(
       DRAG_MOUSE_POSITION,
       DRAG_CANCELLED,
       SELECT_CLEAR,
-      SELECT_NODE
+      SELECT_NODE,
+      SET_GRAPH_FROM_SERVER
     ])
   }),
   composeEnhancer(applyMiddleware(thunk, logger))

@@ -7,7 +7,7 @@
  * Global variables
  */
 var nextNodeId = 1;
-var nodes = [];
+var storedNodes = [];
 var sessionID = "";
 
 var uuidv4 = require("uuid/v4");
@@ -20,19 +20,32 @@ var webSocketsServerPort = 1337;
 var webSocketServer = require("websocket").server;
 var http = require("http");
 
+function nodeName(node) {
+  return node.title + " " + node.nodeId.substring(node.nodeId.length - 4);
+}
+
 function dumpNodesToConsole() {
   console.log("\nAll nodes:");
   console.log("digraph G {");
-  nodes.forEach(value => {
-    console.log(
-      '"' +
-        value.title +
-        " " +
-        value.nodeId.substring(value.nodeId.length - 4) +
-        '"'
-    );
+  storedNodes.forEach(value => {
+    console.log('"' + nodeName(value) + '"');
   });
   console.log("}");
+}
+
+function getGraphJSON() {
+  const graph = {
+    nodes: storedNodes.map(node => {
+      return { id: node.nodeId, label: nodeName(node), color: "#90b141" };
+    }),
+    edges: [
+      // { from: 1, to: 2 },
+      // { from: 1, to: 3 },
+      // { from: 2, to: 4 },
+      // { from: 2, to: 5 }
+    ]
+  };
+  return graph;
 }
 
 /**
@@ -69,7 +82,7 @@ wsServer.on("request", function(request) {
   var userColor = false;
   console.log(new Date() + " Connection accepted.");
   sessionID = uuidv4();
-  nodes = [];
+  storedNodes = [];
   connection.send(sessionID);
 
   // user sent some message
@@ -92,8 +105,17 @@ wsServer.on("request", function(request) {
               nodeId: commandArray[1],
               sessionId: sessionID
             };
-            nodes.push({ title: commandArray[2], nodeId: commandArray[1] });
+            storedNodes.push({
+              title: commandArray[2],
+              nodeId: commandArray[1]
+            });
             dumpNodesToConsole();
+            break;
+          case "getgraph":
+            responseJSON = {
+              type: "SERVER_GRAPH",
+              graph: getGraphJSON()
+            };
             break;
           default:
             responseJSON = {

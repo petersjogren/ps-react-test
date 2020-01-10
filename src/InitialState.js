@@ -131,6 +131,10 @@ function InitialStateStressTest() {
     });
 
   return {
+    serverGraph: {
+      nodes: [],
+      edges: []
+    },
     currentSessionID: "9999",
     pureHTMLgraph: true,
     scale: 0.4,
@@ -166,6 +170,10 @@ function InitialStateStressTest() {
 
 function InitialStateNormal() {
   return {
+    serverGraph: {
+      nodes: [],
+      edges: []
+    },
     currentSessionID: "9999",
     pureHTMLgraph: true,
     stressTest: false,

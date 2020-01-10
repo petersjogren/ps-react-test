@@ -24,9 +24,11 @@ import {
   INPORT_DROP,
   DRAG_MOUSE_POSITION,
   LOAD_STATE,
-  DRAG_STOP
+  DRAG_STOP,
+  SET_GRAPH_FROM_SERVER
 } from "../actions";
 import { invalidMousePosition } from "../../InitialState";
+import { nodeDiffSinceLast } from "../../server";
 
 export const payLoadTypeOutport = "FROM_OUTPORT";
 
@@ -193,6 +195,7 @@ export default function graphEditorReducer(
           }
         }
       }
+      nodeDiffSinceLast(newState);
       break;
     case SELECT_NODE:
       console.log("SELECT_NODE", action.nodeIndex, state);
@@ -223,6 +226,7 @@ export default function graphEditorReducer(
         }
       });
       console.log("state after ", newState);
+      nodeDiffSinceLast(newState);
       break;
     case DRAG_STOP:
       newState = state;
@@ -424,6 +428,11 @@ export default function graphEditorReducer(
     case RECONNECT_SERVER:
       // Connection was reset in action creator
       newState = state;
+      break;
+    case SET_GRAPH_FROM_SERVER:
+      newState = newState = update(state, {
+        serverGraph: { $set: action.graph }
+      });
       break;
     default:
       console.log("default ", state);

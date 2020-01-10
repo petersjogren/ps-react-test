@@ -30,6 +30,19 @@ export const INPORT_DROP = "INPORT_DROP";
 export const DRAG_MOUSE_POSITION = "DRAG_MOUSE_POSITION";
 export const LOAD_STATE = "LOAD_STATE";
 export const DRAG_STOP = "DRAG_STOP";
+export const SET_GRAPH_FROM_SERVER = "SET_GRAPH_FROM_SERVER";
+
+export const getGraphJSONFromServerAction = () => dispatch => {
+  websocketSendCommand("getgraph", value => {
+    console.log("answer", value);
+    var json = JSON.parse(value.data);
+    console.log("Response", json.type, json.graph);
+    dispatch({
+      type: SET_GRAPH_FROM_SERVER,
+      graph: json.graph
+    });
+  });
+};
 
 export const zoomAction = percent => ({
   type: CHANGE_ZOOM,

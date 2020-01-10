@@ -27,6 +27,7 @@ import {
   createNodeAction
 } from "./redux/actions";
 import { ActionCreators } from "redux-undo";
+import ServerGraph from "./components/ServerGraph";
 
 var reader = new FileReader();
 var file;
@@ -144,6 +145,7 @@ class App extends React.Component {
           ) : (
             <GraphicsAreaDraw2D />
           )}
+          {this.props.state.currentSessionID === "" ? "" : <ServerGraph />}
         </div>
       </div>
     );

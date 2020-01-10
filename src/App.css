@@ -153,9 +153,12 @@ button {
   bottom: 0px;
 }
 .editor {
-  flex: 80%;
+  flex: 1;
   display: flex;
   overflow: hidden;
+}
+.servergraph {
+  flex: 1;
 }
 .bgpattern {
   background-color: #060;
