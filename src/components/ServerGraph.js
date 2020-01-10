@@ -2,7 +2,7 @@ import React from "react";
 import Graph from "react-graph-vis";
 import { connect } from "react-redux";
 import { getGraphJSONFromServerAction } from "../redux/actions";
-import { Map, is } from "immutable";
+import Immutable from "immutable";
 
 const events = {
   select: function(event) {
@@ -25,10 +25,19 @@ const options = {
 
 class ServerGraph extends React.Component {
   shouldComponentUpdate(newProps) {
-    var newPropsMap = Map(newProps);
-    var propsMap = Map(this.props);
+    var newPropsMap = Immutable.fromJS(newProps.serverGraph);
+    var propsMap = Immutable.fromJS({
+      nodes: this.props.serverGraph.nodes,
+      // Remove id: from the edges because it is added for some reason
+      edges: this.props.serverGraph.edges.map(n => {
+        return {
+          from: n.from,
+          to: n.to
+        };
+      })
+    });
 
-    if (is(propsMap, newPropsMap)) {
+    if (propsMap.equals(newPropsMap)) {
       return false;
     } else {
       return true;
