@@ -25,11 +25,24 @@ function nodeName(node) {
   return node.title + " " + node.nodeId.substring(node.nodeId.length - 4);
 }
 
+function findStoredNodeWithId(id) {
+  return storedNodes.find(n => n.nodeId === id);
+}
+
 function dumpNodesToConsole() {
   console.log("\nAll nodes:");
   console.log("digraph G {");
   storedNodes.forEach(value => {
     console.log('"' + nodeName(value) + '"');
+  });
+  storedConnections.forEach(c => {
+    console.log(
+      '"' +
+        nodeName(findStoredNodeWithId(c.from)) +
+        '" -> "' +
+        nodeName(findStoredNodeWithId(c.to)) +
+        '"'
+    );
   });
   console.log("}");
 }
