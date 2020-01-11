@@ -208,14 +208,16 @@ class GraphicsAreaPureHTML extends React.Component {
                 onSelectNode={this.props.onSelectNode}
                 onOutportDragStarted={this.props.onOutportDragStarted}
                 onInportDrop={(nodeIndex, portIndex) => {
-                  this.props.onInportDrop(
-                    nodeIndex,
-                    portIndex,
-                    this.props.isDragInProgress,
-                    this.props.dragPayload,
-                    this.props.nodes[this.props.dragPayload.nodeIndex].id,
-                    this.props.nodes[nodeIndex].id
-                  );
+                  if (this.props.isDragInProgress) {
+                    this.props.onInportDrop(
+                      nodeIndex,
+                      portIndex,
+                      this.props.isDragInProgress,
+                      this.props.dragPayload,
+                      this.props.nodes[this.props.dragPayload.nodeIndex].id,
+                      this.props.nodes[nodeIndex].id
+                    );
+                  }
                 }}
               />
             )
