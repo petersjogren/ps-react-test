@@ -114,7 +114,9 @@ wsServer.on("request", function(request) {
             // addconnection;fromNodeId;fromNodePortIndex;toNodeId;toNodePortIndex
             responseJSON = {
               type: "CONNECTION_ADDED",
-              sessionId: sessionID
+              sessionId: sessionID,
+              fromNodeId: commandArray[1],
+              toNodeId: commandArray[3]
             };
             storedConnections.push({
               from: commandArray[1],

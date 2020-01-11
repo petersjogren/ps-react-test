@@ -118,6 +118,7 @@ function InitialStateStressTest() {
     .filter(a => a % 2 === 0)
     .map(index => {
       return {
+        confirmedInSessionWithID: "0",
         isSelected: false,
         from: {
           nodeIndex: (index + someIndexes.length / 2 + 2) % someIndexes.length,
@@ -337,6 +338,7 @@ function InitialStateNormal() {
     ],
     connections: [
       {
+        confirmedInSessionWithID: "0",
         isSelected: false,
         from: {
           nodeIndex: 3,
@@ -348,6 +350,7 @@ function InitialStateNormal() {
         }
       },
       {
+        confirmedInSessionWithID: "0",
         isSelected: false,
         from: {
           nodeIndex: 2,
@@ -359,6 +362,7 @@ function InitialStateNormal() {
         }
       },
       {
+        confirmedInSessionWithID: "0",
         isSelected: false,
         from: {
           nodeIndex: 0,
@@ -370,6 +374,7 @@ function InitialStateNormal() {
         }
       },
       {
+        confirmedInSessionWithID: "0",
         isSelected: false,
         from: {
           nodeIndex: 2,

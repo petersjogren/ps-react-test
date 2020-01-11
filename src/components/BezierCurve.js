@@ -5,6 +5,7 @@ export default class BezierCurve extends React.Component {
   shouldComponentUpdate(nextProps) {
     const {
       isSelected,
+      isConfirmed,
       connectionIndex,
       curveColor,
       curveWidth,
@@ -16,6 +17,7 @@ export default class BezierCurve extends React.Component {
     return (
       nextProps.connectionIndex !== connectionIndex ||
       nextProps.isSelected !== isSelected ||
+      nextProps.isConfirmed !== isConfirmed ||
       nextProps.curveColor !== curveColor ||
       nextProps.curveWidth !== curveWidth ||
       nextProps.start.x !== start.x ||
@@ -32,6 +34,7 @@ export default class BezierCurve extends React.Component {
   render() {
     const {
       isSelected,
+      isConfirmed,
       connectionIndex,
       curveColor,
       curveWidth,
@@ -51,7 +54,7 @@ export default class BezierCurve extends React.Component {
           onSelectConnection(connectionIndex);
         }}
         fill="none"
-        stroke={curveColor}
+        stroke={isConfirmed ? curveColor : "red"}
         strokeDasharray={isSelected ? 4 : 0}
         strokeWidth={curveWidth}
         d={curve}
@@ -66,6 +69,7 @@ BezierCurve.propTypes = {
   curveWidth: PropTypes.number.isRequired,
   onSelectConnection: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  isConfirmed: PropTypes.bool.isRequired,
   start: PropTypes.exact({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired

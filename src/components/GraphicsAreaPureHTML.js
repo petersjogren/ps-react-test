@@ -150,6 +150,9 @@ class GraphicsAreaPureHTML extends React.Component {
                 <BezierCurve
                   key={index}
                   isSelected={key.isSelected}
+                  isConfirmed={
+                    this.props.currentSessionID === key.confirmedInSessionWithID
+                  }
                   connectionIndex={index}
                   onSelectConnection={this.props.onSelectConnection}
                   start={{ x: fromX, y: fromY }}

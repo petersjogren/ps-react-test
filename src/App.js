@@ -111,7 +111,8 @@ class App extends React.Component {
             onClick={() =>
               this.props.sync(
                 this.props.state.currentSessionID,
-                this.props.state.nodes
+                this.props.state.nodes,
+                this.props.state.connections
               )
             }
           >
@@ -167,8 +168,8 @@ const mapDispatchToProps = dispatch => ({
   onLoadDefault: () => dispatch(loadDefaultNodeTemplatesAsyncAction()),
   onLoadOther: () => dispatch(loadOtherNodeTemplatesAsyncAction()),
   reconnect: () => dispatch(reconnectAction()),
-  sync: (currentSessionID, nodes) => {
-    dispatch(syncAction(currentSessionID, nodes));
+  sync: (currentSessionID, nodes, connections) => {
+    dispatch(syncAction(currentSessionID, nodes, connections));
   },
   onLoadStateFromString: string => dispatch(loadStateFromStringAction(string)),
   onUndo: () => dispatch(ActionCreators.undo()),

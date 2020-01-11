@@ -18,6 +18,7 @@ import {
   SET_NODE_TEMPLATE_LIST,
   SET_CURRENT_SESSIONID,
   CONFIRM_NODE,
+  CONFIRM_CONNECTION,
   RECONNECT_SERVER,
   OUTPORT_DRAG_STARTED,
   DRAG_CANCELLED,
@@ -40,6 +41,20 @@ function findNodeIndexWithId(state, id) {
     }
   });
   return foundIndex;
+}
+
+function findConnectionIndexWithIds(state, fromNodeId, toNodeId) {
+  var index = -1;
+  for (var i = 0; i < state.connections.length; i++) {
+    if (
+      state.nodes[state.connections[i].from.nodeIndex].id === fromNodeId &&
+      state.nodes[state.connections[i].to.nodeIndex].id === toNodeId
+    ) {
+      index = i;
+      break;
+    }
+  }
+  return index;
 }
 
 function connectPorts(
@@ -244,6 +259,23 @@ export default function graphEditorReducer(
         }
       });
       break;
+    case CONFIRM_CONNECTION:
+      console.log("CONFIRM_CONNECTION", action.sessionId, action);
+      var connectionIndex = findConnectionIndexWithIds(
+        state,
+        action.fromNodeId,
+        action.toNodeId
+      );
+      console.log("connectionIndex", connectionIndex);
+      newState = update(state, {
+        currentSessionID: { $set: action.sessionId },
+        connections: {
+          [connectionIndex]: {
+            confirmedInSessionWithID: { $set: action.sessionId }
+          }
+        }
+      });
+      break;
     case OUTPORT_DRAG_STARTED:
       console.log("OUTPORT_DRAG_STARTED", action.nodeIndex, action.portIndex);
       newState = update(state, {
@@ -275,6 +307,7 @@ export default function graphEditorReducer(
         );
       }
       newState = clearDragState(newState);
+      nodeDiffSinceLast(newState);
       break;
     case DRAG_CANCELLED:
       // console.log("DRAG_CANCELLED");

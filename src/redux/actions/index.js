@@ -23,6 +23,7 @@ export const SELECT_CLEAR = "SELECT_CLEAR";
 export const SET_NODE_TEMPLATE_LIST = "SET_NODE_TEMPLATE_LIST";
 export const SET_CURRENT_SESSIONID = "SET_CURRENT_SESSIONID";
 export const CONFIRM_NODE = "CONFIRM_NODE";
+export const CONFIRM_CONNECTION = "CONFIRM_CONNECTION";
 export const RECONNECT_SERVER = "RECONNECT_SERVER";
 export const OUTPORT_DRAG_STARTED = "OUTPORT_DRAG_STARTED";
 export const DRAG_CANCELLED = "DRAG_CANCELLED";
@@ -197,6 +198,12 @@ export const connectPortsAction = (
       console.log("answer", value);
       var json = JSON.parse(value.data);
       console.log("Response", json);
+      dispatch({
+        type: CONFIRM_CONNECTION,
+        fromNodeId: json.fromNodeId,
+        toNodeId: json.toNodeId,
+        sessionId: json.sessionId
+      });
     }
   );
 };
@@ -240,7 +247,11 @@ export const reconnectAction = () => {
 };
 
 // Add unconfirmed nodes to server
-export const syncAction = (currentSessionId, nodes) => dispatch => {
+export const syncAction = (
+  currentSessionId,
+  nodes,
+  connections
+) => dispatch => {
   // Filter out the nodes that are not confirmed in the current session adn add them to server
   var missingNodes = nodes.filter(node => {
     return node.nodeConfirmedInSessionWithID !== currentSessionId;
@@ -256,6 +267,34 @@ export const syncAction = (currentSessionId, nodes) => dispatch => {
         sessionId: json.sessionId
       });
     });
+  });
+
+  // Filter out the nodes that are not confirmed in the current session adn add them to server
+  var missingConnections = connections.filter(c => {
+    return c.onfirmedInSessionWithID !== currentSessionId;
+  });
+  missingConnections.forEach(c => {
+    websocketSendCommand(
+      "addconnection;" +
+        nodes[c.from.nodeIndex].id +
+        ";" +
+        c.from.portIndex +
+        ";" +
+        nodes[c.to.nodeIndex].id +
+        ";" +
+        c.to.portIndex,
+      value => {
+        console.log("answer", value);
+        var json = JSON.parse(value.data);
+        console.log("Response", json);
+        dispatch({
+          type: CONFIRM_CONNECTION,
+          fromNodeId: json.fromNodeId,
+          toNodeId: json.toNodeId,
+          sessionId: json.sessionId
+        });
+      }
+    );
   });
 };
 

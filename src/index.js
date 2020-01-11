@@ -21,7 +21,8 @@ import {
   INPORT_DROP,
   SELECT_NODE,
   POSITION_EVERY_OTHER_NODE,
-  SET_GRAPH_FROM_SERVER
+  SET_GRAPH_FROM_SERVER,
+  CONFIRM_CONNECTION
 } from "./redux/actions";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -37,6 +38,7 @@ export const store = createStore(
     filter: excludeAction([
       POSITION_NODE,
       CONFIRM_NODE,
+      CONFIRM_CONNECTION,
       OUTPORT_DRAG_STARTED,
       INPORT_DROP,
       DRAG_MOUSE_POSITION,
