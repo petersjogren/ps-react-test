@@ -112,6 +112,7 @@ wsServer.on("request", function(request) {
 
         switch (commandArray[0]) {
           case "addnode":
+            // addnode;nodeid
             responseJSON = {
               type: "NODE_ADDED",
               nodeId: commandArray[1],
@@ -121,6 +122,26 @@ wsServer.on("request", function(request) {
               title: commandArray[2],
               nodeId: commandArray[1]
             });
+            dumpNodesToConsole();
+            break;
+          case "deletenode":
+            // deletenode;nodeid
+            responseJSON = {
+              type: "NODE_DELETED",
+              nodeId: commandArray[1],
+              sessionId: sessionID
+            };
+            storedNodes = storedNodes.filter(n => n.nodeId !== commandArray[1]);
+            dumpNodesToConsole();
+            break;
+          case "deleteconnection":
+            // deleteconnection;fromnodeid;tonodeid
+            responseJSON = {
+              type: "CONNECTION_DELETED"
+            };
+            storedConnections = storedConnections.filter(
+              c => c.from !== commandArray[1] || c.to !== commandArray[2]
+            );
             dumpNodesToConsole();
             break;
           case "addconnection":

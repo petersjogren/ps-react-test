@@ -50,9 +50,46 @@ export const zoomAction = percent => ({
   percent
 });
 
-export const deleteSelectedAction = () => ({
-  type: DELETE_SELECTED
-});
+export const deleteSelectedAction = state => dispatch => {
+  // Send commands to server to remove selected nodes and connections
+  var indexesForSelectedNodes = new Set(
+    state.nodes.map((n, i) => (n.isSelected ? i : -1)).filter(i => i !== -1)
+  );
+  // Tell server to delete selected connections
+  state.connections.forEach(c => {
+    if (
+      c.isSelected ||
+      indexesForSelectedNodes.has(c.from.nodeIndex) ||
+      indexesForSelectedNodes.has(c.to.nodeIndex)
+    ) {
+      websocketSendCommand(
+        "deleteconnection;" +
+          state.nodes[c.from.nodeIndex].id +
+          ";" +
+          state.nodes[c.to.nodeIndex].id,
+        value => {
+          console.log("answer", value);
+          var json = JSON.parse(value.data);
+          console.log("Response", json.type, json.nodeId, json.sessionId);
+        }
+      );
+    }
+  });
+  // Tell server to delete selected nodes
+  state.nodes.forEach(n => {
+    if (n.isSelected) {
+      websocketSendCommand("deletenode;" + n.id, value => {
+        console.log("answer", value);
+        var json = JSON.parse(value.data);
+        console.log("Response", json.type, json.nodeId, json.sessionId);
+      });
+    }
+  });
+
+  dispatch({
+    type: DELETE_SELECTED
+  });
+};
 
 export const createNodeAction = (x, y, index, title) => dispatch => {
   var nodeId = uuidv4();

@@ -37,7 +37,7 @@ class App extends React.Component {
     document.body.addEventListener("keydown", e => {
       console.log("key down ", e, this);
       if (e.key === "Backspace" || e.key === "Delete") {
-        this.props.deleteSelected();
+        this.props.deleteSelected(this.props.state);
       }
     });
 
@@ -118,7 +118,9 @@ class App extends React.Component {
           >
             Sync
           </button>
-          <button onClick={this.props.deleteSelected}>Del</button>
+          <button onClick={() => this.props.deleteSelected(this.props.state)}>
+            Del
+          </button>
           <button onClick={this.props.resetStateNormal}>Some nodes</button>
           <button onClick={this.props.resetStateStressTest}>Stress test</button>
           <button onClick={this.props.toggleGraphicsLibrary}>
@@ -159,8 +161,8 @@ const mapStateToProps = state => ({
   sizeFuture: state.future.length
 });
 
-const mapDispatchToProps = dispatch => ({
-  deleteSelected: () => dispatch(deleteSelectedAction()),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  deleteSelected: state => dispatch(deleteSelectedAction(state)),
   onZoomChange: scale => dispatch(zoomAction(scale)),
   toggleGraphicsLibrary: () => dispatch(toggleGraphicsLibraryAction()),
   resetStateNormal: () => dispatch(resetStateNormalAction()),
