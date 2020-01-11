@@ -461,7 +461,9 @@ export default function graphEditorReducer(
       break;
     case RECONNECT_SERVER:
       // Connection was reset in action creator
-      newState = state;
+      newState = update(state, {
+        serverGraph: { nodes: { $set: [] }, edges: { $set: [] } }
+      });
       break;
     case SET_GRAPH_FROM_SERVER:
       newState = newState = update(state, {
