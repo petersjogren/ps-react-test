@@ -5,8 +5,6 @@ import BezierCurve from "./BezierCurve";
 import {
   positionNodeAction,
   positionEveryOtherNodeAction,
-  positionTextNodeAction,
-  positionImgNodeAction,
   selectNodeAction,
   selectConnectionAction,
   selectClearAction,
@@ -17,7 +15,6 @@ import {
   dragMousePositionAction,
   dragStopAction
 } from "../redux/actions";
-import HTMLNode from "./HTMLNode";
 import {
   InOutNode,
   inPortRelativePosition,
@@ -172,56 +169,44 @@ class GraphicsAreaPureHTML extends React.Component {
             })}
           </svg>
 
-          {this.props.nodes.map((key, index) =>
-            key.htmlNode ? (
-              <HTMLNode
-                title={key.title}
-                key={index}
-                scale={this.props.scale}
-                position={key.position}
-                onDrag={(e, position) => {
-                  this.props.onSetPosition(index, position, false);
-                }}
-              />
-            ) : (
-              <InOutNode
-                title={key.title}
-                key={index}
-                nodeIndex={index}
-                currentSessionID={this.props.currentSessionID}
-                nodeConfirmedInSessionWithID={key.nodeConfirmedInSessionWithID}
-                scale={this.props.scale}
-                positionX={key.position.x}
-                positionY={key.position.y}
-                inputPorts={key.inputPorts}
-                outputPorts={key.outputPorts}
-                width={key.width}
-                isSelected={key.isSelected}
-                onDrag={(e, position) => {
-                  this.props.onSetPosition(
-                    index,
-                    position,
-                    this.props.stressTest
+          {this.props.nodes.map((key, index) => (
+            <InOutNode
+              title={key.title}
+              key={index}
+              nodeIndex={index}
+              currentSessionID={this.props.currentSessionID}
+              nodeConfirmedInSessionWithID={key.nodeConfirmedInSessionWithID}
+              scale={this.props.scale}
+              positionX={key.position.x}
+              positionY={key.position.y}
+              inputPorts={key.inputPorts}
+              outputPorts={key.outputPorts}
+              width={key.width}
+              isSelected={key.isSelected}
+              onDrag={(e, position) => {
+                this.props.onSetPosition(
+                  index,
+                  position,
+                  this.props.stressTest
+                );
+              }}
+              onDragStop={this.props.onDragStop}
+              onSelectNode={this.props.onSelectNode}
+              onOutportDragStarted={this.props.onOutportDragStarted}
+              onInportDrop={(nodeIndex, portIndex) => {
+                if (this.props.isDragInProgress) {
+                  this.props.onInportDrop(
+                    nodeIndex,
+                    portIndex,
+                    this.props.isDragInProgress,
+                    this.props.dragPayload,
+                    this.props.nodes[this.props.dragPayload.nodeIndex].id,
+                    this.props.nodes[nodeIndex].id
                   );
-                }}
-                onDragStop={this.props.onDragStop}
-                onSelectNode={this.props.onSelectNode}
-                onOutportDragStarted={this.props.onOutportDragStarted}
-                onInportDrop={(nodeIndex, portIndex) => {
-                  if (this.props.isDragInProgress) {
-                    this.props.onInportDrop(
-                      nodeIndex,
-                      portIndex,
-                      this.props.isDragInProgress,
-                      this.props.dragPayload,
-                      this.props.nodes[this.props.dragPayload.nodeIndex].id,
-                      this.props.nodes[nodeIndex].id
-                    );
-                  }
-                }}
-              />
-            )
-          )}
+                }
+              }}
+            />
+          ))}
         </div>
       </div>
     );
@@ -233,8 +218,6 @@ const mapStateToProps = state => ({
   connections: state.present.connections,
   scale: state.present.scale,
   currentSessionID: state.present.currentSessionID,
-  textNode: state.present.textNode,
-  imgNode: state.present.imgNode,
   stressTest: state.present.stressTest,
   isDragInProgress: state.present.isDragInProgress,
   dragPayload: state.present.dragPayload,
@@ -249,8 +232,6 @@ const mapDispatchToProps = dispatch => ({
       dispatch(positionNodeAction(index, position));
     }
   },
-  onSetTextNodePosition: position => dispatch(positionTextNodeAction(position)),
-  onSetImgNodePosition: position => dispatch(positionImgNodeAction(position)),
   onSelectNode: nodeIndex => dispatch(selectNodeAction(nodeIndex)),
   onSelectConnection: connectionIndex =>
     dispatch(selectConnectionAction(connectionIndex)),

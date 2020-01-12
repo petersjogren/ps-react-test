@@ -2,6 +2,8 @@ import React from "react";
 import Draggable from "react-draggable";
 import PropTypes from "prop-types";
 
+// This component can be used to have draggable HTML inside of an svg area. Provide the HTML as children.
+
 function DraggableForeignObject(props) {
   return (
     <Draggable

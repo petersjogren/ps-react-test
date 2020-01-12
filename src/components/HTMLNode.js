@@ -1,3 +1,6 @@
+// This is an incomplete node that has some HTML and some svg on it
+// just to show that svg can be positioned with HTML elements.
+
 import React from "react";
 import Draggable from "react-draggable";
 

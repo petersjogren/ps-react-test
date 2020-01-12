@@ -145,27 +145,7 @@ function InitialStateStressTest() {
     dragMousePosition: { x: invalidMousePosition, y: invalidMousePosition },
     nodeTemplates: nodeTemplates(),
     nodes: [...someNodes],
-    connections: [...someConnections],
-    textNode: {
-      x: -500,
-      y: -350,
-      width: 200,
-      height: 400,
-      text: `Over hill, over dale, Thorough bush, thorough brier, Over park,
-            over pale, Thorough flood, thorough fire! I do wander everywhere,
-            Swifter than the moon's sphere; And I serve the Fairy Queen, To
-            dew her orbs upon the green; The cowslips tall her pensioners be;
-            In their gold coats spots you see; Those be rubies, fairy favours;
-            In those freckles live their savours; I must go seek some dewdrops
-            here, And hang a pearl in every cowslip's ear.`
-    },
-    imgNode: {
-      x: 50,
-      y: -350,
-      width: 400,
-      height: 300,
-      url: "http://minerva-central.net/images/minerva-forward-m1.png"
-    }
+    connections: [...someConnections]
   };
 }
 
@@ -385,27 +365,7 @@ function InitialStateNormal() {
           index: 2
         }
       }
-    ],
-    textNode: {
-      x: 500,
-      y: 350,
-      width: 200,
-      height: 400,
-      text: `Over hill, over dale, Thorough bush, thorough brier, Over park,
-            over pale, Thorough flood, thorough fire! I do wander everywhere,
-            Swifter than the moon's sphere; And I serve the Fairy Queen, To
-            dew her orbs upon the green; The cowslips tall her pensioners be;
-            In their gold coats spots you see; Those be rubies, fairy favours;
-            In those freckles live their savours; I must go seek some dewdrops
-            here, And hang a pearl in every cowslip's ear.`
-    },
-    imgNode: {
-      x: 50,
-      y: 350,
-      width: 400,
-      height: 300,
-      url: "http://minerva-central.net/images/minerva-forward-m1.png"
-    }
+    ]
   };
 }
 

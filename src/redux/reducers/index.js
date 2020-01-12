@@ -8,8 +8,6 @@ import {
   SELECT_CLEAR,
   POSITION_NODE,
   POSITION_EVERY_OTHER_NODE,
-  POSITION_TEXT_NODE,
-  POSITION_IMG_NODE,
   TOGGLE_GRAPHICS,
   RESET_NORMAL,
   RESET_STRESS_TEST,
@@ -397,22 +395,6 @@ export default function graphEditorReducer(
             }
           },
           ...updateObject
-        }
-      });
-      break;
-    case POSITION_TEXT_NODE:
-      newState = update(state, {
-        textNode: {
-          x: { $set: action.position.x },
-          y: { $set: action.position.y }
-        }
-      });
-      break;
-    case POSITION_IMG_NODE:
-      newState = update(state, {
-        imgNode: {
-          x: { $set: action.position.x },
-          y: { $set: action.position.y }
         }
       });
       break;
