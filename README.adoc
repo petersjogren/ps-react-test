@@ -1,0 +1,463 @@
+Test project for graph editor web app
+=====================================
+Peter Sjögren <peter.sjogren@pskonsult.se>
+:imagesdir: images
+:toc: preamble
+
+This project was created to explore implementation architecture and concepts for a graph editor web application as well as learning new concepts of modern web development. It was created with Create React App so the usual install and build scripts apply.
+
+This documentment will both contain obvious things and concepts which I prefer having seem many types of architectures of complicated desktop computer software and experienced their problems and advantages.
+
+NOTE: Don't mind the graphic design. It is just an example.
+
+:numbered!:
+[abstract]
+Overview
+--------
+This is a React + Redux project using various npm packages for implementing an example graph editor and providing examples of how to solve different kinds of problems that will arise during the development of a graph editor web app. 
+
+It aims to use node types in plain HTML where any HTML element can be used while drawing connection graphics in a svg layer below the HTML div.
+
+A example websocket server is also provided to illustrate sync functionality between web client and a server.
+
+:numbered:
+
+Usage
+-----
+
+. Install link:https://nodejs.org/en/[Node.js]
+. Clone this repository
+. cd into that repository directory
+. Type `npm install`
+. To start the web app on localhost:3000 type `npm start`
+. In another terminal window start the example server by typing `node websocket-test-server.js`
+
+Functionality
+-------------
+
+Nodes as HTML
+~~~~~~~~~~~~~
+Nodes (the InOutNode.js component) are placed in the div with className `graphicsarea`. The node itself is an example that the node can be any HTML with divs, flex positioning, mouseovers, mousedown, mouseup operations etc. 
+
+The list of input and output ports are rendered with the functional components InPort and OutPort.
+
+Two exported functions gives the relative positions of the ports relative the the upper left position of the node.
+
+Nodes support drag oprations from the out ports to the inports. See <<DragDrop>>.
+
+Connections in SVG
+~~~~~~~~~~~~~~~~~~~
+
+Connections are drawn in an svg area which has the same coordinate system as the HTML div area. The functions `inPortRelativePosition` and `outPortRelativePosition` are used to find out the relative position of the ports to the upper left (x,y) position of the node. The BezierCurve component is used to drag a curve between the two positions. The connection drawing is completely independant from the nodes - only the node position and port relative positions are used. Since the nodes report their positions even during a drag move operation the connections are always draw between the ports of the two nodes.
+
+HTML div and SVG area moving together
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An svg area fills up the entire editor div. It does not use the viewport argument for knowing what to display. scale() and translate() css is used instead. This way a div can be placed at the exact same area as the svg and all HTML parts of nodes etc can be in the HTML layer. The svg area can contain the connetion graphics etc. They are both in the same coordinate system by the scale and translate css attributes.
+
+A div is placed so that it has the same coordinate system as the svg area.
+In the div ordinary HTML elements can be placed. They can be absolutely positioned
+so this means that nodes with HTML text, diagrams etc can live together in the
+same area as the nodes.
+
+The div has css property overflow: visible to be able to place the div
+at the correct origo and still be able to see everything in it at the correct position.
+
+svg foreignObject does not work properly in Safari. It would otherwise be
+a good idea to have all HTML in the svg area but inside a foreignObject.
+
+Positioning of HTML elements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The component `Draggable` in the `react-draggable` package is used to position the nodes. The positions is the upper left of the node.
+
+`Draggable` has a prop (handle) to let only the areas within a certain HTML tag be the handle that the user can move the node with.
+
+`display: flex` layout is used in the different rows to keep the squares at the ends and the middle areas flexible.
+
+CSS styling
+~~~~~~~~~~~
+
+Various CSS styling techniques are used to style the nodes. The `noselect` class is used to not let the HTML text be selectable.
+
+Border radius is set to get the rounded corners and `overflow: hidden` is used to not show the part of the HTML elements that goes outside of the rounded border.
+
+Measure HTML components
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If a React component should have a width or height which depends on the text
+inside the component the width can not be directly controlled by
+the state since the width (e.g.) is not known.
+
+The component can be measured by creating a hidden div and let ReactDOM render the component
+in that and then measure the resulting div to get the correct width.
+
+link:https://reactjs.org/docs/refs-and-the-dom.html[React.createRef] can also be useful for this.
+
+The measure function could be memoized so that it directly returns
+the correct width for props it has rendered before.
+
+Movable nodes
+~~~~~~~~~~~~~
+
+The InOutNode components are movable by wrapping the HTML with the `Draggable` component.
+
+Nodes as controlled React components
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The nodes will have an internal state during the drag operation but they also report the position with the props function onDrag so the nodes will be a link:https://stackoverflow.com/questions/42522515/what-are-controlled-components-and-uncontrolled-components[controlled component]. A controlled component makes sure that the entire state of the component can be maintained elsewhere at all times.
+
+Single app state to make each React component indepenent
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each React component are independent from any other React component. It is provided props from the Redux state (possibly via some other React component above it in the hierarky). Its only responsibility is to render itself (i.e. provide the correct link:https://reactjs.org/docs/introducing-jsx.html[JSX]) from the provided props and to fire the correct function props when the user interacts with the component by e.g. clicking the mouse.
+
+Example: The nodes (InOutNode.js) and the connections (BezierCurve.js) is completely unaware of each other and can be developed separately.
+
+Operations as pure functions on state
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you follow the idea that all state in the application is in the
+Redux store, development is just a matter of rendering different states.
+You can think through all posible states for a component and test that it
+renders correctly for all of them and then the development is done.
+
+The functionality operates on the state to produce different variations
+of state. Then you know that the algorithm is correct by just looking at
+the components and how they render.
+
+Chrome Dev Tools has debugger you can set breakpoints in. Go into the Sources tab.
+
+Testable since operations operate on state
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The application state is kept in the Redux store. There is no other state in the application. This means that every action possible in the program resides in the redux/acions/index.js file and all the state manipulation because of an action is keps in the redux/reducers/index.js. This in turn means that every user action can be simulated in an automatic test that sarts with a state and use the action creators in redux/actions/index.js and the reducer function in redux/redcers/index.js to mutate the state and then checking that the is as expected afterwards.
+
+Load/Save just loads/saves state
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+At the top area with the Load and Save buttons the application state can be persisted to/from files on the client computer. A simple JSON.stringify(state) can be saved in the file and state can be set to JSON.parse(fileContent) when issuing a Load operation.
+
+The Save operation can possibly filter out some unimportant parts from the state and set them to default values when Loading.
+
+NOTE: Take care to implement a version number on the saved JSON format to take care of future changes. When loading a document the version should always be checked and if a change to the document JSON have been made a conversion function can be called to convert an older version of the document to the new state format be setting the correct default values etc.
+
+Node type template files
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+As an example of asynchronous operations the node templates can be loaded with buttons from URLs.
+The two node template files are located in the public/templates directory.
+
+The node types in the list is currently only InOuNodes with different titles but they can in principle be any node type if that is implemented. The entry for the node in the nodelist is the same javascript object as should be inserted inte the `nodes` section in the app state.
+
+HTML drag/drop
+~~~~~~~~~~~~~~~
+
+Works on every HTML element.
+
+Trick can be used to not show any image during drag (see git history).
+
+Nice API with payload and ondrag/ondrop/ondragover.
+
+Does not work in iOS so not used in project (but user earlier - see git history) ! 
+
+Implemented instead with on handling of mouse events. Not currently working in iOS but in principle it should.
+
+[[DragDrop]]
+Drag from out port to inport to make connection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+User can drag from the little arrow on the out port row of a node to the little arrow on the in port of another node. This operation works like this:
+
+These thungs in the state are used:
+- `isDragInProgress`
+- `dragPayload`
+- `dragMousePosition`
+
+. The out port area on a InOutNode has a onMouseDown event handler and will fire the `onOutportDragStarted` function when the mouse is clicked. This will fire the `outportDragStartedAction` action and the reducer will set the `isDragInProgress` to true.
+. The graphics area has an onMouseMove event handler that will fire an `dragMousePositionAction` if `isDragInProgress` is true.
+. The in port has an onMouseUp event handler that will fire an `onInportDrop` and then an `inportDropAction` which will look at the `dragPayload` and connect the two ports by updating the Redux state.
+
+So in other words the state will show if a drag operation is in progress by looking at `isDragInProgress` and it will find out from which out port (and therefore the (x,y) position) the drag started by looking at `dragPayload` and the mouse position during the drag operation is found in `dragMousePosition`.
+
+So during the drag operation the state of the operation is visualized by a BezierCurve from the drag start postion to the mouse position. This code can be found in the GrahicsAreaPureHTML.js file.
+
+React only updates DOM if DOM is different from before
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the state is changed React renders everything again to its virtual DOM and compares with the previous virtual DOM to find out what is actually changed. Then it does only the neccessary DOM chnages in the browser.
+
+React always renders and smart diff before DOM change
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+React uses a smart and fast diff algorithm to compare the two versions of the virtual DOMs.
+
+React render optimizations by using shouldComponentUpdate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Only call render function when necessary if the render function take time. If the render does not take much time you can rely on the React diff algorithm that makes sure the DOM is only updated when a DOM element is different from the last time React did render.
+
+extend React.Purcomponent instead of React.Component if your React component only uses props with plain javascript values (i.e. not objects). PureComponent does a shallow equality check to see if the props are different from the last props. If they are equal the render function is not called at all. this is good for performance.
+
+shouldComponentUpdate can be overridden explicitly instead. Does equality check with new props and current props. Tells if component should be rendered. Good to use when comparison can't be shallow (use PureComponent in that case). Or if it has arrow function props that is different from time to time but essentially the same. Example: InOutNode.js
+
+Make sure to not create new javascript objects each time and provide
+them as props. Ref equality checks === will not be true since it is
+two different objects but with the same values. To prevent rendering
+to happen each value must be checked and no reference checks to objects.
+If Immutable.js is used care must be taken to use equals or Immutable.is instead
+of ref equality checks. See Immutable.js documentation.
+
+React have smart diff algorithm to just do the changes in the DOM that is necessary.
+
+Put comnsole.log() calls in render functions to check that components does not call render when it shouln't.
+
+Use React Development tools in Chrome
+Component
+Profile (shows time for rendering etc)
+
+Chrome Development Tools/Performance
+Shows which functions take time.
+It CPU/GPU rendering takes time or javascript functions.
+
+
+Redux description
+~~~~~~~~~~~~~~~~~
+
+Redux is a way to structure an applications to completely separate the rendering from the actions from the state mutation.
+
+link:https://redux.js.org/introduction/three-principles/[The Three Principles of Redux]
+
+The application state is kept in one place called the Redux Store. The store state is read only and is provided to the React App via the Provider component in the index.js file.
+
+A React component can be `connected` to Redux by the Redux connect function. This will take two functions that controls which part of the state is provided as props to the component (`mapStateToProps`) and how to provide the functionality of the callback functions as props to the component (`mapDispatchToProps`).
+
+Every component doesn't have to be connected. They can also take props as usual and callback functions. but they will eventually be provided from a higher component as props from a connected component and the function props as well.
+
+The mapDispatchToProps function has access to the Redux dispatch function that is used to dispatch actions. This is the only way for the React compoenents to affect the state. This way it will become very clear what actions are possible in the aplication. Just look in the redux/actions/index.js file.
+
+The Redux framework will then take the actions and call the reduxer function with the current state and the action and takes the new state as a return value from the reducer. This is the only way that sate can be mutated so all state manipulation functionality resides in the reducer function.
+
+The reducer function can be divided into many reducer functions it needed with the Redux `combineReducers` function.
+
+Immutable.js or immutability-helper
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When updating state in React the old state musn't be modified. A new copy must be made of the state and a change must be made in that. But this can be slow so there exist several options to make that operation faster. 
+
+The first is to use javascript carefully to always return a copy of the state. The functions `map`, `filter`, `splice` can be used to make this happen.
+
+In this project an npm package `immutability-helper` is used to make the changes. This will reuse the parts of the state that is not chaned and keep the same reference to that sub object. When using this package you can always assume that the objects returned will not ever change again so parts of them can be used freely.
+
+Another approach not used in this project is to use the npm package link:https://immutable-js.github.io/immutable-js/[Immutable.js] and link:https://www.npmjs.com/package/redux-immutable[redux-immutable]. It provides immutable collections `Map`, `Set` and `List`. It also provides fromJS() and toJS() to convert from/to a nested javascript object. With all objects and sub objects as Immutabl.js collections in the state the `equals` operation becomes very quick. And the ref equals === can be used to check for possible sameness. If === is true then everything in that collection is the same. otherwise the Immutable.is or equals must be used to find out if the objectes are value equal. Use this together with shouldComponentUpdat to make very quick React components.
+
+NOTE: Make sure to not mix javascript objects and Immutable.js collections in the state. 
+
+PureComponents and shallow prop comparison
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As normal operation React always calls the render function of each component and sub component starting with the App component to a virtual DOM. It also keeps a copy of the virtual DOM from the last time it rendered everyting and a smart diff algorithm is run to find out what actually changed. This change is then actually done in the real DOM in the browser.
+
+However if the props provided to the component is exactly the same as the last time the render function doesn't even have to be called att all. The React component can be made to extend React.PureComponent. PureComponent compares the old props and the new props. If they are the same the render function will not be called. But it will only make a shallow comparison of the props so if the props contain javascript objects you can instead override the shouldComponentUpdate function of React.Component to compare the props manually.
+
+All functionality is in Redux Actions and Reducers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All functionality in the app can be found by looking in the redux/actions/index.js and redux/reducers/index.js files. 
+
+The development of a new feature starts with a state and then through one or many actions results in another state. There is no need to think about any components because they don't have any state. Just think about how the state should be updated. 
+
+When the action/state modifying logic is right you can then make sure that every new compination of app state can be rendered correctly.
+
+Example of layout algorithm for nodes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There exist graph layout algorithms, e.g. link:https://www.npmjs.com/package/dagre[Dagre] that can operate just on data and to provide layout positions as output. 
+
+Since node positions and width/height is entirely in the Redux state a layut action/reducer can be created that just takes the data in the state as input and provides the layout as output and then the layout is done.
+
+Nodes/Connections confirmed by server logic
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The test websocket server has a storage of nodes with UUIDs. It has a "addnode" command and it will acknowledge
+the addnode command with an answer.
+
+The test server also returns a uuid session id when connected.
+
+With the Redux actions CREATE_NODE and CONFIRM_NODE the web app will keep track of which nodes have been
+confirmed (i.e. acknowledged by the server) for a specific session. The nodes will have a red border if the current session id doesn't match with the nodeConfirmedWithThisSessionId id in the node.
+
+A Sync button in the web app will just go through all unconfirmed nodes and issue a addnode action on them.
+This will in turn cause acknowledgements from the server and the nodes will in turn have a black border which
+indicates that the node is confirmed.
+
+This works similarly for connections.
+
+Undo/Redo
+~~~~~~~~~
+
+The npm package `redux-undo` takes care of the undo hostory and provides action creators to go up and down in the undo history. Since every Redux reducer function make immutable changes to the state the old state is kept intact and can just be added to the undo history. When an Undo action is later called the state is just reset to the old state from the undo history state array.
+
+NOTE: Sync with a server can be tricky after Undo/Redo. If the sync is made with incremental commands s.a. `addnode` and `addconnection` the client and the server will then suddenly be out of sync.
+
+A possible solution to this problem is to keep track of the last state the server was in and to have a resync action that takes the diff of that state and the new state and issues a series off server commands to make them in sync again. For this the npm packages `immutable` and `immutablediff` could be used.
+
+Another solution to this problem is to always send the entire nodes/connection state from the client to the server and let the server update its state.
+
+Yet another solution for this is to keep the nodes/connection state entirely on the server and not on the client.
+
+Node list area
+~~~~~~~~~~~~~~~
+
+A list of node types. Draggable into the editor area with HTML drag/drop. (Not supported on iOS). When drag starts a payload in the form of a JSON string is entered. The editor area accepts drops and decodes the JSON string payload to find out which node template should be used to create the node in the editor area.
+
+Nodes can also be clicked to place new nodes in the graph area.
+
+Type checks with PropTypes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The npm package `proptypes` can be used in React component to make sure the the provided props have the correct type and that all required props are given. If the check fails a warning message in the javascript console is printed. See e.g. InOutNode.js for an example.
+
+Asserts
+~~~~~~~~
+
+Not used in project but could be very valuable to use to find bugs early.
+
+Invariant checks on state. Very valuable to check the validity of the state variables. E.g. width > 0. Format of the node objects. Correct types etc. This will catch many programming errors.
+
+Asserts in functions to check input/output arguments will also make it easier to catch errors.
+
+TypeScript
+~~~~~~~~~~~
+
+Not used in this project. Can be a good idea.
+Enforce types in arguments and vars.
+Takes care of new functionality in javascript and transpiles it to older syntax which will run in more browsers.
+
+Websocket test server description
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The websocket test server is a simple Node.js application and is started with `node websocket-test-server.js`.
+
+It opens the websocket on localhost:1337 and when conected it replies with as `session id` as an UUID.
+
+It will keep a collection of `nodes` as a list of node ids.
+
+It will keep a colletion of `connections` as a list of objects with fromNodeId and toNodeId.
+
+The client can send command to the web socket and get answers.
+Only one command can be sent at a time. The next command can be sent when the answer from the last one has been sent back in the websocket.
+
+Commands:
+
+- `addnode`
+- `addconnection`
+- `deletenode`
+- `deleteconnection`
+- `getgraph` Returns a JSON object with all nodes and connections
+
+Websocket test server sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The client actions `CREATE_NODE`, `CONNECT_PORTS`, `DELETE_SELECTED` will send commands to the test server to keep it in sync.
+
+The `Server representation` area to the right in the client will show exactly what was returned by the `getgraph` command from the server. This way you can check that the sync went well.
+
+NOTE: Client and Server will currently get out of sync after a Undo/Redo operation. This error can be investigated by looking at the Server Representation area.
+
+
+Packages
+--------
+
+npm packages
+~~~~~~~~~~~~
+
+Here are brief descriptions of the used packages.
+
+- link:https://www.npmjs.com/package/axios[axios]
+A library for asynchronously getting the contents of an URL. An example of this is the buttons loading different kinds of node templates in the node list to the left.
+
+- link:https://www.npmjs.com/package/draw2d[draw2d]
+An example of using a non-React graphical library that operates directly in the DOM.
+
+- link:https://www.npmjs.com/package/d3[d3], link:https://www.npmjs.com/package/d3-dispatch[d3-dispatch], link:https://www.npmjs.com/package/d3-drag[d3-drag], link:https://www.npmjs.com/package/d3-selection[d3-selection], link:https://www.npmjs.com/package/jquery[jquery], link:https://www.npmjs.com/package/jqueryui[jqueryui]
+These are all libraries that draw2d needs.
+
+- link:https://www.npmjs.com/package/file-saver[file-saver]
+Used to implement the `Save State` functionlity. Button in button section at the top.
+
+- link:https://www.npmjs.com/package/gh-pages[gh-pages]
+Used to host the web client on GitHub: link:https://petersjogren.github.io/ps-react-test/[here]
+
+- link:https://www.npmjs.com/package/prop-types[prop-types]
+Used for type checking the props of a React component
+
+- link:https://www.npmjs.com/package/react[react]
+The React library used for rendering all the views as components.
+
+- link:https://www.npmjs.com/package/react-dom[react-dom]
+Used for React rendering to the DOM.
+
+- link:https://www.npmjs.com/package/rc-slider[rc-slider]
+A React slider component. Used for the zoom slider.
+
+- link:https://www.npmjs.com/package/katex[katex], link:https://www.npmjs.com/package/react-katex[react-katex]
+A library for LaTex rendering. Used earlier in the project (see git history).
+
+- link:https://www.npmjs.com/package/react-canvas-knob[react-canvas-knob]
+A knob. Used earlier in the project (see git history).
+
+- link:https://www.npmjs.com/package/react-draggable[react-draggable]
+Used to make nodes draggable. Used as controlled component so that every move is reported in callback function so that position state can be managed elsewhere.
+
+- link:https://www.npmjs.com/package/redux[redux]
+Used to implement a central store for the entire state in the app and actions and reducer functionality.
+
+- link:https://www.npmjs.com/package/react-redux[react-redux]
+Used to enable Redux for React.
+
+- link:https://www.npmjs.com/package/redux-logger[redux-logger]
+Logs Redux actions, state changes to the Javascript console.
+
+- link:https://www.npmjs.com/package/redux-thunk[redux-thunk]
+Allows Redux actions to be functions of the dispatch function so that the actions can dispatch other actions. Used for async operations.
+
+- link:https://www.npmjs.com/package/redux-undo[redux-undo]
+Implements Undo/Redo actions and history for the Redux store.
+
+- link:https://www.npmjs.com/package/redux-devtools-extension[redux-devtools-extension]
+Used to enable the Chrome Redux Dev Tools.
+
+- link:https://www.npmjs.com/package/immutability-helper[immutability-helper]
+A library that helps to modify javascript objects immutable, i.e. to always return a new objects without modifying the old when a change is done.
+
+- link:https://www.npmjs.com/package/immutable[immutable]
+Provides immutable Map, Set, List to be used when immutability is needed in javascript objects.
+
+- link:https://www.npmjs.com/package/immutablediff[immutablediff]
+Diffs two Immutable.js Map objects and provides a change list of add/remove/change operations two make the second object from the first.
+
+- link:https://www.npmjs.com/package/react-graph-vis[react-graph-vis]
+Used to display a graph with nodes and connections. This is used in the Server Representation area to see what nodes and connections exist on the server.
+
+- link:https://www.npmjs.com/package/uuid[uuid]
+Used to get a UUID v4 string.
+
+- link:https://www.npmjs.com/package/websocket[websocket]
+Used both in the test server and the client to implement the WebSocket connections between the client and the websocket-test-server.js.
+
+- link:https://www.npmjs.com/package/react-transform-catch-errors[react-transform-catch-errors], link:https://www.npmjs.com/package/react-transform-hmr[react-transform-hmr], link:https://www.npmjs.com/package/redbox-react[redbox-react]
+Don't know.
+
+- link:https://www.npmjs.com/package/react-scripts[react-scripts]
+Used for teh React scripts. See the package.json file.
+
+Chrome extensions
+~~~~~~~~~~~~~~~~~
+
+- link:https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en[React Dev Tools for Chrome]
+Chrome extension to inspect and profile React components.
+
+- link:https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en[Redux Dev Tools for Chrome]
+Chrome extension to see Redux actions and state change activity.
+
