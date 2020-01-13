@@ -1,7 +1,7 @@
 Test project for graph editor web app
 =====================================
 Peter Sjögren <peter.sjogren@pskonsult.se>
-:imagesdir: images
+:imagesdir: docimages
 :toc: preamble
 
 This project was created to explore implementation architecture and concepts for a graph editor web application as well as learning new concepts of modern web development. It was created with Create React App so the usual install and build scripts apply.
@@ -9,6 +9,8 @@ This project was created to explore implementation architecture and concepts for
 This documentment will both contain obvious things and concepts which I prefer having seem many types of architectures of complicated desktop computer software and experienced their problems and advantages.
 
 NOTE: Don't mind the graphic design. It is just an example.
+
+image::Screenshot.png[Screenshot]
 
 :numbered!:
 [abstract]
@@ -81,6 +83,18 @@ CSS styling
 Various CSS styling techniques are used to style the nodes. The `noselect` class is used to not let the HTML text be selectable.
 
 Border radius is set to get the rounded corners and `overflow: hidden` is used to not show the part of the HTML elements that goes outside of the rounded border.
+
+Stress test
+~~~~~~~~~~~
+A button called Stress Test can be pressed. It will then add a lot of nodes to the graph editor and when a node is dragged many nodes follow. This is to test the speed of the drag operations and the rendering.
+
+Sync button
+~~~~~~~~~~~~
+The Sync button will go through all nodes and connections in the client that is not `confirmed` by the server and issue `addnode` and `addconnection` server commands to add them. 
+
+Nodes and connections are rendered with a red border when they are unconfirmed and with a black border when they are confirmed.
+
+See <<Confirm>>
 
 Measure HTML components
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -210,7 +224,7 @@ of ref equality checks. See Immutable.js documentation.
 
 React have smart diff algorithm to just do the changes in the DOM that is necessary.
 
-Put comnsole.log() calls in render functions to check that components does not call render when it shouln't.
+Put console.log() calls in render functions to check that components does not call render when it shouln't.
 
 Use React Development tools in Chrome
 Component
@@ -276,6 +290,7 @@ There exist graph layout algorithms, e.g. link:https://www.npmjs.com/package/dag
 
 Since node positions and width/height is entirely in the Redux state a layut action/reducer can be created that just takes the data in the state as input and provides the layout as output and then the layout is done.
 
+[[Confirm]]
 Nodes/Connections confirmed by server logic
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
