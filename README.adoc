@@ -263,7 +263,7 @@ If CPU/GPU rendering takes time or javascript functions.
 Redux description
 ~~~~~~~~~~~~~~~~~
 
-Redux is a way to structure an applications to completely separate rendering, actions and state mutation.
+Redux is a way to structure applications to completely separate rendering, actions and state mutation.
 
 Read about the principles of Redux here: link:https://redux.js.org/introduction/three-principles/[The Three Principles of Redux]
 
