@@ -195,6 +195,30 @@ So in other words the state will reflect if a drag operation is in progress by l
 
 So during the drag operation the state of the operation is visualized by a BezierCurve from the drag start postion to the mouse position. This code can be found in the GrahicsAreaPureHTML.js file.
 
+// PlantUML source:
+//
+// @startuml
+// actor User
+// entity InOutNode
+// entity "Graph Area"
+// control Reducer
+// database Store
+// control React
+// User -> InOutNode : Click on out port
+// InOutNode -> Reducer : OUTPORT_DRAG_STARTED(nodeIx, portIx)
+// Reducer -> Store : isDragging = true, dragPayload = (node,port)
+// Store -> React
+// User -> "Graph Area" : Drag mouse
+// "Graph Area" -> Reducer : DRAG_MOUSE_POSITION(x,y)
+// Reducer -> Store : dragPos = (x,y)
+// Store -> React
+// User -> InOutNode : Release mouse over in port
+// InOutNode -> Reducer : INPORT_DROP(nodeIx, portIx)
+// Reducer -> Store : isDragging = false, Add connection
+// Store -> React
+// @enduml
+image::dragdropconnection.svg[Sequence diagram]
+
 React only updates DOM if DOM is different from before
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
