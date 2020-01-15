@@ -372,7 +372,18 @@ Asserts in functions to check input/output will also make it easier to catch err
 TypeScript
 ~~~~~~~~~~~
 
-Not used in this project. Can be a good idea.
+TypeScript is JavaScript with extra type declarations. It will check
+types with a compiler. It will compile/transpile to JavaSCript but
+that is done behind the scenes in this project setup.
+
+Example of using TypeScript can be foound in the component BezierCurve.tsx. Using TypeScript interfaces or classes 
+can e.g. be used as a way to check the types of the props and which props are required and which are optional.
+
+The .tsx extension is TypeScript with JSX.
+
+Using the .tsx extension and TypeScript automatically use the TypeScript compiler to check for types.
+
+TypeScript is not used in all of this project. Can be a good idea.
 Enforces types in arguments and vars.
 Takes care of new functionality in javascript and transpiles it to older syntax which will run in more browsers.
 

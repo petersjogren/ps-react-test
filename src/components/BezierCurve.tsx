@@ -1,8 +1,25 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-export default class BezierCurve extends React.Component {
-  shouldComponentUpdate(nextProps) {
+interface Pos {
+  x: number;
+  y: number;
+}
+
+interface Props {
+  connectionIndex: number;
+  isSelected: boolean;
+  isConfirmed: boolean;
+  curveColor: string;
+  curveWidth: number;
+  start: Pos;
+  end: Pos;
+  c1: Pos;
+  c2: Pos;
+  onSelectConnection: (connectionIndex: number) => void;
+}
+
+export default class BezierCurve extends React.Component<Props, object> {
+  shouldComponentUpdate(nextProps: Props) {
     const {
       isSelected,
       isConfirmed,
@@ -62,28 +79,3 @@ export default class BezierCurve extends React.Component {
     );
   }
 }
-
-BezierCurve.propTypes = {
-  connectionIndex: PropTypes.number.isRequired,
-  curveColor: PropTypes.string.isRequired,
-  curveWidth: PropTypes.number.isRequired,
-  onSelectConnection: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  isConfirmed: PropTypes.bool.isRequired,
-  start: PropTypes.exact({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  }).isRequired,
-  end: PropTypes.exact({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  }).isRequired,
-  c1: PropTypes.exact({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  }).isRequired,
-  c2: PropTypes.exact({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  }).isRequired
-};
