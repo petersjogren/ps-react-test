@@ -4,7 +4,20 @@
 import React from "react";
 import Draggable from "react-draggable";
 
-export default function(props) {
+interface Pos {
+  x: number;
+  y: number;
+}
+
+interface Props {
+  key: string;
+  title: string;
+  scale: number;
+  position: Pos;
+  onDrag: any;
+}
+
+export default function(props: Props) {
   return (
     <Draggable
       key={props.key}
