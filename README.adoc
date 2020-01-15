@@ -373,7 +373,7 @@ TypeScript
 ~~~~~~~~~~~
 
 TypeScript is JavaScript with extra type declarations. It will check
-types with a compiler. It will compile/transpile to JavaSCript but
+types with a compiler. The TypeScript compiler will compile to JavaScript but
 that is done behind the scenes in this project setup.
 
 Example of using TypeScript can be foound in the component BezierCurve.tsx. Using TypeScript interfaces or classes 
