@@ -1,7 +1,18 @@
 import React from "react";
 
-export class NodeList extends React.Component {
-  shouldComponentUpdate(newProps, newState) {
+interface Template {
+  title: string;
+}
+
+interface Props {
+  templates: Template[];
+  onLoadDefault: () => void;
+  onLoadOther: () => void;
+  onCreateNode: (index: number, title: string) => void;
+}
+
+export class NodeList extends React.Component<Props, object> {
+  shouldComponentUpdate(newProps: Props) {
     if (this.props.templates.length !== newProps.templates.length) {
       return true;
     } else {
