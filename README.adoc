@@ -146,6 +146,11 @@ Testable since operations operate on state
 
 The application state is kept in the Redux store. There is no other state in the application. This means that every action possible in the program resides in the redux/acions/index.js file and all the state manipulation because of an action is keps in the redux/reducers/index.js. This in turn means that every user action can be simulated in an automatic test that starts with a state and use the action creators in redux/actions/index.js and the reducer function in redux/reducers/index.js to mutate the state and then checking that the is as expected afterwards.
 
+Tests for components
+~~~~~~~~~~~~~~~~~~~~~
+
+Tests can be run with `npm run test`. All files ending with .test.js or .test.ts or .test.tsx will run if changes have been made. Currently an example can be found in NodeList.test.tsx where a simple render is done.
+
 Load/Save just loads/saves state
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -376,7 +381,7 @@ TypeScript is JavaScript with extra type declarations. It will check
 types with a compiler. The TypeScript compiler will compile to JavaScript but
 that is done behind the scenes in this project setup.
 
-Examples of using TypeScript can be found in the components BezierCurve.tsx and HTMLNode.tsx. Using TypeScript interfaces or classes 
+Examples of using TypeScript can be found in the components BezierCurve.tsx, NodeList.tsx and HTMLNode.tsx. Using TypeScript interfaces or classes 
 can e.g. be used as a way to check the types of the props and which props are required and which are optional.
 
 The .tsx extension is TypeScript with JSX.
