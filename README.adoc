@@ -151,6 +151,10 @@ Tests for components
 
 Tests can be run with `npm run test`. All files ending with .test.js or .test.ts or .test.tsx will run if changes have been made. Currently an example can be found in NodeList.test.tsx where a simple render is done.
 
+An example of a Snapshot Test is in NodeList.test.tsx. It renders the component with a test rendeer and then makes sure it matches the snapshow. The snapshot was taken the first time this test was run and subsequent tests will watch for changes compared to this snapshot. The snapshot is stored in components/__snapshots__
+
+Read this: link:https://jestjs.io/docs/en/tutorial-react[Test React with Jest]
+
 Load/Save just loads/saves state
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the same as last time 1`] = `
+Array [
+  <button
+    onClick={[Function]}
+  >
+    Load default
+  </button>,
+  <button
+    onClick={[Function]}
+  >
+    Load many
+  </button>,
+  <div
+    className="nodelistitem"
+    draggable={true}
+    onClick={[Function]}
+    onDragStart={[Function]}
+  >
+    One
+  </div>,
+  <div
+    className="nodelistitem"
+    draggable={true}
+    onClick={[Function]}
+    onDragStart={[Function]}
+  >
+    Two
+  </div>,
+]
+`;
