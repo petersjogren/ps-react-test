@@ -1,12 +1,18 @@
 import React from "react";
 import Draggable from "react-draggable";
 import "./InOutNode.css";
-import PropTypes from "prop-types";
 
 var rowHeight = 16;
 var portWidth = 15;
 
-function InPort(props) {
+interface InPortProps {
+  name: string;
+  nodeIndex: number;
+  portIndex: number;
+  onInportDrop: (nodeIndex: number, portIndex: number) => void;
+}
+
+function InPort(props: InPortProps) {
   const { name, nodeIndex, portIndex } = props;
   return (
     <div className="port_area in">
@@ -27,7 +33,14 @@ function InPort(props) {
   );
 }
 
-function OutPort(props) {
+interface OutPortProps {
+  name: string;
+  nodeIndex: number;
+  portIndex: number;
+  onOutportDragStarted: () => void;
+}
+
+function OutPort(props: OutPortProps) {
   const { name } = props;
   return (
     <div className="port_area out">
@@ -46,14 +59,14 @@ function OutPort(props) {
   );
 }
 
-export function inPortRelativePosition(node, inPortIndex) {
+export function inPortRelativePosition(node: any, inPortIndex: number) {
   return {
     x: portWidth / 2,
     y: rowHeight + rowHeight * inPortIndex + rowHeight / 2
   };
 }
 
-export function outPortRelativePosition(node, outPortIndex) {
+export function outPortRelativePosition(node: any, outPortIndex: number) {
   return {
     x: node.width - portWidth / 2,
     y:
@@ -64,8 +77,27 @@ export function outPortRelativePosition(node, outPortIndex) {
   };
 }
 
-export class InOutNode extends React.Component {
-  shouldComponentUpdate(nextProps) {
+interface InOutNodeProps {
+  title: string;
+  nodeIndex: number;
+  scale: number;
+  positionX: number;
+  positionY: number;
+  width: number;
+  isSelected: boolean;
+  currentSessionID: string;
+  nodeConfirmedInSessionWithID: string;
+  inputPorts: any[];
+  outputPorts: any[];
+  onDrag: () => void;
+  onSelectNode: (nodeIndex: number) => void;
+  onOutportDragStarted: (nodeIndex: number, portIndex: number) => void;
+  onInportDrop: () => void;
+  onDragStop: () => void;
+}
+
+export class InOutNode extends React.Component<InOutNodeProps, {}> {
+  shouldComponentUpdate(nextProps: InOutNodeProps) {
     const {
       nodeIndex,
       scale,
@@ -173,22 +205,3 @@ export class InOutNode extends React.Component {
     );
   }
 }
-
-InOutNode.propTypes = {
-  title: PropTypes.string.isRequired,
-  nodeIndex: PropTypes.number.isRequired,
-  currentSessionID: PropTypes.string.isRequired,
-  nodeConfirmedInSessionWithID: PropTypes.string.isRequired,
-  scale: PropTypes.number.isRequired,
-  positionX: PropTypes.number.isRequired,
-  positionY: PropTypes.number.isRequired,
-  inputPorts: PropTypes.any.isRequired,
-  outputPorts: PropTypes.any.isRequired,
-  width: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  onDrag: PropTypes.func.isRequired,
-  onDragStop: PropTypes.func.isRequired,
-  onSelectNode: PropTypes.func.isRequired,
-  onOutportDragStarted: PropTypes.func.isRequired,
-  onInportDrop: PropTypes.func.isRequired
-};
