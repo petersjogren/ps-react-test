@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { InlineMath } from "react-katex";
 import BezierCurve from "./BezierCurve";
 import {
   positionNodeAction,
@@ -22,12 +21,16 @@ import {
 } from "./InOutNode";
 import { payLoadTypeOutport } from "../redux/reducers";
 import { invalidMousePosition } from "../InitialState";
+import { InOutNodeProps } from "./InOutNode";
+import { DraggableEvent, DraggableData } from "react-draggable";
 
-class GraphicsAreaPureHTML extends React.Component {
+class GraphicsAreaPureHTML extends React.Component<any, {}> {
+  private myRef = React.createRef<HTMLDivElement>();
   render() {
     return (
       <div
         id="nodearea"
+        ref={this.myRef}
         className="nodearea bgpattern"
         onMouseDown={e => {
           console.log("graphicsarea clicked");
@@ -35,21 +38,24 @@ class GraphicsAreaPureHTML extends React.Component {
         }}
         onMouseUp={this.props.onDragCancelled}
         onMouseMove={e => {
-          var rect = document
-            .getElementById("nodearea")
-            .getBoundingClientRect();
-          var x = (e.clientX - rect.left) / this.props.scale; //x position within the element.
-          var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
+          // See React Refs and TypeScript: https://medium.com/@martin_hotell/react-refs-with-typescript-a32d56c4d315
+          const area = this.myRef.current;
+          if (area) {
+            var rect = area.getBoundingClientRect();
+            var x = (e.clientX - rect.left) / this.props.scale; //x position within the element.
+            var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
 
-          if (this.props.isDragInProgress) {
-            // console.log("mouse move", x, y);
-            this.props.onDragMousePosition(x, y);
+            if (this.props.isDragInProgress) {
+              // console.log("mouse move", x, y);
+              this.props.onDragMousePosition(x, y);
+            }
           }
         }}
         onDragOver={e => {
           e.preventDefault();
         }}
-        onDrop={e => {
+        // See Event in TypeScript: https://stackoverflow.com/questions/28900077/why-is-event-target-not-element-in-typescript
+        onDrop={(e: React.DragEvent<HTMLDivElement>) => {
           if (e.dataTransfer != null) {
             var textData = e.dataTransfer.getData("text");
             console.log("textData", textData);
@@ -57,16 +63,19 @@ class GraphicsAreaPureHTML extends React.Component {
               var payLoad = JSON.parse(textData);
               console.log("dropped on nodearea", e, e.clientX, e.clientY);
               if (payLoad.type === "CREATE_NODE") {
-                var rect = e.target.getBoundingClientRect();
-                var x = (e.clientX - rect.left) / this.props.scale; //x position within the element.
-                var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
+                const targetElement = e.target as HTMLDivElement;
+                if (targetElement) {
+                  var rect = targetElement.getBoundingClientRect();
+                  var x = (e.clientX - rect.left) / this.props.scale; //x position within the element.
+                  var y = (e.clientY - rect.top) / this.props.scale; //y position within the element.
 
-                this.props.onCreateNode(
-                  x,
-                  y,
-                  payLoad.templateIndex,
-                  payLoad.title
-                );
+                  this.props.onCreateNode(
+                    x,
+                    y,
+                    payLoad.templateIndex,
+                    payLoad.title
+                  );
+                }
               }
             }
           }
@@ -108,6 +117,7 @@ class GraphicsAreaPureHTML extends React.Component {
                   <BezierCurve
                     key={0}
                     isSelected={false}
+                    isConfirmed={false}
                     connectionIndex={0}
                     onSelectConnection={() => {}}
                     start={{ x: fromX, y: fromY }}
@@ -128,7 +138,7 @@ class GraphicsAreaPureHTML extends React.Component {
             })()}
 
             {// Draw all connections between nodes
-            this.props.connections.map((key, index) => {
+            this.props.connections.map((key: any, index: number) => {
               var fromNode = this.props.nodes[key.from.nodeIndex];
               var toNode = this.props.nodes[key.to.nodeIndex];
               var fromX =
@@ -169,31 +179,30 @@ class GraphicsAreaPureHTML extends React.Component {
             })}
           </svg>
 
-          {this.props.nodes.map((key, index) => (
-            <InOutNode
-              title={key.title}
-              key={index}
-              nodeIndex={index}
-              currentSessionID={this.props.currentSessionID}
-              nodeConfirmedInSessionWithID={key.nodeConfirmedInSessionWithID}
-              scale={this.props.scale}
-              positionX={key.position.x}
-              positionY={key.position.y}
-              inputPorts={key.inputPorts}
-              outputPorts={key.outputPorts}
-              width={key.width}
-              isSelected={key.isSelected}
-              onDrag={(e, position) => {
+          {this.props.nodes.map((key: any, index: number) => {
+            const nodeProps: InOutNodeProps = {
+              title: key.title,
+              nodeIndex: index,
+              currentSessionID: this.props.currentSessionID,
+              nodeConfirmedInSessionWithID: key.nodeConfirmedInSessionWithID,
+              scale: this.props.scale,
+              positionX: key.position.x,
+              positionY: key.position.y,
+              inputPorts: key.inputPorts,
+              outputPorts: key.outputPorts,
+              width: key.width,
+              isSelected: key.isSelected,
+              onDrag: (e: DraggableEvent, data: DraggableData) => {
                 this.props.onSetPosition(
                   index,
-                  position,
+                  { x: data.x, y: data.y },
                   this.props.stressTest
                 );
-              }}
-              onDragStop={this.props.onDragStop}
-              onSelectNode={this.props.onSelectNode}
-              onOutportDragStarted={this.props.onOutportDragStarted}
-              onInportDrop={(nodeIndex, portIndex) => {
+              },
+              onDragStop: this.props.onDragStop,
+              onSelectNode: this.props.onSelectNode,
+              onOutportDragStarted: this.props.onOutportDragStarted,
+              onInportDrop: (nodeIndex: number, portIndex: number) => {
                 if (this.props.isDragInProgress) {
                   this.props.onInportDrop(
                     nodeIndex,
@@ -204,16 +213,17 @@ class GraphicsAreaPureHTML extends React.Component {
                     this.props.nodes[nodeIndex].id
                   );
                 }
-              }}
-            />
-          ))}
+              }
+            };
+            return <InOutNode key={index} {...nodeProps} />;
+          })}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   nodes: state.present.nodes,
   connections: state.present.connections,
   scale: state.present.scale,
@@ -224,30 +234,30 @@ const mapStateToProps = state => ({
   dragMousePosition: state.present.dragMousePosition
 });
 
-const mapDispatchToProps = dispatch => ({
-  onSetPosition: (index, position, stressTest) => {
+const mapDispatchToProps = (dispatch: any) => ({
+  onSetPosition: (index: number, position: any, stressTest: boolean) => {
     if (stressTest) {
       dispatch(positionEveryOtherNodeAction(index, position));
     } else {
       dispatch(positionNodeAction(index, position));
     }
   },
-  onSelectNode: nodeIndex => dispatch(selectNodeAction(nodeIndex)),
-  onSelectConnection: connectionIndex =>
+  onSelectNode: (nodeIndex: number) => dispatch(selectNodeAction(nodeIndex)),
+  onSelectConnection: (connectionIndex: number) =>
     dispatch(selectConnectionAction(connectionIndex)),
   onSelectClear: () => dispatch(selectClearAction()),
-  onCreateNode: (x, y, index, title) =>
+  onCreateNode: (x: number, y: number, index: number, title: string) =>
     dispatch(createNodeAction(x, y, index, title)),
-  onOutportDragStarted: (nodeIndex, portIndex) => {
+  onOutportDragStarted: (nodeIndex: number, portIndex: number) => {
     dispatch(outportDragStartedAction(nodeIndex, portIndex));
   },
   onInportDrop: (
-    nodeIndex,
-    portIndex,
-    isDragInProgress,
-    dragPayload,
-    fromNodeId,
-    toNodeId
+    nodeIndex: number,
+    portIndex: number,
+    isDragInProgress: boolean,
+    dragPayload: any,
+    fromNodeId: string,
+    toNodeId: string
   ) =>
     dispatch(
       inportDropAction(
@@ -261,7 +271,8 @@ const mapDispatchToProps = dispatch => ({
     ),
   onDragStop: () => dispatch(dragStopAction()),
   onDragCancelled: () => dispatch(dragCancelledAction()),
-  onDragMousePosition: (x, y) => dispatch(dragMousePositionAction(x, y))
+  onDragMousePosition: (x: number, y: number) =>
+    dispatch(dragMousePositionAction(x, y))
 });
 
 export default connect(

@@ -385,7 +385,7 @@ TypeScript is JavaScript with extra type declarations. It will check
 types with a compiler. The TypeScript compiler will compile to JavaScript but
 that is done behind the scenes in this project setup.
 
-Examples of using TypeScript can be found in the components BezierCurve.tsx, NodeList.tsx, InOutNode.tsx and HTMLNode.tsx. Using TypeScript interfaces or classes 
+Examples of using TypeScript can be found in the components BezierCurve.tsx, NodeList.tsx, InOutNode.tsx, GraphicsAreaPureHTML.tsx and HTMLNode.tsx. Using TypeScript interfaces or classes 
 can e.g. be used as a way to check the types of the props and which props are required and which are optional.
 
 The .tsx extension is TypeScript with JSX.

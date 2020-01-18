@@ -1,5 +1,5 @@
 import React from "react";
-import Draggable from "react-draggable";
+import Draggable, { DraggableEventHandler } from "react-draggable";
 import "./InOutNode.css";
 
 var rowHeight = 16;
@@ -77,7 +77,7 @@ export function outPortRelativePosition(node: any, outPortIndex: number) {
   };
 }
 
-interface InOutNodeProps {
+export interface InOutNodeProps {
   title: string;
   nodeIndex: number;
   scale: number;
@@ -89,10 +89,10 @@ interface InOutNodeProps {
   nodeConfirmedInSessionWithID: string;
   inputPorts: any[];
   outputPorts: any[];
-  onDrag: () => void;
+  onDrag: DraggableEventHandler;
   onSelectNode: (nodeIndex: number) => void;
   onOutportDragStarted: (nodeIndex: number, portIndex: number) => void;
-  onInportDrop: () => void;
+  onInportDrop: (nodeIndex: number, portIndex: number) => void;
   onDragStop: () => void;
 }
 
