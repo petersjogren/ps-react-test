@@ -223,6 +223,8 @@ class GraphicsAreaPureHTML extends React.Component<any, {}> {
   }
 }
 
+// TypeScript types. See https://spin.atomicobject.com/2017/04/20/typesafe-container-components/
+// No type check for now.
 const mapStateToProps = (state: any) => ({
   nodes: state.present.nodes,
   connections: state.present.connections,
