@@ -1,20 +1,20 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { NodeList } from "./NodeList";
 import renderer from "react-test-renderer";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
-  ReactDOM.render(
+  const root = createRoot(div);
+  root.render(
     <NodeList
       templates={[{ title: "One" }, { title: "Two" }]}
       onLoadDefault={() => {}}
       onLoadOther={() => {}}
       onCreateNode={(index, title) => {}}
-    />,
-    div
+    />
   );
-  ReactDOM.unmountComponentAtNode(div);
+  root.unmount();
 });
 
 it("renders the same as last time", () => {
